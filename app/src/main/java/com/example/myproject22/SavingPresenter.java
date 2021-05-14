@@ -8,7 +8,6 @@ public class SavingPresenter {
     }
 
 
-
     public void LoadGetTietKiemData() {
         mSavingInterface.LoadChiTietTietKiem();
     }

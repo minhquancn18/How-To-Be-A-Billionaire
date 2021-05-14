@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,49 +89,8 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
     }
 
-    public void GetTietKiemData() {
 
-        try {
-            cursor = db.query("CHITIETTIETKIEM", new String[]{"_id_tietkiem", "SOTIENTIETKIEMTRONGNGAY", "NGAY_TIETKIEM"},
-                    null, null, null, null, "_id_ChiTietTietKiem DESC");
 
-            if (cursor.moveToFirst()) {
-
-                do {
-                    double tietKiem = cursor.getDouble(1);
-                    String strDate = cursor.getString(2);
-                    Date date = dateFormat.parse(strDate);
-                    int ngay = date.getDay();
-                    recordTietKiem.add(new BarEntry((float) ngay, (float) tietKiem));
-                }
-                while (cursor.moveToNext());
-
-            }
-        } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-
-        }
-    }
-
-    public String GetNgayTrongTuan(int ngay) {
-        switch (ngay) {
-            case 1:
-                return "Thứ 2";
-            case 2:
-                return "Thứ 3";
-            case 3:
-                return "Thứ 4";
-            case 4:
-                return "Thứ 5";
-            case 5:
-                return "Thứ 6";
-            case 6:
-                return "Thứ 7";
-            case 0:
-                return "Chủ nhật";
-        }
-        return "HELLO NGAY " + ngay;
-    }
 
     public void AddRecords() {
 /*        savingDatabaseHelper.insertChiTietTietKiem(200, 501100, "2020-05-10");
@@ -149,16 +109,16 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
         savingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-14");
         savingDatabaseHelper.insertChitietTienChi(12, "me cho", 1, null, "2020-05-15");
 
-
-
-
-
     }
 
     public void InitViews() {
         weekchart = findViewById(R.id.weekChar);
         tvDayStreak = findViewById(R.id.tvDayStreak);
         tvTotalSaving = findViewById(R.id.tvTotalSaving);
+    }
+
+    public void ekwj(View view) {
+        Toast.makeText(this, "dkjfdkfj", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -260,6 +220,26 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
             tvDayStreak.setText(String.valueOf(dayStreak));
         }
     }
+
+    class LoadMucTieu extends  AsyncTask<Void , Process ,Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // i have opened database in loadChiTietTietKiem
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
+
 
 }
 
