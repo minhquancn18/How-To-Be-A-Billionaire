@@ -2,6 +2,7 @@ package com.example.myproject22;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -21,15 +23,27 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.PrimitiveIterator;
 
 public class MainActivity extends AppCompatActivity implements SavingInterface {
 
     private BarChart weekchart;
+
+    // tiet kiem
     private TextView tvDayStreak;
     private TextView tvTotalSaving;
+
+    // muc tieu
+    private TextView tvGoalName;
+    private TextView tvGoalDescription;
+    private TextView tvMoneyGoal;
+    private TextRoundCornerProgressBar ProgressSaving;
+
 
     private static final int DAYSOFWEEK = 7;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -64,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
         mSavingPresenter = new SavingPresenter(this);
         mSavingPresenter.LoadGetTietKiemData();
         mSavingPresenter.LoadTietKiem();
+        mSavingPresenter.LoadMucTieu();
+
 
     }
 
@@ -86,10 +102,8 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
     @Override
     public void LoadMucTieu() {
-
+        new LoadTietKiem().execute();
     }
-
-
 
 
     public void AddRecords() {
@@ -115,11 +129,16 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
         weekchart = findViewById(R.id.weekChar);
         tvDayStreak = findViewById(R.id.tvDayStreak);
         tvTotalSaving = findViewById(R.id.tvTotalSaving);
+
+
+        // saving
+        tvGoalName = findViewById(R.id.tvGoalName);
+        tvGoalDescription = findViewById(R.id.tvGoalDescription);
+        tvMoneyGoal = findViewById(R.id.tvMoneyGoal);
+        ProgressSaving = findViewById(R.id.Progress_saving);
     }
 
-    public void ekwj(View view) {
-        Toast.makeText(this, "dkjfdkfj", Toast.LENGTH_SHORT).show();
-    }
+
 
 
     // async stask
@@ -137,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
                         null, null, null, null, "_id_ChiTietTietKiem DESC");
 
                 if (cursor.moveToFirst()) {
-
                     int cnt = 0;
                     do {
                         cnt++;
@@ -148,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
                         recordTietKiem.add(new BarEntry((float) ngay, (float) tietKiem));
                     }
                     while (cnt <= DAYSOFWEEK && cursor.moveToNext());
-
                 }
             } catch (Exception e) {
 
@@ -221,23 +238,60 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
         }
     }
 
-    class LoadMucTieu extends  AsyncTask<Void , Process ,Void>
-    {
-        @Override
-        protected Void doInBackground(Void... voids) {
-            // i have opened database in loadChiTietTietKiem
-            return null;
-        }
+    class LoadMucTieu extends AsyncTask<Void, Process, Void> {
+
+        String goalName;
+        String goalDescription;
+        double goalMoney;
+        double SavingMoney;
+        byte[] goal_image;
+        String strGoal;
+        double progress;
 
         @Override
         protected void onPreExecute() {
 
         }
 
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            cursor = savingDatabaseHelper.getMucTieu();
+
+            if (cursor.moveToFirst()) {
+                goalName = cursor.getString(1);
+                goalDescription = cursor.getString(2);
+                goalMoney = cursor.getDouble(3);
+                SavingMoney = cursor.getDouble(4);
+                goal_image = cursor.getBlob(5);
+                strGoal = goalMoney + "/" + SavingMoney;
+                progress = SavingMoney / goalMoney;
+
+
+            }
+
+            return null;
+        }
+
+
         @Override
         protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+            tvGoalName.setText(goalName);
+            tvGoalDescription.setText(goalDescription);
+            tvMoneyGoal.setText(strGoal);
+            ProgressSaving.setProgressText(String.valueOf(progress));
+            ProgressSaving.setProgress((float) progress);
+
+            if (progress <= 90) {
+                ProgressSaving.setSecondaryProgress((float) progress + 10);
+            }
         }
+    }
+
+
+    public void onModifyGoalClicked(View view) {
+        Intent intent  = new Intent(this ,GoalActivity.class);
+        startActivity(intent);
     }
 
 

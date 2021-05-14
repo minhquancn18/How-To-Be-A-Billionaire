@@ -16,6 +16,6 @@ public class SavingPresenter {
         mSavingInterface.LoadTietKiem();
     }
     public void LoadMucTieu(){
-
+        mSavingInterface.LoadTietKiem();
     }
 }

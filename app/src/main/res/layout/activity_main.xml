@@ -92,13 +92,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvGoalName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:fontFamily="monospace"
-                android:text="[ Mục tiêu của bạn ]"
-                android:textSize="25dp"
+                android:text="[ Mua nhà ]"
+                android:textSize="22dp"
                 android:textStyle="bold" />
 
 
@@ -119,9 +120,9 @@
                     android:layout_width="280dp"
                     android:layout_height="280dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:scaleType="centerCrop"
-                    android:onClick="ekwj"
+                    android:onClick="onModifyGoalClicked"
                     android:src="@drawable/house"
                     app:civ_border_color="#595454"
                     app:civ_border_width="2.5dp" />
@@ -131,6 +132,7 @@
                     android:paddingTop="20dp"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:scrollY="10dp"
                     android:src="@drawable/outline_auto_fix_normal_white_48"
                     android:layout_gravity="bottom|center_horizontal"
                     android:background="@android:color/transparent" />
@@ -148,7 +150,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvGoal"
+                    android:id="@+id/tvGoalDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -377,49 +379,6 @@
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/weekChar"
-                android:layout_width="360dp"
-                android:layout_height="250dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:elevation="10dp"
-                android:padding="0dp" />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@drawable/custom_background"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/monthchart" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:fontFamily="monospace"
-                    android:text="Tiết kiệm theo tháng"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <com.github.mikephil.charting.charts.HorizontalBarChart
-                android:id="@+id/monthChar"
                 android:layout_width="360dp"
                 android:layout_height="250dp"
                 android:layout_gravity="center_horizontal"

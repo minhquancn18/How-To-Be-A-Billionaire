@@ -108,6 +108,8 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE MUCTIEU (_id_mucTieu INTEGER PRIMARY KEY AUTOINCREMENT ," +
                 "_id_user INTEGER , " +
+                "TEMMUCTIEU TEXT, " +
+                "MOTAMUCTIEU TEXT , " +
                 "SOTIENMUCTIEU DOUBLE , " +
                 "IMAGE_MUCTIEU BLOB, " +
                 "SOTIENTIETKIEM DOUBLE, " +
@@ -565,9 +567,11 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
 
     // muc tieu
-    public void insertMucTieu(double SoTienMucTieu, double SoTienTietKiem, byte[] image_mucTieu) {
+    public void insertMucTieu(double tenMucTieu, double moTaMucTieu, double SoTienMucTieu, double SoTienTietKiem, byte[] image_mucTieu) {
         db = getWritableDatabase();
         ContentValues record = new ContentValues();
+        record.put("TENMUCTIEU", tenMucTieu);
+        record.put("MOTAMUCTIEU", moTaMucTieu);
         record.put("SOTIENMUCTIEU", SoTienMucTieu);
         record.put("SOTIENTIETKIEM", SoTienTietKiem);
         record.put("IMAGE_MUCTIEU", image_mucTieu);
@@ -577,9 +581,23 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getMucTieu() {
-        cursor = db.query("MUCTIEU", new String[]{"_id_MucTieu", "SOTIENMUCTIEU", "SOTIENTIETKIEM", "IMAGE_MUCTIEU"},
+        cursor = db.query("MUCTIEU", new String[]{"_id_MucTieu", "TENMUCTIEU", "MOTAMUCTIEU", "SOTIENMUCTIEU", "SOTIENTIETKIEM", "IMAGE_MUCTIEU"},
                 null, null, null, null, "_id_MucTieu DESC");
         return cursor;
+    }
+
+
+    public void updateMucTieu(double tenMucTieu, double moTaMucTieu, double SoTienMucTieu, double SoTienTietKiem, byte[] image_mucTieu) {
+        db = getWritableDatabase();
+        ContentValues record = new ContentValues();
+        record.put("TENMUCTIEU", tenMucTieu);
+        record.put("MOTAMUCTIEU", moTaMucTieu);
+        record.put("SOTIENMUCTIEU", SoTienMucTieu);
+        record.put("SOTIENTIETKIEM", SoTienTietKiem);
+        record.put("IMAGE_MUCTIEU", image_mucTieu);
+        record.put("_id_user", 1); // default _id user
+
+        db.update("MUCTIEU", record, null, null);
     }
 
 
