@@ -10,12 +10,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Period;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.Inflater;
 
 public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
@@ -108,10 +110,11 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE MUCTIEU (_id_mucTieu INTEGER PRIMARY KEY AUTOINCREMENT ," +
                 "_id_user INTEGER , " +
-                "TEMMUCTIEU TEXT, " +
+                "TENMUCTIEU TEXT, " +
                 "MOTAMUCTIEU TEXT , " +
                 "SOTIENMUCTIEU DOUBLE , " +
                 "IMAGE_MUCTIEU BLOB, " +
+                "HOANTHANH INT, " +
                 "SOTIENTIETKIEM DOUBLE, " +
                 "FOREIGN KEY (_id_user) REFERENCES USER(_id_user))");
 
@@ -249,11 +252,11 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
                 tienThu = cursor.getDouble(1);
                 strDate = cursor.getString(2);
+
                 // get date
                 dateBefore = dateFormat.parse(strDate);
             }
-
-            updateTietKiemDoThu(tienThu, strDate, dateAdd);
+            updateTietKiemDoThu(sotienthu, strDate, dateAdd);
 
             // insert part
             ContentValues record = new ContentValues();
@@ -303,22 +306,14 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
                     updateChiTietTietKiem(_id_Chitiettietkiem, tongSoTienChiTrongNgay,
                             tongSoTienThuTrongNgay + soTienThu, soTienTietKiemTrongNgay + soTienThu);
+                    tangSongayLen1(soNgay);
                 }
 
             } else {
                 insertChiTietTietKiem(soTienThu, 0);
             }
 
-
-            // update soNgay
-            // if diff > 2
-            int diff = findDiffInDay(dateFormat.parse(dateBefore), dateFormat.parse(dateAdd));
-            if (diff >= 2) {
-                resetSoNgayTietKiem(); // soNgay =1;
-            } else if (diff == 1) {
-                tangSongayLen1(soNgay);
-            }
-
+            updateSoNgayTietKiem(dateBefore, dateAdd, soNgay);
 
         } catch (Exception e) {
 
@@ -326,7 +321,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public int findDiffInDay(Date dateStart, Date dateEnd) {
-        Long diff_in_time = dateEnd.getTime() - dateEnd.getTime();
+        Long diff_in_time = dateStart.getTime() - dateEnd.getTime();
 
         long difference_In_Days
                 = TimeUnit
@@ -390,6 +385,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void insertChitietTienChi(double soTienChi, String chiTietTienChi, int _id_danhMucChi, byte[] image_chi, String dateAdd) {
+
         // get old data
         db = getWritableDatabase();
         Date dateBefore = new Date();
@@ -409,7 +405,6 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         record.put("_id_danhMucChi", _id_danhMucChi);
         record.put("_id_tienChi", 1);
 
-        // insert new data
 
         // insert date and time
         record.put("NGAY_TIENCHI", dateAdd);
@@ -435,6 +430,8 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
                 double TongTienTietKiem = cursor.getDouble(1);
                 double TongTienThu = cursor.getDouble(2);
                 double TongTienChi = cursor.getDouble(3);
+
+                // update so ngay
                 soNgay = cursor.getInt(4);
                 updateTietKiem(TongTienTietKiem - soTienChi, TongTienThu, TongTienChi + soTienChi);
             }
@@ -452,19 +449,12 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
                     updateChiTietTietKiem(_id_Chitiettietkiem, tongSoTienChiTrongNgay + soTienChi,
                             tongSoTienThuTrongNgay, soTienTietKiemTrongNgay - soTienChi);
-
                 }
             } else { // different day
                 insertChiTietTietKiem(0, soTienChi, dateAdd);
             }
 
-
-            int diff = findDiffInDay(dateFormat.parse(dateBefore), dateFormat.parse(dateAdd));
-            if (diff >= 1) {
-                resetSoNgayTietKiem(); // soNgay =1;
-            } else if (diff == 0) {
-                tangSongayLen1(soNgay);
-            }
+            updateSoNgayTietKiem(dateBefore, dateAdd, soNgay);
 
         } catch (Exception e) {
 
@@ -504,7 +494,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         record.put("_id_tietKiem", 1);// default id of tietKiem = 1
         db.insert("CHITIETTIETKIEM", null, record);
 
-        // updateTietKiem(tienThu - tienChi, tienThu, tienChi);
+        //updateTietKiem(tienThu - tienChi, tienThu, tienChi);
     }
 
     public Cursor getChiTietTietKiem() {
@@ -565,27 +555,45 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         db.update("TIETKIEM", record, null, null);
     }
 
+    public void updateSoNgayTietKiem(String dateBefore, String dateAdd, int soNgay) {
+        try {
+            int diff = findDiffInDay(dateFormat.parse(dateAdd), dateFormat.parse(dateBefore));
+
+            if (diff >= 2) {
+                resetSoNgayTietKiem();
+            }
+            if (diff == 1) {
+                tangSongayLen1(soNgay);
+            }
+        } catch (Exception e) {
+        }
+    }
 
     // muc tieu
-    public void insertMucTieu(double tenMucTieu, double moTaMucTieu, double SoTienMucTieu, double SoTienTietKiem, byte[] image_mucTieu) {
+    public void insertMucTieu(String tenMucTieu, String moTaMucTieu, double SoTienMucTieu, double SoTienTietKiem, byte[] image_mucTieu) {
         db = getWritableDatabase();
         ContentValues record = new ContentValues();
         record.put("TENMUCTIEU", tenMucTieu);
         record.put("MOTAMUCTIEU", moTaMucTieu);
         record.put("SOTIENMUCTIEU", SoTienMucTieu);
+        record.put("HOANTHANH", 0);
         record.put("SOTIENTIETKIEM", SoTienTietKiem);
-        record.put("IMAGE_MUCTIEU", image_mucTieu);
+
+        // image is option
+        if (image_mucTieu != null)
+            record.put("IMAGE_MUCTIEU", image_mucTieu);
+
         record.put("_id_user", 1); // default _id user
 
         db.insert("MUCTIEU", null, record);
     }
 
     public Cursor getMucTieu() {
-        cursor = db.query("MUCTIEU", new String[]{"_id_MucTieu", "TENMUCTIEU", "MOTAMUCTIEU", "SOTIENMUCTIEU", "SOTIENTIETKIEM", "IMAGE_MUCTIEU"},
+        db = getReadableDatabase();
+        cursor = db.query("MUCTIEU", new String[]{"_id_MucTieu", "TENMUCTIEU", "MOTAMUCTIEU", "SOTIENMUCTIEU", "SOTIENTIETKIEM", "IMAGE_MUCTIEU", "HOANTHANH"},
                 null, null, null, null, "_id_MucTieu DESC");
         return cursor;
     }
-
 
     public void updateMucTieu(double tenMucTieu, double moTaMucTieu, double SoTienMucTieu, double SoTienTietKiem, byte[] image_mucTieu) {
         db = getWritableDatabase();
@@ -600,5 +608,19 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         db.update("MUCTIEU", record, null, null);
     }
 
+    public void updateMucTieu(double soTienTietKiem) {
+        cursor = getMucTieu();
+        if (cursor.moveToFirst()) {
+
+            if (cursor.getInt(6) == 1) {// chua hoan thanh
+                int highestID = cursor.getInt(0);
+                double oldTienTietKiem = cursor.getDouble(4);
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("SOTIENMUCTIEU", oldTienTietKiem + soTienTietKiem);
+                db.update("MUCTIEU", contentValues, "_id_MucTieu = ? ", new String[]{String.valueOf(highestID)});
+            }
+        }
+        
+    }
 
 }

@@ -4,13 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,14 +31,20 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.PrimitiveIterator;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements SavingInterface {
 
     private BarChart weekchart;
+
+    // for debugg
+    double ivSize = 0;
+
 
     // tiet kiem
     private TextView tvDayStreak;
@@ -42,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
     private TextView tvGoalName;
     private TextView tvGoalDescription;
     private TextView tvMoneyGoal;
+    private ImageView ivGoal;
     private TextRoundCornerProgressBar ProgressSaving;
 
 
@@ -102,18 +115,18 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
     @Override
     public void LoadMucTieu() {
-        new LoadTietKiem().execute();
+        new LoadMucTieu().execute();
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mSavingPresenter.LoadMucTieu();
     }
 
 
     public void AddRecords() {
-/*        savingDatabaseHelper.insertChiTietTietKiem(200, 501100, "2020-05-10");
-        savingDatabaseHelper.insertChiTietTietKiem(200, 601100, "2020-05-11");
-        savingDatabaseHelper.insertChiTietTietKiem(200, 301100, "2020-05-12");
-        savingDatabaseHelper.insertChiTietTietKiem(200, 401100, "2020-05-13");
-        savingDatabaseHelper.insertChiTietTietKiem(200, 301100, "2020-05-14");
-        savingDatabaseHelper.insertChiTietTietKiem(200, 401100, "2020-05-15");
-        savingDatabaseHelper.insertChiTietTietKiem(200, 501100, "2020-05-16");*/
 
         savingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-9");
         savingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-10");
@@ -122,7 +135,10 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
         savingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-13");
         savingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-14");
         savingDatabaseHelper.insertChitietTienChi(12, "me cho", 1, null, "2020-05-15");
+        savingDatabaseHelper.insertChitietTienChi(500, "me cho", 1, null, "2020-05-15");
 
+        savingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
+        savingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
     }
 
     public void InitViews() {
@@ -136,9 +152,8 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
         tvGoalDescription = findViewById(R.id.tvGoalDescription);
         tvMoneyGoal = findViewById(R.id.tvMoneyGoal);
         ProgressSaving = findViewById(R.id.Progress_saving);
+        ivGoal = findViewById(R.id.ivGoal);
     }
-
-
 
 
     // async stask
@@ -215,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
         double totalSaving;
         int dayStreak;
 
+
         @Override
         protected void onPreExecute() {
 
@@ -238,7 +254,8 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
         }
     }
 
-    class LoadMucTieu extends AsyncTask<Void, Process, Void> {
+    class LoadMucTieu extends AsyncTask<Void, Process, Boolean> {
+
 
         String goalName;
         String goalDescription;
@@ -255,45 +272,90 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Boolean doInBackground(Void... voids) {
             cursor = savingDatabaseHelper.getMucTieu();
 
-            if (cursor.moveToFirst()) {
-                goalName = cursor.getString(1);
-                goalDescription = cursor.getString(2);
-                goalMoney = cursor.getDouble(3);
-                SavingMoney = cursor.getDouble(4);
-                goal_image = cursor.getBlob(5);
-                strGoal = goalMoney + "/" + SavingMoney;
-                progress = SavingMoney / goalMoney;
+            try {
+                if (cursor.moveToFirst()) {
+                    goalName = "[ " + cursor.getString(1) + " ]";
+                    goalDescription = "*" + cursor.getString(2) + "*";
+                    goalMoney = cursor.getDouble(3);
+                    SavingMoney = cursor.getDouble(4);
+                    strGoal = SavingMoney + "/" + goalMoney;
+                    progress = SavingMoney / goalMoney;
+                    goal_image = cursor.getBlob(5);
 
 
+                    return true;
+                }
+            } catch (Exception e) {
             }
-
-            return null;
+            return false;
         }
 
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            tvGoalName.setText(goalName);
-            tvGoalDescription.setText(goalDescription);
-            tvMoneyGoal.setText(strGoal);
-            ProgressSaving.setProgressText(String.valueOf(progress));
-            ProgressSaving.setProgress((float) progress);
+        protected void onPostExecute(Boolean havingRecord) {
 
-            if (progress <= 90) {
-                ProgressSaving.setSecondaryProgress((float) progress + 10);
+            if (havingRecord) {
+
+                tvGoalName.setText(goalName);
+                tvGoalDescription.setText(goalDescription);
+                tvMoneyGoal.setText(strGoal);
+                ProgressSaving.setProgressText(String.valueOf(progress));
+                ProgressSaving.setProgress((float) progress);
+
+
+                Bitmap bitmap = ByteToBitmap(goal_image);
+                Drawable d = new BitmapDrawable(bitmap);
+                ivGoal.setImageDrawable(d);
+
+                if (progress <= 90) {
+                    ProgressSaving.setSecondaryProgress((float) progress + 10);
+                }
+
             }
         }
     }
 
 
     public void onModifyGoalClicked(View view) {
-        Intent intent  = new Intent(this ,GoalActivity.class);
+        Intent intent = new Intent(this, GoalActivity.class);
         startActivity(intent);
     }
 
+    public static Bitmap ByteToBitmap(byte[] images) {
+        if (images != null) {
+            images = decompress(images);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(images, 0, images.length);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            return bitmap;
+        }
+        return null;
+    }
+
+    // decompress
+    public static byte[] decompress(byte[] data) {
+
+        try {
+            Inflater inflater = new Inflater();
+            inflater.setInput(data);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+            byte[] buffer = new byte[1024];
+            while (!inflater.finished()) {
+                int count = inflater.inflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+            byte[] output = outputStream.toByteArray();
+
+            return output;
+        } catch (Exception e) {
+
+        }
+        return null;
+    }
 
 }
 

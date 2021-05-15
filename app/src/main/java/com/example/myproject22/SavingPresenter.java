@@ -11,11 +11,10 @@ public class SavingPresenter {
     public void LoadGetTietKiemData() {
         mSavingInterface.LoadChiTietTietKiem();
     }
-
     public void LoadTietKiem(){
         mSavingInterface.LoadTietKiem();
     }
     public void LoadMucTieu(){
-        mSavingInterface.LoadTietKiem();
+        mSavingInterface.LoadMucTieu();
     }
 }
