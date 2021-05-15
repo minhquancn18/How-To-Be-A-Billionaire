@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/background"
     tools:context=".View.DashboardActivity">
 
 
@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="25dp"
+            android:background="@color/white"
             app:cardCornerRadius="5dp"
             app:strokeColor="#5C5757"
             app:strokeWidth="2dp">
@@ -63,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="25dp"
+            android:background="@color/white"
             app:cardCornerRadius="5dp"
             app:strokeColor="#5C5757"
             app:strokeWidth="2dp">
@@ -111,6 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="30dp"
+
             android:onClick="AddOnClicked"
             android:text="Thêm" />
     </LinearLayout>

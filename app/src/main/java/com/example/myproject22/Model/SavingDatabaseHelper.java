@@ -168,7 +168,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     ////////////////////////////////////////////////////
     // tien thu
     public void insertChiTietTienThu(double sotienthu, String chiTietTienThu, int _id_danhMucThu) {
-       insertChiTietTienThu(sotienthu, chiTietTienThu, _id_danhMucThu, dateFormat.format(new Date()));
+        insertChiTietTienThu(sotienthu, chiTietTienThu, _id_danhMucThu, dateFormat.format(new Date()));
     }
 
     public Cursor getTienThu() {
@@ -407,6 +407,8 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         record.put("_id_tietKiem", 1);// default id of tietKiem = 1
 
         db.insert("CHITIETTIETKIEM", null, record);
+
+        updateMucTieu(tienThu - tienChi);
     }
 
     public void insertChiTietTietKiem(double tienThu, double tienChi, String ngay) {
@@ -421,7 +423,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         record.put("_id_tietKiem", 1);// default id of tietKiem = 1
         db.insert("CHITIETTIETKIEM", null, record);
 
-        //updateTietKiem(tienThu - tienChi, tienThu, tienChi);
+        updateMucTieu(tienThu - tienChi);
     }
 
     public Cursor getChiTietTietKiem() {
@@ -535,6 +537,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
     public void updateMucTieu(double soTienTietKiem) {
         cursor = getMucTieu();
+
         if (cursor.moveToFirst()) {
 
             if (cursor.getInt(6) == 1) {// chua hoan thanh
@@ -545,7 +548,6 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
                 db.update("MUCTIEU", contentValues, "_id_MucTieu = ? ", new String[]{String.valueOf(highestID)});
             }
         }
-
     }
 
 
