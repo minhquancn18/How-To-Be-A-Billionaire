@@ -19,8 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar;
+import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.R;
-import com.example.myproject22.Presenter.SavingDatabaseHelper;
+import com.example.myproject22.Presenter.ASavingDatabaseHelper;
 import com.example.myproject22.Presenter.SavingInterface;
 import com.example.myproject22.Presenter.SavingPresenter;
 import com.github.mikephil.charting.charts.BarChart;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.zip.Inflater;
 
-public class MainActivity extends AppCompatActivity implements SavingInterface {
+public class SavingActivity extends AppCompatActivity implements SavingInterface {
 
     private BarChart weekchart;
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
     Cursor cursor;
     ArrayList<String> ngayTrongTuan = new ArrayList<String>();
     ArrayList<BarEntry> recordTietKiem = new ArrayList<>();
-    SavingDatabaseHelper savingDatabaseHelper = new SavingDatabaseHelper(this, null, null, 0);
+    SavingDatabaseHelper ASavingDatabaseHelper = new SavingDatabaseHelper(this, null, null, 0);
 
 
     @Override
@@ -85,8 +86,6 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
         InitViews();
 
-        AddRecords();
-
         mSavingPresenter = new SavingPresenter(this);
         mSavingPresenter.LoadGetTietKiemData();
         mSavingPresenter.LoadTietKiem();
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        savingDatabaseHelper.closeAll();
+        ASavingDatabaseHelper.closeAll();
     }
 
 
@@ -127,17 +126,17 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
     public void AddRecords() {
 
-        savingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-9");
-        savingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-10");
-        savingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-11");
-        savingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-12");
-        savingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-13");
-        savingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-14");
-        savingDatabaseHelper.insertChitietTienChi(12, "me cho", 1, null, "2020-05-15");
-        savingDatabaseHelper.insertChitietTienChi(500, "me cho", 1, null, "2020-05-15");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-9");
+        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-10");
+        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-11");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-12");
+        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-13");
+        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-14");
+        ASavingDatabaseHelper.insertChitietTienChi(12, "me cho", 1, null, "2020-05-15");
+        ASavingDatabaseHelper.insertChitietTienChi(500, "me cho", 1, null, "2020-05-15");
 
-        savingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
-        savingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
+        ASavingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
+        ASavingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
     }
 
     public void InitViews() {
@@ -160,7 +159,8 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
         @Override
         protected void onPreExecute() {
-            db = savingDatabaseHelper.getWritableDatabase();
+            db = ASavingDatabaseHelper.getWritableDatabase();
+            weekchart.animateY(2000);
         }
 
         @Override
@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
             xAxis.setDrawLabels(true);
             xAxis.setLabelCount(ngayTrongTuan.size());
 
-            weekchart.animateY(2000);
         }
     }
 
@@ -237,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            cursor = savingDatabaseHelper.getTietKiem();
+            cursor = ASavingDatabaseHelper.getTietKiem();
             if (cursor.moveToFirst()) {
                 totalSaving = cursor.getDouble(1);
                 dayStreak = cursor.getInt(4);
@@ -272,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            cursor = savingDatabaseHelper.getMucTieu();
+            cursor = ASavingDatabaseHelper.getMucTieu();
 
             try {
                 if (cursor.moveToFirst()) {

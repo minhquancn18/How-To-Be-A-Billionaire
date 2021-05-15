@@ -15,6 +15,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/CardViewSaving"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="25dp"
@@ -107,10 +108,10 @@
             android:id="@+id/btnAdd"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_margin="30dp"
-            android:onClick="AddOnClicked"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_margin="30dp"
+            android:onClick="AddOnClicked"
             android:text="Thêm" />
     </LinearLayout>
 
