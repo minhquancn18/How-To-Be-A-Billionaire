@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="19dp"
-    tools:context=".GoalActivity">
+    tools:context=".View.GoalActivity">
 
 
     <LinearLayout

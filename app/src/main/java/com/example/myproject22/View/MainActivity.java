@@ -1,10 +1,9 @@
-package com.example.myproject22;
+package com.example.myproject22.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,9 +17,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar;
+import com.example.myproject22.R;
+import com.example.myproject22.Presenter.SavingDatabaseHelper;
+import com.example.myproject22.Presenter.SavingInterface;
+import com.example.myproject22.Presenter.SavingPresenter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -29,13 +31,10 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.PrimitiveIterator;
 import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements SavingInterface {
@@ -71,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements SavingInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_saving);
 
         ngayTrongTuan.add("Chủ Nhật");
         ngayTrongTuan.add("Thứ 2");

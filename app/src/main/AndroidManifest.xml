@@ -9,14 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyProject22">
-        <activity android:name=".DashboardActivity"></activity>
-        <activity android:name=".GoalActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".View.DashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
+
+        </activity>
+        <activity android:name=".View.GoalActivity" />
+        <activity android:name=".View.MainActivity">
+
         </activity>
     </application>
 

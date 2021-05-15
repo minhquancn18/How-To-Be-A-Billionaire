@@ -1,4 +1,4 @@
-package com.example.myproject22;
+package com.example.myproject22.Presenter;
 
 public class SavingPresenter {
     SavingInterface mSavingInterface;
