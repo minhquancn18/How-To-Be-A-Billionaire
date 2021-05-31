@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.myproject22.Model.AddingCategoryClass;
+import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.Presenter.AddingCategoryAdapter;
 import com.example.myproject22.R;
 
@@ -62,9 +63,7 @@ public class AddingCategoryFragment extends Fragment {
     //Tạo các component trong fragement để kết nối các component của layout
     private ExpandableListView lvAddingType;
 
-    //Tạo ra 2 list (1 list thư mục cha và 1 list thư mục con) để kết nối tới layout thông qua adapter
-    private ArrayList<AddingCategoryClass> moneyTypeArrayList;
-    private HashMap<String, ArrayList<AddingCategoryClass>> moneyTypeArrayListChild;
+    private ArrayList<AddingCategoryClass> moneyType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,14 +73,12 @@ public class AddingCategoryFragment extends Fragment {
         //Liên kết tới các component bên layout
         lvAddingType = view.findViewById(R.id.explv_addingType);
 
-        //Kết nối 2 list với 2 list có sẵn trong hàm AddingType
-        moneyTypeArrayList = AddingCategoryClass.addingtypes;
-        moneyTypeArrayListChild = AddingCategoryClass.getData();
+        //Connect to database to get addingList
+        SavingDatabaseHelper savingDatabaseHelper = new SavingDatabaseHelper(view.getContext());
+        moneyType = savingDatabaseHelper.getAddingCategoryList();
 
         //Tạo 1 adapter để kết nối giữa layout vào fragment
-        AddingCategoryAdapter addingAdapter = new AddingCategoryAdapter(view.getContext(),
-                moneyTypeArrayList,
-                moneyTypeArrayListChild);
+        AddingCategoryAdapter addingAdapter = new AddingCategoryAdapter(view.getContext(),moneyType);
         lvAddingType.setAdapter(addingAdapter);
 
         //Tạo event click khi click vào thư mục con sẽ chuyển qua AddingActivity

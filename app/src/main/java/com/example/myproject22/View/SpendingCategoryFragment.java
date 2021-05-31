@@ -10,6 +10,8 @@ import android.widget.ExpandableListView;
 import androidx.fragment.app.Fragment;
 
 
+import com.example.myproject22.Model.AddingCategoryClass;
+import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.Model.SpendingCategoryClass;
 import com.example.myproject22.Presenter.SpendingCategoryAdapter;
 import com.example.myproject22.R;
@@ -66,9 +68,7 @@ public class SpendingCategoryFragment extends Fragment {
     //Tạo các component trong fragement để kết nối các component của layout
     private ExpandableListView lvSpendingType;
 
-    //Tạo ra 2 list (1 list thư mục cha và 1 list thư mục con) để kết nối tới layout thông qua adapter
-    private ArrayList<SpendingCategoryClass> moneyTypeArrayList;
-    private HashMap<String, ArrayList<SpendingCategoryClass>> moneyTypeArrayListChild;
+    private ArrayList<SpendingCategoryClass> moneyType;
 
 
     @Override
@@ -79,13 +79,12 @@ public class SpendingCategoryFragment extends Fragment {
         //Liên kết tới các component bên layout
         lvSpendingType = view.findViewById(R.id.explv_spendingType);
 
-        //Kết nối 2 list với 2 list có sẵn trong hàm AddingType
-        moneyTypeArrayListChild = SpendingCategoryClass.getData();
-        moneyTypeArrayList = SpendingCategoryClass.spendingTypes;
+        //Connect to database to get spendingList
+        SavingDatabaseHelper savingDatabaseHelper = new SavingDatabaseHelper(view.getContext());
+        moneyType = savingDatabaseHelper.getSpendingCategoryList();
 
         //Tạo 1 adapter để kết nối giữa layout vào fragment
-        SpendingCategoryAdapter spendingAdapter = new SpendingCategoryAdapter(view.getContext(),
-                moneyTypeArrayList, moneyTypeArrayListChild);
+        SpendingCategoryAdapter spendingAdapter = new SpendingCategoryAdapter(view.getContext(),moneyType);
         lvSpendingType.setAdapter(spendingAdapter);
 
         //Tạo event click khi click vào thư mục con sẽ chuyển qua AddingActivity

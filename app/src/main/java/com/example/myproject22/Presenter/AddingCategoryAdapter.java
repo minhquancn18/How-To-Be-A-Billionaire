@@ -2,6 +2,8 @@ package com.example.myproject22.Presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myproject22.Model.AddingCategoryClass;
+import com.example.myproject22.Model.MoneyCategoryClass;
 import com.example.myproject22.R;
 import com.example.myproject22.View.AddingActivity;
 
@@ -23,28 +26,29 @@ import java.util.HashMap;
 public class AddingCategoryAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<AddingCategoryClass> headerAddingCategoryClass;
-    private HashMap<String, ArrayList<AddingCategoryClass>> childAddingCategory;
 
-    public AddingCategoryAdapter(Context context, ArrayList<AddingCategoryClass> headerAddingCategoryClass, HashMap<String, ArrayList<AddingCategoryClass>> childAddingType) {
+    private ArrayList<AddingCategoryClass> headerCategory;
+
+    public AddingCategoryAdapter(Context context, ArrayList<AddingCategoryClass> headerCategory) {
         this.context = context;
-        this.headerAddingCategoryClass = headerAddingCategoryClass;
-        this.childAddingCategory = childAddingType;
+        this.headerCategory = headerCategory;
     }
 
     @Override
     public int getGroupCount() {
-        return this.headerAddingCategoryClass.size();
+        return this.headerCategory.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.childAddingCategory.get(this.headerAddingCategoryClass.get(groupPosition).getNameType()).size();
+        if(this.headerCategory.get(groupPosition).getListChild() == null)
+            return 0;
+        return this.headerCategory.get(groupPosition).getListChild().size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.headerAddingCategoryClass.get(groupPosition);
+        return this.headerCategory.get(groupPosition);
     }
 
     //Nếu có điều kiện trong trường danh mục chi cha không có danh mục thu con
@@ -53,18 +57,18 @@ public class AddingCategoryAdapter extends BaseExpandableListAdapter {
         if (getChildrenCount(groupPosition) == 0) {
             return null;
         } else {
-            return this.childAddingCategory.get(this.headerAddingCategoryClass.get(groupPosition).getNameType()).get(childPosition);
+            return this.headerCategory.get(groupPosition).getListChild().get(childPosition);
         }
     }
 
     @Override
     public long getGroupId(int groupPosition) {
-        return groupPosition;
+        return this.headerCategory.get(groupPosition).getID();
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
+        return this.headerCategory.get(groupPosition).getListChild().get(childPosition).getID();
     }
 
     @Override
@@ -83,9 +87,13 @@ public class AddingCategoryAdapter extends BaseExpandableListAdapter {
 
         //Đổ dữ liệu vào layout
         TextView tvNameType = convertView.findViewById(R.id.list_item_text);
-        tvNameType.setText(headerAddingCategoryClass.get(groupPosition).getNameType());
+        tvNameType.setText(this.headerCategory.get(groupPosition).getNameType());
+
         ImageView ivIcon = convertView.findViewById(R.id.list_item_icon);
-        ivIcon.setImageResource(headerAddingCategoryClass.get(groupPosition).getImageResourceID());
+        byte[] image = this.headerCategory.get(groupPosition).getImageResource();
+        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+        bitmap = Bitmap.createScaledBitmap(bitmap,96,96,true);
+        ivIcon.setImageBitmap(bitmap);
 
         //Tạo hàm xử lí sự kiện khi click vào danh mục thu cha
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -119,12 +127,18 @@ public class AddingCategoryAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_item_category_child, null);
         }
+        if(this.headerCategory.get(groupPosition).getListChild() != null) {
+            ArrayList<MoneyCategoryClass> childCategory = this.headerCategory.get(groupPosition).getListChild();
 
-        TextView tvNameType = convertView.findViewById(R.id.list_item_text);
-        tvNameType.setText(childAddingCategory.get(groupPosition).get(childPosition).getNameType());
-        ImageView ivIcon = convertView.findViewById(R.id.list_item_icon);
-        ivIcon.setImageResource(childAddingCategory.get(groupPosition).get(childPosition).getImageResourceID());
+            TextView tvNameType = convertView.findViewById(R.id.list_item_text_child);
+            tvNameType.setText(childCategory.get(childPosition).getNameType());
 
+            ImageView ivIcon = convertView.findViewById(R.id.list_item_icon_child);
+            byte[] image = childCategory.get(childPosition).getImageResource();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+            bitmap = Bitmap.createScaledBitmap(bitmap,96,96,true);
+            ivIcon.setImageBitmap(bitmap);
+        }
         return convertView;
     }
 

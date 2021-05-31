@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,69 +8,75 @@
     android:orientation="vertical"
     tools:context=".View.AddingActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_ChossingType"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:text="@string/chooseType"
-        android:textSize="18sp"
-        app:icon="@drawable/question"
-        app:iconTint="@android:color/transparent"
-        app:iconTintMode="screen" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/moneyTextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:hint="@string/input_money"
-        app:counterEnabled="true"
-        app:counterMaxLength="20"
-        app:endIconMode="clear_text"
-        app:endIconTint="@color/colorPrimaryDark"
-        app:shapeAppearance="@style/ShapeAppearance.MaterialComponents.LargeComponent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/money_edit_text"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_ChossingType"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLines="1"
-            android:text="@string/money"
-            android:textSize="18sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="30dp"
+            android:text="@string/chooseType"
+            android:textSize="18sp"
+            app:iconSize="24dp"
+            app:icon="@drawable/question"
+            app:iconTint="@android:color/transparent"
+            app:iconTintMode="screen" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/descriptiontextField"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="40dp"
-        android:hint="@string/description"
-        android:padding="20dp">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/moneyTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:text=""
-            app:layout_anchor="@+id/tf_description"
-            app:layout_anchorGravity="center" />
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:hint="@string/input_money"
+            app:counterEnabled="true"
+            app:counterMaxLength="20"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorPrimaryDark"
+            app:shapeAppearance="@style/ShapeAppearance.MaterialComponents.LargeComponent">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/money_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLines="1"
+                android:text="@string/money"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descriptiontextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="40dp"
+            android:hint="@string/description"
+            android:padding="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:text=""
+                app:layout_anchor="@+id/tf_description"
+                app:layout_anchorGravity="center" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_saving"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:text="LƯU"
-        android:textSize="20sp" />
-
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_saving"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:text="LƯU"
+            android:textSize="20sp" />
+    </LinearLayout>
+</ScrollView>

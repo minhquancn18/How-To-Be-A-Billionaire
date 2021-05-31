@@ -3,9 +3,13 @@ package com.example.myproject22.Model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -13,17 +17,19 @@ import androidx.annotation.Nullable;
 import com.example.myproject22.R;
 
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "billionaire";
+    private static final String DB_NAME = "BILLIONAIRE";
     private static final int DB_VERSION = 1;
 
-
+    private Context context;
     SQLiteDatabase db;
     Cursor cursor;
 
@@ -32,6 +38,13 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
     public SavingDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, null, DB_VERSION);
+        this.context = context;
+    }
+
+    public SavingDatabaseHelper(@Nullable Context context)
+    {
+        super(context, DB_NAME, null,DB_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -50,18 +63,16 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         //lưu thông tin danh muc chi
         db.execSQL("CREATE TABLE DANHMUCCHI(_id_danhMucChi INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "TEN_DANH_MUC_CHI TEXT," +
-                "IMAGE_TIENCHI INTEGER," +
+                "IMAGE_TIENCHI BLOG," +
                 "LOAI_THUOC_TINH INTEGER," +
-                "ID_MUC_CHA INTEGER," +
-                "FOREIGN KEY (ID_MUC_CHA) REFERENCES DANHMUCCHI(_id_danhMucChi))");
+                "TEN_DANH_MUC_CHA TEXT)");
 
         //lưu thông tin danh mục thu
         db.execSQL("CREATE TABLE DANHMUCTHU(_id_danhMucThu INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "TEN_DANH_MUC_THU TEXT," +
-                "IMAGE_TIENTHU INTEGER," +
+                "IMAGE_TIENTHU BLOG," +
                 "LOAI_THUOC_TINH INTEGER," +
-                "ID_MUC_CHA INTEGER," +
-                "FOREIGN KEY (ID_MUC_CHA) REFERENCES DANHMUCTHU(_id_danhMucThu))");
+                "TEN_DANH_MUC_CHA TEXT)");
 
         //lưu thông tin tiền thu
         db.execSQL("CREATE TABLE TIENTHU(_id_tienThu INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -129,6 +140,8 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
         // insert new user
         addSomeBeginDatabase(db);
+        addCategoryMoney(db);
+
     }
 
     @Override
@@ -143,23 +156,23 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // danh muc
-    public void insertDanhMucChi(String tenDanhMucChi, int imageDanhMucChi, int IsChild, int idMucCha, SQLiteDatabase db) {
+    public void insertDanhMucChi(String tenDanhMucChi, byte[] imageDanhMucChi, int IsChild, String MucCha, SQLiteDatabase db) {
         ContentValues danhMuc = new ContentValues();
         danhMuc.put("TEN_DANH_MUC_CHI", tenDanhMucChi);
         danhMuc.put("LOAI_THUOC_TINH", IsChild);
-        danhMuc.put("ID_MUC_CHA", idMucCha);
+        danhMuc.put("TEN_DANH_MUC_CHA", MucCha);
         danhMuc.put("IMAGE_TIENCHI", imageDanhMucChi);
 
         db.insert("DANHMUCCHI", null, danhMuc);
     }
 
-    public void insertDanhMucThu(String tenDanhMucThu, int imageDanhMucThu, int IsChild, int idMucCha, SQLiteDatabase db) {
+    public void insertDanhMucThu(String tenDanhMucThu, byte[] imageDanhMucThu, int IsChild, String MucCha, SQLiteDatabase db) {
 
 
         ContentValues danhMuc = new ContentValues();
         danhMuc.put("TEN_DANH_MUC_THU", tenDanhMucThu);
         danhMuc.put("LOAI_THUOC_TINH", IsChild);
-        danhMuc.put("ID_MUC_CHA", idMucCha);
+        danhMuc.put("TEN_DANH_MUC_CHA", MucCha);
         danhMuc.put("IMAGE_TIENTHU", imageDanhMucThu);
         db.insert("DANHMUCTHU", null, danhMuc);
     }
@@ -580,74 +593,173 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         beginTietKiem.put("TONGTIENTIETKIEM", 0);
         beginTietKiem.put("SONGAY", 1);
         db.insert("TIETKIEM", null, beginTietKiem);
-
-        // insert danh muc
-        insertDanhMucThu("Tiền Thưởng", R.drawable.bonus, 0, -1, db);
-        insertDanhMucThu("Lương", R.drawable.salary, 0, -1, db);
-        insertDanhMucThu("Bán hàng", R.drawable.sale, 0, -1, db);
-        insertDanhMucThu("Thu nhập khác", R.drawable.other, 0, -1, db);
-
-        insertDanhMucChi("Ăn uống", R.drawable.eating, 0, -1, db);
-        insertDanhMucChi("Hóa đơn", R.drawable.bill, 0, -1, db);
-        insertDanhMucChi("Di chuyển", R.drawable.transport, 0, -1, db);
-        insertDanhMucChi("Mua sắm", R.drawable.shopping, 0, -1, db);
-        insertDanhMucChi("Bạn bè", R.drawable.friends, 0, -1, db);
-        insertDanhMucChi("Giải trí", R.drawable.entertainment, 0, -1, db);
-        insertDanhMucChi("Sức khỏe", R.drawable.health, 0, -1, db);
-        insertDanhMucChi("Gia đình", R.drawable.home, 0, -1, db);
-        insertDanhMucChi("Giáo dục", R.drawable.education, 0, -1, db);
-        insertDanhMucChi("Chi tiêu khác", R.drawable.other, 0, -1, db);
-
     }
 
-    public void Addsomething() {
-        insertDanhMucChi("Nhà hàng", R.drawable.restaurant, 1, getChiID("Ăn uống"), db);
-        insertDanhMucChi("Cà phê", R.drawable.coffee, 1, getChiID("Ăn uống"), db);
-        insertDanhMucChi("Thức ăn", R.drawable.food, 1, getChiID("Ăn uống"), db);
+    public void addCategoryMoney(SQLiteDatabase db) {
 
-        insertDanhMucChi("Hóa đơn điện", R.drawable.electricity_bill, 1, getChiID("Hóa đơn"), db);
-        insertDanhMucChi("Hóa đơn nước", R.drawable.water_bill, 1, getChiID("Hóa đơn"), db);
-        insertDanhMucChi("Hóa đơn mạng", R.drawable.network_bill, 1, getChiID("Hóa đơn"), db);
-        insertDanhMucChi("Hóa đơn gas", R.drawable.gas_bill, 1, getChiID("Hóa đơn"), db);
+        // insert danh muc cha
+        insertDanhMucThu("Tiền thưởng", ConvertToByte(R.drawable.bonus), 0, "0", db);
+        insertDanhMucThu("Lương", ConvertToByte(R.drawable.salary), 0, "0", db);
+        insertDanhMucThu("Bán hàng",ConvertToByte(R.drawable.sale), 0, "0", db);
+        insertDanhMucThu("Thu nhập khác", ConvertToByte(R.drawable.other), 0, "0", db);
 
-        insertDanhMucChi("Taxi", R.drawable.taxi, 1, getChiID("Di chuyển"), db);
-        insertDanhMucChi("Gửi xe", R.drawable.parking, 1, getChiID("Di chuyển"), db);
-        insertDanhMucChi("Xăng dầu", R.drawable.gas, 1, getChiID("Di chuyển"), db);
-        insertDanhMucChi("Bảo dưỡng", R.drawable.maintenance, 1, getChiID("Di chuyển"), db);
+        insertDanhMucChi("Ăn uống", ConvertToByte(R.drawable.eating), 0, "0", db);
+        insertDanhMucChi("Hóa đơn", ConvertToByte(R.drawable.bill), 0, "0", db);
+        insertDanhMucChi("Di chuyển", ConvertToByte(R.drawable.transport), 0, "0", db);
+        insertDanhMucChi("Mua sắm", ConvertToByte(R.drawable.shopping), 0, "0", db);
+        insertDanhMucChi("Bạn bè", ConvertToByte(R.drawable.friends), 0, "0", db);
+        insertDanhMucChi("Giải trí", ConvertToByte(R.drawable.entertainment), 0, "0", db);
+        insertDanhMucChi("Sức khỏe", ConvertToByte(R.drawable.health), 0, "0", db);
+        insertDanhMucChi("Gia đình", ConvertToByte(R.drawable.home), 0, "0", db);
+        insertDanhMucChi("Giáo dục", ConvertToByte(R.drawable.education), 0, "0", db);
+        insertDanhMucChi("Chi tiêu khác", ConvertToByte(R.drawable.other), 0, "0", db);
 
-        insertDanhMucChi("Quần áo", R.drawable.clothes, 1, getChiID("Mua sắm"), db);
-        insertDanhMucChi("Giày dép", R.drawable.shoes, 1, getChiID("Mua sắm"), db);
-        insertDanhMucChi("Phụ kiện", R.drawable.tools, 1, getChiID("Mua sắm"), db);
-        insertDanhMucChi("Thiết bị điện tử", R.drawable.e_device, 1, getChiID("Mua sắm"), db);
+        //insert danh muc con
+        insertDanhMucChi("Nhà hàng", ConvertToByte(R.drawable.restaurant), 1, "Ăn uống", db);
+        insertDanhMucChi("Cà phê", ConvertToByte(R.drawable.coffee), 1, "Ăn uống", db);
+        insertDanhMucChi("Thức ăn", ConvertToByte(R.drawable.food), 1, "Ăn uống", db);
 
-        insertDanhMucChi("Cưới hỏi", R.drawable.wedding, 1, getChiID("Bạn bè"), db);
-        insertDanhMucChi("Tang lễ", R.drawable.funeral, 1, getChiID("Bạn bè"), db);
-        insertDanhMucChi("Từ thiện", R.drawable.charity, 1, getChiID("Bạn bè"), db);
-        insertDanhMucChi("Người yêu", R.drawable.lover, 1, getChiID("Bạn bè"), db);
-        insertDanhMucChi("Quà cáp", R.drawable.gift, 1, getChiID("Bạn bè"), db);
+        insertDanhMucChi("Hóa đơn điện", ConvertToByte(R.drawable.electricity_bill), 1, "Hóa đơn", db);
+        insertDanhMucChi("Hóa đơn nước", ConvertToByte(R.drawable.water_bill), 1, "Hóa đơn", db);
+        insertDanhMucChi("Hóa đơn mạng", ConvertToByte(R.drawable.network_bill), 1, "Hóa đơn", db);
+        insertDanhMucChi("Hóa đơn gas", ConvertToByte(R.drawable.gas_bill), 1, "Hóa đơn", db);
 
-        insertDanhMucChi("Phim ảnh", R.drawable.film, 1, getChiID("Giải trí"), db);
-        insertDanhMucChi("Trò chơi", R.drawable.game, 1, getChiID("Giải trí"), db);
-        insertDanhMucChi("Du lịch", R.drawable.travel, 1, getChiID("Giải trí"), db);
-        insertDanhMucChi("Thể thao", R.drawable.sports, 1, getChiID("Giải trí"), db);
+        insertDanhMucChi("Taxi", ConvertToByte(R.drawable.taxi), 1, "Di chuyển", db);
+        insertDanhMucChi("Gửi xe", ConvertToByte(R.drawable.parking), 1, "Di chuyển", db);
+        insertDanhMucChi("Xăng dầu", ConvertToByte(R.drawable.gas), 1, "Di chuyển", db);
+        insertDanhMucChi("Bảo dưỡng", ConvertToByte(R.drawable.maintenance), 1, "Di chuyển", db);
 
-        insertDanhMucChi("Khám chữa bệnh", R.drawable.healthcare, 1, getChiID("Sức khỏe"), db);
-        insertDanhMucChi("Thuốc", R.drawable.medicine, 1, getChiID("Sức khỏe"), db);
-        insertDanhMucChi("Chăm sóc cá nhân", R.drawable.personal_care, 1, getChiID("Sức khỏe"), db);
-        insertDanhMucChi("Bảo hiểm", R.drawable.insurance, 1, getChiID("Sức khỏe"), db);
+        insertDanhMucChi("Quần áo", ConvertToByte(R.drawable.clothes), 1, "Mua sắm", db);
+        insertDanhMucChi("Giày dép", ConvertToByte(R.drawable.shoes), 1, "Mua sắm", db);
+        insertDanhMucChi("Phụ kiện", ConvertToByte(R.drawable.tools), 1, "Mua sắm", db);
+        insertDanhMucChi("Thiết bị điện tử", ConvertToByte(R.drawable.e_device), 1, "Mua sắm", db);
 
-        insertDanhMucChi("Con cái", R.drawable.children, 0, getChiID("Gia đình"), db);
-        insertDanhMucChi("Sữa chửa nhà cửa", R.drawable.home_repair, 0, getChiID("Gia đình"), db);
-        insertDanhMucChi("Dịch vụ gia đình", R.drawable.family_service, 0, getChiID("Gia đình"), db);
-        insertDanhMucChi("Thú cưng", R.drawable.pet, 0, getChiID("Gia đình"), db);
+        insertDanhMucChi("Cưới hỏi", ConvertToByte(R.drawable.wedding), 1, "Bạn bè", db);
+        insertDanhMucChi("Tang lễ", ConvertToByte(R.drawable.funeral), 1, "Bạn bè", db);
+        insertDanhMucChi("Từ thiện", ConvertToByte(R.drawable.charity), 1, "Bạn bè", db);
+        insertDanhMucChi("Người yêu", ConvertToByte(R.drawable.lover), 1, "Bạn bè", db);
+        insertDanhMucChi("Quà cáp", ConvertToByte(R.drawable.gift), 1, "Bạn bè", db);
 
-        insertDanhMucChi("Sách", R.drawable.books, 1, getChiID("Giáo dục"), db);
-        insertDanhMucChi("Phần mềm giáo dục", R.drawable.education_software, 1, getChiID("Giáo dục"), db);
-        insertDanhMucChi("Khóa học", R.drawable.course, 1, getChiID("Giáo dục"), db);
+        insertDanhMucChi("Phim ảnh", ConvertToByte(R.drawable.film), 1, "Bạn bè", db);
+        insertDanhMucChi("Trò chơi", ConvertToByte(R.drawable.game), 1, "Bạn bè", db);
+        insertDanhMucChi("Du lịch", ConvertToByte(R.drawable.travel), 1, "Bạn bè", db);
+        insertDanhMucChi("Thể thao", ConvertToByte(R.drawable.sports), 1, "Bạn bè", db);
+
+        insertDanhMucChi("Khám chữa bệnh", ConvertToByte(R.drawable.healthcare), 1, "Sức khỏe", db);
+        insertDanhMucChi("Thuốc", ConvertToByte(R.drawable.medicine), 1, "Sức khỏe", db);
+        insertDanhMucChi("Chăm sóc cá nhân", ConvertToByte(R.drawable.personal_care), 1, "Sức khỏe", db);
+        insertDanhMucChi("Bảo hiểm", ConvertToByte(R.drawable.insurance), 1, "Sức khỏe", db);
+
+        insertDanhMucChi("Con cái", ConvertToByte(R.drawable.children), 0,"Gia đình", db);
+        insertDanhMucChi("Sữa chửa nhà cửa", ConvertToByte(R.drawable.home_repair), 0, "Gia đình", db);
+        insertDanhMucChi("Dịch vụ gia đình", ConvertToByte(R.drawable.family_service), 0, "Gia đình", db);
+        insertDanhMucChi("Thú cưng", ConvertToByte(R.drawable.pet), 0, "Gia đình", db);
+
+        insertDanhMucChi("Sách", ConvertToByte(R.drawable.books), 1, "Giáo dục", db);
+        insertDanhMucChi("Phần mềm giáo dục", ConvertToByte(R.drawable.education_software), 1, "Giáo dục", db);
+        insertDanhMucChi("Khóa học", ConvertToByte(R.drawable.course), 1, "Giáo dục", db);
     }
 
     public void closeAll() {
         db.close();
     }
 
+    //Convert ID from drawable to byte[]
+    private byte[] ConvertToByte(int ID)
+    {
+        Resources res = context.getResources();
+        Drawable drawable = res.getDrawable(ID);
+        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bitMapData = stream.toByteArray();
+
+        return bitMapData;
+    }
+
+    //Get list Adding Category from database to ArrayList<MoneyCategoryClass>
+    public ArrayList<AddingCategoryClass> getAddingCategoryList()
+    {
+        ArrayList<AddingCategoryClass> addingList =new ArrayList<>();
+        String queryString = "SELECT * from DANHMUCTHU WHERE TEN_DANH_MUC_CHA = " + "0";
+
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString,null);
+        if(cursor.moveToFirst())
+        {
+            do{
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                byte[] image = cursor.getBlob(2);
+
+                String queryChildString = "SELECT * from DANHMUCTHU WHERE TEN_DANH_MUC_CHA = '" + name + "'";
+                SQLiteDatabase dbChild =this.getReadableDatabase();
+                Cursor cursorChild = dbChild.rawQuery(queryChildString, null);
+                ArrayList<MoneyCategoryClass> childList = new ArrayList<>();
+                if(cursorChild.moveToFirst())
+                {
+                    do{
+                        int idChild = cursorChild.getInt(0);
+                        String nameChild = cursorChild.getString(1);
+                        byte[] imageChild = cursorChild.getBlob(2);
+                        AddingCategoryClass child =new AddingCategoryClass(idChild, nameChild,1,imageChild);
+                        childList.add(child);
+                    }while (cursorChild.moveToNext());
+                }
+                cursorChild.close();
+                dbChild.close();
+                AddingCategoryClass parent = new AddingCategoryClass(id, name, 1, image,childList);
+                addingList.add(parent);
+            }
+            while(cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return addingList;
+    }
+
+    //Get list Spending Category from database to ArrayList<MoneyCategoryClass>
+    public ArrayList<SpendingCategoryClass> getSpendingCategoryList()
+    {
+        ArrayList<SpendingCategoryClass> spendingList =new ArrayList<>();
+        String queryString = "SELECT * from DANHMUCCHI WHERE TEN_DANH_MUC_CHA = " + "0";
+
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString,null);
+        if(cursor.moveToFirst())
+        {
+            do{
+                int id = cursor.getInt(0);
+                String name = cursor.getString(1);
+                byte[] image = cursor.getBlob(2);
+
+                String queryChildString = "SELECT * from DANHMUCCHI WHERE TEN_DANH_MUC_CHA = '" + name + "'";
+                SQLiteDatabase dbChild =this.getReadableDatabase();
+                Cursor cursorChild = dbChild.rawQuery(queryChildString, null);
+                ArrayList<MoneyCategoryClass> childList = new ArrayList<>();
+                if(cursorChild.moveToFirst())
+                {
+                    do{
+                        int idChild = cursorChild.getInt(0);
+                        String nameChild = cursorChild.getString(1);
+                        byte[] imageChild = cursorChild.getBlob(2);
+                        SpendingCategoryClass child =new SpendingCategoryClass(idChild, nameChild,-1,imageChild);
+                        childList.add(child);
+                    }while (cursorChild.moveToNext());
+                }
+                cursorChild.close();
+                dbChild.close();
+                SpendingCategoryClass parent = new SpendingCategoryClass(id, name, -1, image,childList);
+                spendingList.add(parent);
+            }
+            while(cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return spendingList;
+    }
 }

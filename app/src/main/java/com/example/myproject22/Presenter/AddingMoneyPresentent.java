@@ -1,8 +1,11 @@
 package com.example.myproject22.Presenter;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.example.myproject22.Model.AddingCategoryClass;
@@ -13,50 +16,66 @@ import com.example.myproject22.R;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class AddingMoneyPresentent {
 
     private AddingMoneyInterface anInterface;
+    private Context context;
 
-    public AddingMoneyPresentent(AddingMoneyInterface anInterface) {
+    public AddingMoneyPresentent(AddingMoneyInterface anInterface, Context context) {
         this.anInterface = anInterface;
+        this.context = context;
     }
 
     //Lấy thông tin từ thông qua AddingTypeActivity
     public MoneyCategoryClass GetIntentData(Bundle bundle) {
         String type = "";
-        int iconType = 0;
+        byte[] iconType = new byte[0];
         int isType = 0;
+        int ID = -1;
+        ArrayList<MoneyCategoryClass> listChild = null;
         if (bundle != null) {
             //Kiểm tra dữ liệu lấy ra từ bunle có bi null không
             try {
+                SavingDatabaseHelper dbHelper = new SavingDatabaseHelper(context);
                 //Kiểm tra dữ liệu bắt được là của thu hay của chi, nếu là của thu thì thực hiện lệnh if còn của chi thucowj hiện lệnh else
                 int bType = bundle.getInt("IsType");
                 if (bType == 1) {
                     int moneyID = bundle.getInt("addingID");
                     int moneyChildID = bundle.getInt("addingChildID");
+                    ArrayList<AddingCategoryClass> list = dbHelper.getAddingCategoryList();
                     //Kiểm tra xem có chọn dữ liệu không nếu không thì thực hiện lệnh if còn nếu có thực hiện lệnh else
                     if (moneyChildID == -1) {
-                        type = AddingCategoryClass.addingtypes.get(moneyID).getNameType();
-                        iconType = AddingCategoryClass.addingtypes.get(moneyID).getImageResourceID();
-                        isType = AddingCategoryClass.addingtypes.get(moneyID).isBoolType();
+                        ID = list.get(moneyID).getID();
+                        type = list.get(moneyID).getNameType();
+                        iconType = list.get(moneyID).getImageResource();
+                        isType = list.get(moneyID).isBoolType();
+                        listChild = list.get(moneyID).getListChild();
                     } else {
-                        type = AddingCategoryClass.getData().get(AddingCategoryClass.addingtypes.get(moneyID).getNameType()).get(moneyChildID).getNameType();
-                        iconType = AddingCategoryClass.getData().get(AddingCategoryClass.addingtypes.get(moneyID).getNameType()).get(moneyChildID).getImageResourceID();
-                        isType = AddingCategoryClass.getData().get(AddingCategoryClass.addingtypes.get(moneyID).getNameType()).get(moneyChildID).isBoolType();
+                        ID = list.get(moneyID).getListChild().get(moneyChildID).getID();
+                        type = list.get(moneyID).getListChild().get(moneyChildID).getNameType();
+                        iconType = list.get(moneyID).getListChild().get(moneyChildID).getImageResource();
+                        isType = list.get(moneyID).getListChild().get(moneyChildID).isBoolType();
+                        listChild = null;
                     }
                 } else if (bType == -1) {
                     int moneyID = bundle.getInt("spendingID");
                     int moneyChildID = bundle.getInt("spendingChildID");
+                    ArrayList<SpendingCategoryClass> list = dbHelper.getSpendingCategoryList();
                     //Kiểm tra xem có chọn dữ liệu không nếu không thì thực hiện lệnh if còn nếu có thực hiện lệnh else
                     if (moneyChildID == -1) {
-                        type = SpendingCategoryClass.spendingTypes.get(moneyID).getNameType();
-                        iconType = SpendingCategoryClass.spendingTypes.get(moneyID).getImageResourceID();
-                        isType = SpendingCategoryClass.spendingTypes.get(moneyID).isBoolType();
+                        ID = list.get(moneyID).getID();
+                        type = list.get(moneyID).getNameType();
+                        iconType = list.get(moneyID).getImageResource();
+                        isType = list.get(moneyID).isBoolType();
+                        listChild = list.get(moneyID).getListChild();
                     } else {
-                        type = SpendingCategoryClass.getData().get(SpendingCategoryClass.spendingTypes.get(moneyID).getNameType()).get(moneyChildID).getNameType();
-                        iconType = SpendingCategoryClass.getData().get(SpendingCategoryClass.spendingTypes.get(moneyID).getNameType()).get(moneyChildID).getImageResourceID();
-                        isType = SpendingCategoryClass.getData().get(SpendingCategoryClass.spendingTypes.get(moneyID).getNameType()).get(moneyChildID).isBoolType();
+                        ID = list.get(moneyID).getListChild().get(moneyChildID).getID();
+                        type = list.get(moneyID).getListChild().get(moneyChildID).getNameType();
+                        iconType = list.get(moneyID).getListChild().get(moneyChildID).getImageResource();
+                        isType = list.get(moneyID).getListChild().get(moneyChildID).isBoolType();
+                        listChild = null;
                     }
                 }
             } catch (NullPointerException e) {
@@ -64,11 +83,12 @@ public class AddingMoneyPresentent {
             }
 
             //Đưa dữ liệu bắt được vào button chứa dữ liệu thu chi
-            MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(type, isType, iconType);
+            MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(ID, type, isType, iconType, listChild);
             anInterface.GetBuddleSuccessful();
             return moneyCategoryClass;
         } else {
-            MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass("Chọn loại", 0, R.drawable.question);
+
+            MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(-1,"Chọn loại", 0,ConvertToByte(R.drawable.question));
             return moneyCategoryClass;
         }
     }
@@ -132,12 +152,15 @@ public class AddingMoneyPresentent {
         }
     }
 
-    //Chuyển đổi image từ int sang byte[]
-    public byte[] getImageByID(MaterialButton btn) {
-        Bitmap bitmap = ((BitmapDrawable) btn.getIcon()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageInByte = baos.toByteArray();
-        return imageInByte;
+    private byte[] ConvertToByte(int ID)
+    {
+        Resources res = context.getResources();
+        Drawable drawable = res.getDrawable(ID);
+        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bitMapData = stream.toByteArray();
+
+        return bitMapData;
     }
 }

@@ -112,11 +112,19 @@ public class SpendingCategoryClass extends MoneyCategoryClass {
         childSpendingTypes.put("Chi tiêu khác", other);
 
         return childSpendingTypes;
-    }
-
-    ;
+    };
 
     public static void SetArrayList(ArrayList<SpendingCategoryClass> spendTypes) {
         spendingTypes.addAll(spendTypes);
+    }
+
+    public SpendingCategoryClass(int id,String nameType, int boolType, byte[] imageResource, ArrayList<MoneyCategoryClass> listChild )
+    {
+        super(id, nameType, boolType, imageResource, listChild);
+    }
+
+    public SpendingCategoryClass(int id,String nameType, int boolType, byte[] imageResource)
+    {
+        super(id, nameType, boolType, imageResource);
     }
 }

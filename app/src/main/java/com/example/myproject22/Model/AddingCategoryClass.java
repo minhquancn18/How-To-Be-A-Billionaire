@@ -48,4 +48,14 @@ public class AddingCategoryClass extends MoneyCategoryClass {
     public static void SetArrayList(ArrayList<AddingCategoryClass> addTypes) {
         addingtypes.addAll(addTypes);
     }
+
+    public AddingCategoryClass(int id,String nameType, int boolType, byte[] imageResource, ArrayList<MoneyCategoryClass> listChild )
+    {
+        super(id, nameType, boolType, imageResource, listChild);
+    }
+
+    public AddingCategoryClass(int id,String nameType, int boolType, byte[] imageResource)
+    {
+        super(id, nameType, boolType, imageResource);
+    }
 }

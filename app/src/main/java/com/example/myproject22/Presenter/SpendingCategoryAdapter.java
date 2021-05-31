@@ -2,6 +2,9 @@ package com.example.myproject22.Presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,39 +14,44 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myproject22.Model.AddingCategoryClass;
+import com.example.myproject22.Model.MoneyCategoryClass;
 import com.example.myproject22.Model.SpendingCategoryClass;
 import com.example.myproject22.R;
 import com.example.myproject22.View.AddingActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.zip.Inflater;
 
 //Tạo 1 ExpandableListAdapter để kết nối danh mục chi
 public class SpendingCategoryAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<SpendingCategoryClass> headerSpendingCategory;
-    private HashMap<String, ArrayList<SpendingCategoryClass>> childSpendingCategory;
 
-    public SpendingCategoryAdapter(Context context, ArrayList<SpendingCategoryClass> headerSpendinngType, HashMap<String, ArrayList<SpendingCategoryClass>> childSpendingType) {
+    private ArrayList<SpendingCategoryClass> headerCategory;
+
+    public SpendingCategoryAdapter(Context context, ArrayList<SpendingCategoryClass> headerCategory) {
         this.context = context;
-        this.headerSpendingCategory = headerSpendinngType;
-        this.childSpendingCategory = childSpendingType;
+        this.headerCategory = headerCategory;
     }
 
     @Override
     public int getGroupCount() {
-        return this.headerSpendingCategory.size();
+        return this.headerCategory.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.childSpendingCategory.get(this.headerSpendingCategory.get(groupPosition).getNameType()).size();
+        if(this.headerCategory.get(groupPosition).getListChild() == null)
+            return 0;
+        return this.headerCategory.get(groupPosition).getListChild().size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.headerSpendingCategory.get(groupPosition);
+        return this.headerCategory.get(groupPosition);
     }
 
     //Nếu có điều kiện trong trường hợp danh mục chi cha không có danh mục chi con
@@ -52,7 +60,7 @@ public class SpendingCategoryAdapter extends BaseExpandableListAdapter {
         if (getChildrenCount(groupPosition) == 0) {
             return null;
         } else {
-            return this.childSpendingCategory.get(this.headerSpendingCategory.get(groupPosition).getNameType()).get(childPosition);
+            return this.headerCategory.get(groupPosition).getListChild().get(childPosition);
         }
     }
 
@@ -82,9 +90,14 @@ public class SpendingCategoryAdapter extends BaseExpandableListAdapter {
 
         //Đổ dữ liệu vào layout
         TextView tvNameType = convertView.findViewById(R.id.list_item_text);
-        tvNameType.setText(headerSpendingCategory.get(groupPosition).getNameType());
+        tvNameType.setText(headerCategory.get(groupPosition).getNameType());
+
         ImageView ivIcon = convertView.findViewById(R.id.list_item_icon);
-        ivIcon.setImageResource(headerSpendingCategory.get(groupPosition).getImageResourceID());
+        byte[] image = this.headerCategory.get(groupPosition).getImageResource();
+        Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+        bitmap = Bitmap.createScaledBitmap(bitmap,96,96,true);
+        ivIcon.setImageBitmap(bitmap);
+
 
         //Tạo hàm xử lí sự kiện khi click vào danh mục thu cha
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -118,11 +131,19 @@ public class SpendingCategoryAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.list_item_category_child, null);
         }
 
-        TextView tvNameType = convertView.findViewById(R.id.list_item_text_child);
-        tvNameType.setText(childSpendingCategory.get(headerSpendingCategory.get(groupPosition).getNameType()).get(childPosition).getNameType());
-        ImageView ivIcon = convertView.findViewById(R.id.list_item_icon_child);
-        ivIcon.setImageResource(childSpendingCategory.get(headerSpendingCategory.get(groupPosition).getNameType()).get(childPosition).getImageResourceID());
+        if(this.headerCategory.get(groupPosition).getListChild() != null) {
+            ArrayList<MoneyCategoryClass> childCategory = this.headerCategory.get(groupPosition).getListChild();
+            MoneyCategoryClass childClass = childCategory.get(childPosition);
 
+            TextView tvNameType = convertView.findViewById(R.id.list_item_text_child);
+            tvNameType.setText(childClass.getNameType());
+
+            ImageView ivIcon = convertView.findViewById(R.id.list_item_icon_child);
+            byte[] image = childClass.getImageResource();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+            bitmap = Bitmap.createScaledBitmap(bitmap,96,96,true);
+            ivIcon.setImageBitmap(bitmap);
+        }
         return convertView;
     }
 

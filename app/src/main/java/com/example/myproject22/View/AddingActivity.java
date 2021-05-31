@@ -1,6 +1,10 @@
 package com.example.myproject22.View;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +42,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         descriptionTextField = findViewById(R.id.descriptiontextField);
         btnChooseType = findViewById(R.id.btn_ChossingType);
         btnSaving = findViewById(R.id.btn_saving);
-        addingMoneyPresentent = new AddingMoneyPresentent(this);
+        addingMoneyPresentent = new AddingMoneyPresentent(this, this);
 
         //Kết nối từ Adding event tới AddingTypeActivity để chọn loại thu hoặc chi
         btnChooseType.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +61,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         //Kiểm tra dữ liệu có bắt được hay chưa
         MoneyCategoryClass moneyCategoryClass = addingMoneyPresentent.GetIntentData(bundle);
         btnChooseType.setText(moneyCategoryClass.getNameType());
-        btnChooseType.setIconResource(moneyCategoryClass.getImageResourceID());
+        Bitmap bitmap = BitmapFactory.decodeByteArray(moneyCategoryClass.getImageResource(), 0, moneyCategoryClass.getImageResource().length);
+        bitmap = Bitmap.createScaledBitmap(bitmap,96,96,true);
+        Drawable icon = new BitmapDrawable(bitmap);
+        btnChooseType.setIcon(icon);
 
         //Thực hiện event save chi tiền tiền thu-chi vào database và trở vể giao diện chính nếu lưu thành công
         btnSaving.setOnClickListener(new View.OnClickListener() {
