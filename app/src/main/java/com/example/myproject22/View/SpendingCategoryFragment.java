@@ -83,17 +83,30 @@ public class SpendingCategoryFragment extends Fragment {
         SavingDatabaseHelper savingDatabaseHelper = new SavingDatabaseHelper(view.getContext());
         moneyType = savingDatabaseHelper.getSpendingCategoryList();
 
+        Intent new_intent = getActivity().getIntent();
         //Tạo 1 adapter để kết nối giữa layout vào fragment
-        SpendingCategoryAdapter spendingAdapter = new SpendingCategoryAdapter(view.getContext(),moneyType);
+        SpendingCategoryAdapter spendingAdapter = new SpendingCategoryAdapter(view.getContext(),moneyType,new_intent);
         lvSpendingType.setAdapter(spendingAdapter);
 
         //Tạo event click khi click vào thư mục con sẽ chuyển qua AddingActivity
         lvSpendingType.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                String sMoney="0";
+                String sDescription ="";
+
+                Bundle dataBundle = new_intent.getExtras();
+                if(dataBundle != null) {
+                    sMoney = dataBundle.getString("MoneyText");
+                    sDescription = dataBundle.getString("DescriptionText");
+                }
+
                 Intent intent = new Intent(v.getContext(),AddingActivity.class);
                 //Tạo bundle để truyền dữ liệu để chuyển từ AddingTypeActivity sang AddingAcitivty
                 Bundle bundle = new Bundle();
+                bundle.putString("MoneyText",sMoney);
+                bundle.putString("DescriptionText",sDescription);
                 //Do khi click vào thư mục con thì cần id của cả cha lẫn con
                 bundle.putInt("spendingID", groupPosition);
                 bundle.putInt("spendingChildID", childPosition);

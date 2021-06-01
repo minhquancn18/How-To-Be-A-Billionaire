@@ -1,5 +1,6 @@
 package com.example.myproject22.Presenter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,11 +33,18 @@ public class SpendingCategoryAdapter extends BaseExpandableListAdapter {
 
     private ArrayList<SpendingCategoryClass> headerCategory;
 
+    private Intent new_intent;
+
     public SpendingCategoryAdapter(Context context, ArrayList<SpendingCategoryClass> headerCategory) {
         this.context = context;
         this.headerCategory = headerCategory;
     }
 
+    public SpendingCategoryAdapter(Context context, ArrayList<SpendingCategoryClass> headerCategory,Intent new_intent) {
+        this.context = context;
+        this.headerCategory = headerCategory;
+        this.new_intent =new_intent;
+    }
     @Override
     public int getGroupCount() {
         return this.headerCategory.size();
@@ -103,9 +111,21 @@ public class SpendingCategoryAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String sMoney="0";
+                String sDescription ="";
+
+                Bundle dataBundle = new_intent.getExtras();
+                if(dataBundle != null) {
+                    sMoney = dataBundle.getString("MoneyText");
+                    sDescription = dataBundle.getString("DescriptionText");
+                }
+
                 Intent intent = new Intent(v.getContext(), AddingActivity.class);
                 //Tạo bundle để truyền dữ liệu để chuyển từ AddingTypeActivity sang AddingAcitivty
                 Bundle bundle = new Bundle();
+                bundle.putString("MoneyText",sMoney);
+                bundle.putString("DescriptionText",sDescription);
+
                 bundle.putInt("spendingID", groupPosition);
                 //Do khi click vào hàm cha thì ko cần id của thư mục con nên đặt id thư mục con là -1
                 bundle.putInt("spendingChildID", -1);
@@ -113,6 +133,7 @@ public class SpendingCategoryAdapter extends BaseExpandableListAdapter {
                 bundle.putInt("IsType",-1);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
+                ((Activity)context).finish();
             }
         });
 

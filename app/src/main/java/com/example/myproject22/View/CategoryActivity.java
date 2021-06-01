@@ -2,6 +2,7 @@ package com.example.myproject22.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -34,13 +35,26 @@ public class CategoryActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);
 
+
+
     }
 
     //Xóa layout này khi quay lại Activity trước đó
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this,  AddingActivity.class);
-        startActivity(intent);
-        this.finish();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if(bundle != null){
+            Intent new_intent = new Intent(this, AddingActivity.class);
+            new_intent.putExtras(bundle);
+            startActivity(new_intent);
+            this.finish();
+        }
+        else{
+            Intent new_intent = new Intent(this, AddingActivity.class);
+            startActivity(new_intent);
+            this.finish();
+        }
     }
 }

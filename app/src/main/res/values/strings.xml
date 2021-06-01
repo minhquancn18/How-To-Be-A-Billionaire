@@ -10,12 +10,13 @@
     <string name="money_saving_title">Số tiền đã tiết kiệm được</string>
     <string name="money_saving_text">999999999999</string>
     <string name="goal_title">Mục tiêu</string>
-    <string name="input_money">Nhập tiền</string>
-    <string name="description">Miêu tả</string>
+    <string name="input_money_text">Nhập tiền</string>
+    <string name="description_text">Miêu tả</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="chooseType">Chọn loại</string>
     <string name="money">0</string>
+    <string name="description"></string>
     <string name="fab_content_desc">Add new Category</string>
 </resources>

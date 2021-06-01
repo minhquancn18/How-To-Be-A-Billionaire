@@ -1,5 +1,6 @@
 package com.example.myproject22.View;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,12 +14,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myproject22.Model.MoneyCategoryClass;
+import com.example.myproject22.Model.MoneyInformationClass;
 import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.Presenter.AddingMoneyInterface;
 import com.example.myproject22.Presenter.AddingMoneyPresentent;
 import com.example.myproject22.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.DecimalFormat;
 
 public class AddingActivity extends AppCompatActivity implements AddingMoneyInterface {
 
@@ -44,14 +48,17 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         btnSaving = findViewById(R.id.btn_saving);
         addingMoneyPresentent = new AddingMoneyPresentent(this, this);
 
+        if(savedInstanceState != null){
+            moneyTextField.getEditText().setText(savedInstanceState.getString("textKey"));
+        }
+
         //Kết nối từ Adding event tới AddingTypeActivity để chọn loại thu hoặc chi
         btnChooseType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), CategoryActivity.class);
-                v.getContext().startActivity(intent);
-                //Xóa activity này khi chuyển qua AddingTypeActivity
-                AddingActivity.this.finish();
+                String sMoney = moneyTextField.getEditText().getText().toString(); //Lấy dữ liệu từ money text, khác null
+                String sDescription = descriptionTextField.getEditText().getText().toString().trim(); //lấy dữ liệu từ description text, null cũng ko sao
+                addingMoneyPresentent.onButtonCategoryClicked(sMoney,sDescription);
             }
         });
 
@@ -59,8 +66,16 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         //Kiểm tra dữ liệu có bắt được hay chưa
-        MoneyCategoryClass moneyCategoryClass = addingMoneyPresentent.GetIntentData(bundle);
+        MoneyInformationClass moneyInformationClass = addingMoneyPresentent.GetIntentData(bundle);
+
+        DecimalFormat precious = new DecimalFormat("0");
+        moneyTextField.getEditText().setText(precious.format(moneyInformationClass.getMoney()));
+
+        descriptionTextField.getEditText().setText(moneyInformationClass.getDescription());
+
+        MoneyCategoryClass moneyCategoryClass = moneyInformationClass.getMoneyCategory();
         btnChooseType.setText(moneyCategoryClass.getNameType());
+
         Bitmap bitmap = BitmapFactory.decodeByteArray(moneyCategoryClass.getImageResource(), 0, moneyCategoryClass.getImageResource().length);
         bitmap = Bitmap.createScaledBitmap(bitmap,96,96,true);
         Drawable icon = new BitmapDrawable(bitmap);
@@ -116,6 +131,25 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     @Override
     public void GetDataFail() {
         Toast.makeText(getApplicationContext(), "Thêm dữ liệu không thành công", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void ButtonCategoryClickWithBoth(Context context,String sMoney, String sDescription) {
+        Intent intent = new Intent(context, CategoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("MoneyText",sMoney);
+        bundle.putString("DescriptionText",sDescription);
+
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+        //Xóa activity này khi chuyển qua AddingTypeActivity
+        AddingActivity.this.finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("textKey", moneyTextField.getEditText().getText().toString());
     }
 }
 

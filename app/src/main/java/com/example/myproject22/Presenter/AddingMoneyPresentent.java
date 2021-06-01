@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.example.myproject22.Model.AddingCategoryClass;
 import com.example.myproject22.Model.MoneyCategoryClass;
+import com.example.myproject22.Model.MoneyInformationClass;
 import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.Model.SpendingCategoryClass;
 import com.example.myproject22.R;
@@ -29,15 +30,23 @@ public class AddingMoneyPresentent {
     }
 
     //Lấy thông tin từ thông qua AddingTypeActivity
-    public MoneyCategoryClass GetIntentData(Bundle bundle) {
+    public MoneyInformationClass GetIntentData(Bundle bundle) {
         String type = "";
         byte[] iconType = new byte[0];
         int isType = 0;
         int ID = -1;
+        Double money = 0.0;
+        String sDescription = "";
+
         ArrayList<MoneyCategoryClass> listChild = null;
         if (bundle != null) {
             //Kiểm tra dữ liệu lấy ra từ bunle có bi null không
             try {
+                String sMoney = bundle.getString("MoneyText");
+                money = Double.parseDouble(sMoney);
+
+                sDescription = bundle.getString("DescriptionText");
+
                 SavingDatabaseHelper dbHelper = new SavingDatabaseHelper(context);
                 //Kiểm tra dữ liệu bắt được là của thu hay của chi, nếu là của thu thì thực hiện lệnh if còn của chi thucowj hiện lệnh else
                 int bType = bundle.getInt("IsType");
@@ -59,7 +68,8 @@ public class AddingMoneyPresentent {
                         isType = list.get(moneyID).getListChild().get(moneyChildID).isBoolType();
                         listChild = null;
                     }
-                } else if (bType == -1) {
+                }
+                else if (bType == -1) {
                     int moneyID = bundle.getInt("spendingID");
                     int moneyChildID = bundle.getInt("spendingChildID");
                     ArrayList<SpendingCategoryClass> list = dbHelper.getSpendingCategoryList();
@@ -78,18 +88,25 @@ public class AddingMoneyPresentent {
                         listChild = null;
                     }
                 }
+                else {
+                    MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(-1,"Chọn loại", 0,ConvertToByte(R.drawable.question));
+                    MoneyInformationClass moneyInformationClass = new MoneyInformationClass(money,sDescription,moneyCategoryClass);
+                    return moneyInformationClass;
+                }
             } catch (NullPointerException e) {
                 anInterface.AddingCategoryFail();
             }
 
             //Đưa dữ liệu bắt được vào button chứa dữ liệu thu chi
             MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(ID, type, isType, iconType, listChild);
+            MoneyInformationClass moneyInformationClass = new MoneyInformationClass(money,sDescription,moneyCategoryClass);
             anInterface.GetBuddleSuccessful();
-            return moneyCategoryClass;
-        } else {
-
+            return moneyInformationClass;
+        }
+        else {
             MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(-1,"Chọn loại", 0,ConvertToByte(R.drawable.question));
-            return moneyCategoryClass;
+            MoneyInformationClass moneyInformationClass = new MoneyInformationClass(money,sDescription,moneyCategoryClass);
+            return moneyInformationClass;
         }
     }
 
@@ -152,8 +169,7 @@ public class AddingMoneyPresentent {
         }
     }
 
-    private byte[] ConvertToByte(int ID)
-    {
+    private byte[] ConvertToByte(int ID) {
         Resources res = context.getResources();
         Drawable drawable = res.getDrawable(ID);
         Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
@@ -162,5 +178,9 @@ public class AddingMoneyPresentent {
         byte[] bitMapData = stream.toByteArray();
 
         return bitMapData;
+    }
+
+    public void onButtonCategoryClicked(String sMoney, String sDescription){
+        anInterface.ButtonCategoryClickWithBoth(context,sMoney,sDescription);
     }
 }
