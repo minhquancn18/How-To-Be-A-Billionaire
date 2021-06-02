@@ -27,7 +27,7 @@ import java.text.DecimalFormat;
 public class AddingActivity extends AppCompatActivity implements AddingMoneyInterface {
 
     //Tạo SQLiteHelper để kết nối tới cơ sở dữ liệu
-    private SavingDatabaseHelper db = new SavingDatabaseHelper(this, null, null, 1);
+    private SavingDatabaseHelper db = new SavingDatabaseHelper(this);
 
     //Khởi tạo các component để thực hiện event
     private TextInputLayout moneyTextField;
@@ -96,6 +96,29 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 }
             }
         });
+
+        moneyTextField.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String sMoney = moneyTextField.getEditText().getText().toString();
+
+                if(sMoney.equals("0")){
+                    moneyTextField.getEditText().setText("");
+                }
+            }
+        });
+
+        descriptionTextField.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String sMoney = moneyTextField.getEditText().getText().toString();
+
+                if(sMoney.equals("")){
+                    moneyTextField.getEditText().setText(R.string.money);
+                }
+            }
+        });
+
     }
 
     @Override

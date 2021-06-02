@@ -14,6 +14,7 @@ import com.example.myproject22.Model.AddingCategoryClass;
 import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.Presenter.AddingCategoryAdapter;
 import com.example.myproject22.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +63,7 @@ public class AddingCategoryFragment extends Fragment {
 
     //Tạo các component trong fragement để kết nối các component của layout
     private ExpandableListView lvAddingType;
-
+    private FloatingActionButton fab_Adding;
     private ArrayList<AddingCategoryClass> moneyType;
 
     @Override
@@ -72,6 +73,7 @@ public class AddingCategoryFragment extends Fragment {
 
         //Liên kết tới các component bên layout
         lvAddingType = view.findViewById(R.id.explv_addingType);
+        fab_Adding = view.findViewById(R.id.fab_adding_category);
 
         //Connect to database to get addingList
         SavingDatabaseHelper savingDatabaseHelper = new SavingDatabaseHelper(view.getContext());
@@ -108,6 +110,14 @@ public class AddingCategoryFragment extends Fragment {
                 startActivity(intent);
                 getActivity().finish();
                 return true;
+            }
+        });
+
+        fab_Adding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddingTypeCategoryActivity.class);
+                startActivity(intent);
             }
         });
         // Inflate the layout for this fragment

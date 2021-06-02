@@ -19,4 +19,7 @@
     <string name="money">0</string>
     <string name="description"></string>
     <string name="fab_content_desc">Add new Category</string>
+
+    <string name="category_title">THÊM DANH MỤC</string>
+    <string name="content_description_icon">ICON</string>
 </resources>

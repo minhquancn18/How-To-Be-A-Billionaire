@@ -21,7 +21,7 @@ public class DashboardActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_dashboard);
 
-        SQLiteOpenHelper dpHelper = new SavingDatabaseHelper(this,null,null,1);
+        SQLiteOpenHelper dpHelper = new SavingDatabaseHelper(this);
 
         MaterialCardView savingCardView =  findViewById(R.id.CardViewSaving);
         savingCardView.setOnClickListener(new View.OnClickListener() {

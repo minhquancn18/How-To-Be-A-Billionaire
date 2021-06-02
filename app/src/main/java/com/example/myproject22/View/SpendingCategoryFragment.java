@@ -15,6 +15,7 @@ import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.Model.SpendingCategoryClass;
 import com.example.myproject22.Presenter.SpendingCategoryAdapter;
 import com.example.myproject22.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +68,7 @@ public class SpendingCategoryFragment extends Fragment {
 
     //Tạo các component trong fragement để kết nối các component của layout
     private ExpandableListView lvSpendingType;
-
+    private FloatingActionButton fab_Spending;
     private ArrayList<SpendingCategoryClass> moneyType;
 
 
@@ -78,6 +79,7 @@ public class SpendingCategoryFragment extends Fragment {
 
         //Liên kết tới các component bên layout
         lvSpendingType = view.findViewById(R.id.explv_spendingType);
+        fab_Spending = view.findViewById(R.id.fab_spending_category);
 
         //Connect to database to get spendingList
         SavingDatabaseHelper savingDatabaseHelper = new SavingDatabaseHelper(view.getContext());
@@ -119,6 +121,13 @@ public class SpendingCategoryFragment extends Fragment {
             }
         });
 
+        fab_Spending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddingTypeCategoryActivity.class);
+                startActivity(intent);
+            }
+        });
         // Inflate the layout for this fragment
         return view;
     }

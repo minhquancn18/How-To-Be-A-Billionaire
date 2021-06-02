@@ -49,7 +49,6 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         //lưu thông tin người dùng
         db.execSQL("CREATE TABLE USER (_id_user INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "USERNAME TEXT," +
@@ -137,10 +136,14 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
                 "SOTIENTIETKIEM DOUBLE, " +
                 "FOREIGN KEY (_id_user) REFERENCES USER(_id_user))");
 
+        db.execSQL("CREATE TABLE IMAGE_CATEGORY (_idImage INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "IMAGE_BLOB BLOB)");
 
+        Log.d("SAVINGHELPER","LAY DATABASE");
         // insert new user
         addSomeBeginDatabase(db);
-        addCategoryMoney(db);
+        addCategoryMoney();
+        AddImageCategory();
 
     }
 
@@ -156,7 +159,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // danh muc
-    public void insertDanhMucChi(String tenDanhMucChi, byte[] imageDanhMucChi, int IsChild, String MucCha, SQLiteDatabase db) {
+    public void insertDanhMucChi(String tenDanhMucChi, byte[] imageDanhMucChi, int IsChild, String MucCha) {
         ContentValues danhMuc = new ContentValues();
         danhMuc.put("TEN_DANH_MUC_CHI", tenDanhMucChi);
         danhMuc.put("LOAI_THUOC_TINH", IsChild);
@@ -166,14 +169,13 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         db.insert("DANHMUCCHI", null, danhMuc);
     }
 
-    public void insertDanhMucThu(String tenDanhMucThu, byte[] imageDanhMucThu, int IsChild, String MucCha, SQLiteDatabase db) {
-
-
+    public void insertDanhMucThu(String tenDanhMucThu, byte[] imageDanhMucThu, int IsChild, String MucCha) {
         ContentValues danhMuc = new ContentValues();
         danhMuc.put("TEN_DANH_MUC_THU", tenDanhMucThu);
         danhMuc.put("LOAI_THUOC_TINH", IsChild);
         danhMuc.put("TEN_DANH_MUC_CHA", MucCha);
         danhMuc.put("IMAGE_TIENTHU", imageDanhMucThu);
+
         db.insert("DANHMUCTHU", null, danhMuc);
     }
 
@@ -595,69 +597,69 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         db.insert("TIETKIEM", null, beginTietKiem);
     }
 
-    public void addCategoryMoney(SQLiteDatabase db) {
-
+    public void addCategoryMoney() {
+        Log.d("INSERTCATEGORY","LAY DATABSE");
         // insert danh muc cha
-        insertDanhMucThu("Tiền thưởng", ConvertToByte(R.drawable.bonus), 0, "0", db);
-        insertDanhMucThu("Lương", ConvertToByte(R.drawable.salary), 0, "0", db);
-        insertDanhMucThu("Bán hàng",ConvertToByte(R.drawable.sale), 0, "0", db);
-        insertDanhMucThu("Thu nhập khác", ConvertToByte(R.drawable.other), 0, "0", db);
+        insertDanhMucThu("Tiền thưởng", ConvertToByte(R.drawable.bonus), 0, "0");
+        insertDanhMucThu("Lương", ConvertToByte(R.drawable.salary), 0, "0");
+        insertDanhMucThu("Bán hàng",ConvertToByte(R.drawable.sale), 0, "0");
+        insertDanhMucThu("Thu nhập khác", ConvertToByte(R.drawable.other), 0, "0");
 
-        insertDanhMucChi("Ăn uống", ConvertToByte(R.drawable.eating), 0, "0", db);
-        insertDanhMucChi("Hóa đơn", ConvertToByte(R.drawable.bill), 0, "0", db);
-        insertDanhMucChi("Di chuyển", ConvertToByte(R.drawable.transport), 0, "0", db);
-        insertDanhMucChi("Mua sắm", ConvertToByte(R.drawable.shopping), 0, "0", db);
-        insertDanhMucChi("Bạn bè", ConvertToByte(R.drawable.friends), 0, "0", db);
-        insertDanhMucChi("Giải trí", ConvertToByte(R.drawable.entertainment), 0, "0", db);
-        insertDanhMucChi("Sức khỏe", ConvertToByte(R.drawable.health), 0, "0", db);
-        insertDanhMucChi("Gia đình", ConvertToByte(R.drawable.home), 0, "0", db);
-        insertDanhMucChi("Giáo dục", ConvertToByte(R.drawable.education), 0, "0", db);
-        insertDanhMucChi("Chi tiêu khác", ConvertToByte(R.drawable.other), 0, "0", db);
+        insertDanhMucChi("Ăn uống", ConvertToByte(R.drawable.eating), 0, "0");
+        insertDanhMucChi("Hóa đơn", ConvertToByte(R.drawable.bill), 0, "0");
+        insertDanhMucChi("Di chuyển", ConvertToByte(R.drawable.transport), 0, "0");
+        insertDanhMucChi("Mua sắm", ConvertToByte(R.drawable.shopping), 0, "0");
+        insertDanhMucChi("Bạn bè", ConvertToByte(R.drawable.friends), 0, "0");
+        insertDanhMucChi("Giải trí", ConvertToByte(R.drawable.entertainment), 0, "0");
+        insertDanhMucChi("Sức khỏe", ConvertToByte(R.drawable.health), 0, "0");
+        insertDanhMucChi("Gia đình", ConvertToByte(R.drawable.home), 0, "0");
+        insertDanhMucChi("Giáo dục", ConvertToByte(R.drawable.education), 0, "0");
+        insertDanhMucChi("Chi tiêu khác", ConvertToByte(R.drawable.other), 0, "0");
 
         //insert danh muc con
-        insertDanhMucChi("Nhà hàng", ConvertToByte(R.drawable.restaurant), 1, "Ăn uống", db);
-        insertDanhMucChi("Cà phê", ConvertToByte(R.drawable.coffee), 1, "Ăn uống", db);
-        insertDanhMucChi("Thức ăn", ConvertToByte(R.drawable.food), 1, "Ăn uống", db);
+        insertDanhMucChi("Nhà hàng", ConvertToByte(R.drawable.restaurant), 1, "Ăn uống");
+        insertDanhMucChi("Cà phê", ConvertToByte(R.drawable.coffee), 1, "Ăn uống");
+        insertDanhMucChi("Thức ăn", ConvertToByte(R.drawable.food), 1, "Ăn uống");
 
-        insertDanhMucChi("Hóa đơn điện", ConvertToByte(R.drawable.electricity_bill), 1, "Hóa đơn", db);
-        insertDanhMucChi("Hóa đơn nước", ConvertToByte(R.drawable.water_bill), 1, "Hóa đơn", db);
-        insertDanhMucChi("Hóa đơn mạng", ConvertToByte(R.drawable.network_bill), 1, "Hóa đơn", db);
-        insertDanhMucChi("Hóa đơn gas", ConvertToByte(R.drawable.gas_bill), 1, "Hóa đơn", db);
+        insertDanhMucChi("Hóa đơn điện", ConvertToByte(R.drawable.electricity_bill), 1, "Hóa đơn");
+        insertDanhMucChi("Hóa đơn nước", ConvertToByte(R.drawable.water_bill), 1, "Hóa đơn");
+        insertDanhMucChi("Hóa đơn mạng", ConvertToByte(R.drawable.network_bill), 1, "Hóa đơn");
+        insertDanhMucChi("Hóa đơn gas", ConvertToByte(R.drawable.gas_bill), 1, "Hóa đơn");
 
-        insertDanhMucChi("Taxi", ConvertToByte(R.drawable.taxi), 1, "Di chuyển", db);
-        insertDanhMucChi("Gửi xe", ConvertToByte(R.drawable.parking), 1, "Di chuyển", db);
-        insertDanhMucChi("Xăng dầu", ConvertToByte(R.drawable.gas), 1, "Di chuyển", db);
-        insertDanhMucChi("Bảo dưỡng", ConvertToByte(R.drawable.maintenance), 1, "Di chuyển", db);
+        insertDanhMucChi("Taxi", ConvertToByte(R.drawable.taxi), 1, "Di chuyển");
+        insertDanhMucChi("Gửi xe", ConvertToByte(R.drawable.parking), 1, "Di chuyển");
+        insertDanhMucChi("Xăng dầu", ConvertToByte(R.drawable.gas), 1, "Di chuyển");
+        insertDanhMucChi("Bảo dưỡng", ConvertToByte(R.drawable.maintenance), 1, "Di chuyển");
 
-        insertDanhMucChi("Quần áo", ConvertToByte(R.drawable.clothes), 1, "Mua sắm", db);
-        insertDanhMucChi("Giày dép", ConvertToByte(R.drawable.shoes), 1, "Mua sắm", db);
-        insertDanhMucChi("Phụ kiện", ConvertToByte(R.drawable.tools), 1, "Mua sắm", db);
-        insertDanhMucChi("Thiết bị điện tử", ConvertToByte(R.drawable.e_device), 1, "Mua sắm", db);
+        insertDanhMucChi("Quần áo", ConvertToByte(R.drawable.clothes), 1, "Mua sắm");
+        insertDanhMucChi("Giày dép", ConvertToByte(R.drawable.shoes), 1, "Mua sắm");
+        insertDanhMucChi("Phụ kiện", ConvertToByte(R.drawable.tools), 1, "Mua sắm");
+        insertDanhMucChi("Thiết bị điện tử", ConvertToByte(R.drawable.e_device), 1, "Mua sắm");
 
-        insertDanhMucChi("Cưới hỏi", ConvertToByte(R.drawable.wedding), 1, "Bạn bè", db);
-        insertDanhMucChi("Tang lễ", ConvertToByte(R.drawable.funeral), 1, "Bạn bè", db);
-        insertDanhMucChi("Từ thiện", ConvertToByte(R.drawable.charity), 1, "Bạn bè", db);
-        insertDanhMucChi("Người yêu", ConvertToByte(R.drawable.lover), 1, "Bạn bè", db);
-        insertDanhMucChi("Quà cáp", ConvertToByte(R.drawable.gift), 1, "Bạn bè", db);
+        insertDanhMucChi("Cưới hỏi", ConvertToByte(R.drawable.wedding), 1, "Bạn bè");
+        insertDanhMucChi("Tang lễ", ConvertToByte(R.drawable.funeral), 1, "Bạn bè");
+        insertDanhMucChi("Từ thiện", ConvertToByte(R.drawable.charity), 1, "Bạn bè");
+        insertDanhMucChi("Người yêu", ConvertToByte(R.drawable.lover), 1, "Bạn bè");
+        insertDanhMucChi("Quà cáp", ConvertToByte(R.drawable.gift), 1, "Bạn bè");
 
-        insertDanhMucChi("Phim ảnh", ConvertToByte(R.drawable.film), 1, "Bạn bè", db);
-        insertDanhMucChi("Trò chơi", ConvertToByte(R.drawable.game), 1, "Bạn bè", db);
-        insertDanhMucChi("Du lịch", ConvertToByte(R.drawable.travel), 1, "Bạn bè", db);
-        insertDanhMucChi("Thể thao", ConvertToByte(R.drawable.sports), 1, "Bạn bè", db);
+        insertDanhMucChi("Phim ảnh", ConvertToByte(R.drawable.film), 1, "Bạn bè");
+        insertDanhMucChi("Trò chơi", ConvertToByte(R.drawable.game), 1, "Bạn bè");
+        insertDanhMucChi("Du lịch", ConvertToByte(R.drawable.travel), 1, "Bạn bè");
+        insertDanhMucChi("Thể thao", ConvertToByte(R.drawable.sports), 1, "Bạn bè");
 
-        insertDanhMucChi("Khám chữa bệnh", ConvertToByte(R.drawable.healthcare), 1, "Sức khỏe", db);
-        insertDanhMucChi("Thuốc", ConvertToByte(R.drawable.medicine), 1, "Sức khỏe", db);
-        insertDanhMucChi("Chăm sóc cá nhân", ConvertToByte(R.drawable.personal_care), 1, "Sức khỏe", db);
-        insertDanhMucChi("Bảo hiểm", ConvertToByte(R.drawable.insurance), 1, "Sức khỏe", db);
+        insertDanhMucChi("Khám chữa bệnh", ConvertToByte(R.drawable.healthcare), 1, "Sức khỏe");
+        insertDanhMucChi("Thuốc", ConvertToByte(R.drawable.medicine), 1, "Sức khỏe");
+        insertDanhMucChi("Chăm sóc cá nhân", ConvertToByte(R.drawable.personal_care), 1, "Sức khỏe");
+        insertDanhMucChi("Bảo hiểm", ConvertToByte(R.drawable.insurance), 1, "Sức khỏe");
 
-        insertDanhMucChi("Con cái", ConvertToByte(R.drawable.children), 0,"Gia đình", db);
-        insertDanhMucChi("Sữa chửa nhà cửa", ConvertToByte(R.drawable.home_repair), 0, "Gia đình", db);
-        insertDanhMucChi("Dịch vụ gia đình", ConvertToByte(R.drawable.family_service), 0, "Gia đình", db);
-        insertDanhMucChi("Thú cưng", ConvertToByte(R.drawable.pet), 0, "Gia đình", db);
+        insertDanhMucChi("Con cái", ConvertToByte(R.drawable.children), 0,"Gia đình");
+        insertDanhMucChi("Sữa chửa nhà cửa", ConvertToByte(R.drawable.home_repair), 0, "Gia đình");
+        insertDanhMucChi("Dịch vụ gia đình", ConvertToByte(R.drawable.family_service), 0, "Gia đình");
+        insertDanhMucChi("Thú cưng", ConvertToByte(R.drawable.pet), 0, "Gia đình");
 
-        insertDanhMucChi("Sách", ConvertToByte(R.drawable.books), 1, "Giáo dục", db);
-        insertDanhMucChi("Phần mềm giáo dục", ConvertToByte(R.drawable.education_software), 1, "Giáo dục", db);
-        insertDanhMucChi("Khóa học", ConvertToByte(R.drawable.course), 1, "Giáo dục", db);
+        insertDanhMucChi("Sách", ConvertToByte(R.drawable.books), 1, "Giáo dục");
+        insertDanhMucChi("Phần mềm giáo dục", ConvertToByte(R.drawable.education_software), 1, "Giáo dục");
+        insertDanhMucChi("Khóa học", ConvertToByte(R.drawable.course), 1, "Giáo dục");
     }
 
     public void closeAll() {
@@ -761,5 +763,78 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return spendingList;
+    }
+
+    //Xử lí table Image
+    public void insertImageCategory(byte[] image){
+        ContentValues category = new ContentValues();
+        category.put("IMAGE_BLOB",image);
+        db.insert("IMAGE_CATEGORY", null, category);
+    }
+
+    public void AddImageCategory(){
+        insertImageCategory(ConvertToByte(R.drawable.bill));
+        insertImageCategory(ConvertToByte(R.drawable.bonus));
+        insertImageCategory(ConvertToByte(R.drawable.books));
+        insertImageCategory(ConvertToByte(R.drawable.charity));
+        insertImageCategory(ConvertToByte(R.drawable.children));
+        insertImageCategory(ConvertToByte(R.drawable.clothes));
+        insertImageCategory(ConvertToByte(R.drawable.coffee));
+        insertImageCategory(ConvertToByte(R.drawable.course));
+        insertImageCategory(ConvertToByte(R.drawable.e_device));
+        insertImageCategory(ConvertToByte(R.drawable.eating));
+        insertImageCategory(ConvertToByte(R.drawable.education));
+        insertImageCategory(ConvertToByte(R.drawable.education_software));
+        insertImageCategory(ConvertToByte(R.drawable.electricity_bill));
+        insertImageCategory(ConvertToByte(R.drawable.entertainment));
+        insertImageCategory(ConvertToByte(R.drawable.family_service));
+        insertImageCategory(ConvertToByte(R.drawable.film));
+        insertImageCategory(ConvertToByte(R.drawable.food));
+        insertImageCategory(ConvertToByte(R.drawable.friends));
+        insertImageCategory(ConvertToByte(R.drawable.funeral));
+        insertImageCategory(ConvertToByte(R.drawable.game));
+        insertImageCategory(ConvertToByte(R.drawable.gas));
+        insertImageCategory(ConvertToByte(R.drawable.gas_bill));
+        insertImageCategory(ConvertToByte(R.drawable.gift));
+        insertImageCategory(ConvertToByte(R.drawable.health));
+        insertImageCategory(ConvertToByte(R.drawable.lover));
+        insertImageCategory(ConvertToByte(R.drawable.maintenance));
+        insertImageCategory(ConvertToByte(R.drawable.network_bill));
+        insertImageCategory(ConvertToByte(R.drawable.parking));
+        insertImageCategory(ConvertToByte(R.drawable.personal_care));
+        insertImageCategory(ConvertToByte(R.drawable.pet));
+        insertImageCategory(ConvertToByte(R.drawable.restaurant));
+        insertImageCategory(ConvertToByte(R.drawable.salary));
+        insertImageCategory(ConvertToByte(R.drawable.sale));
+        insertImageCategory(ConvertToByte(R.drawable.shoes));
+        insertImageCategory(ConvertToByte(R.drawable.shopping));
+        insertImageCategory(ConvertToByte(R.drawable.sports));
+        insertImageCategory(ConvertToByte(R.drawable.taxi));
+        insertImageCategory(ConvertToByte(R.drawable.tools));
+        insertImageCategory(ConvertToByte(R.drawable.travel));
+        insertImageCategory(ConvertToByte(R.drawable.water_bill));
+        insertImageCategory(ConvertToByte(R.drawable.wedding));
+        insertImageCategory(ConvertToByte(R.drawable.other));
+    }
+
+    public ArrayList<byte[]> getImageCategory(){
+        ArrayList<byte[]> imageList = new ArrayList<>();
+        String queryString = "SELECT * FROM IMAGE_CATEGORY";
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString,null);
+
+        if(cursor.moveToFirst()){
+            do{
+                byte[] image = cursor.getBlob(1);
+
+                imageList.add(image);
+            }while(cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return imageList;
     }
 }
