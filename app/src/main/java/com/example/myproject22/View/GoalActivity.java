@@ -16,7 +16,6 @@ import android.widget.ImageView;
 
 import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.R;
-import com.example.myproject22.Presenter.ASavingDatabaseHelper;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;

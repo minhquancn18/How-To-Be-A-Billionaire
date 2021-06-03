@@ -154,8 +154,6 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void insertDanhMucThu(String tenDanhMucThu, int imageDanhMucThu, int IsChild, int idMucCha, SQLiteDatabase db) {
-
-
         ContentValues danhMuc = new ContentValues();
         danhMuc.put("TEN_DANH_MUC_THU", tenDanhMucThu);
         danhMuc.put("LOAI_THUOC_TINH", IsChild);
@@ -190,42 +188,37 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
     //my overload
     public void insertChiTietTienThu(double sotienthu, String chiTietTienThu, int _id_danhMucThu, String dateAdd) {
-        try {
-            db = getWritableDatabase();
 
-            // get old data
-            Date dateBefore = new Date();
-            Double tienThu = 0d;
-            String strDate = dateFormat.format(new Date());
+        db = getWritableDatabase();
 
-
-            // get data before
-            cursor = getTienThu();
-            if (cursor.moveToFirst()) {
-
-                tienThu = cursor.getDouble(1);
-                strDate = cursor.getString(2);
-
-                // get date
-                dateBefore = dateFormat.parse(strDate);
-            }
-            updateTietKiemDoThu(sotienthu, strDate, dateAdd);
-
-            // insert part
-            ContentValues record = new ContentValues();
-            record.put("SOTIENTHU", sotienthu);
-            record.put("CHITIET_TIENTHU", chiTietTienThu);
-            record.put("_id_danhMucThu", _id_danhMucThu);
-            record.put("_id_tienThu", 1);
+        // get old data
+        Double tienThu = 0d;
+        String strDate = dateFormat.format(new Date());
 
 
-            // insert date and time
-            record.put("NGAY_TIENTHU", dateAdd);
-            db.insert("CHITIETTIENTHU", null, record);
+        // get data before
+        cursor = getTienThu();
+        if (cursor.moveToFirst()) {
 
-        } catch (ParseException e) {
-
+            tienThu = cursor.getDouble(1);
+            strDate = cursor.getString(2);
         }
+        updateTietKiemDoThu(sotienthu, strDate, dateAdd);
+
+        // insert part
+        ContentValues record = new ContentValues();
+        record.put("SOTIENTHU", sotienthu);
+        record.put("CHITIET_TIENTHU", chiTietTienThu);
+        record.put("_id_danhMucThu", _id_danhMucThu);
+        record.put("_id_tienThu", 1);
+
+
+        // insert date and time
+        record.put("NGAY_TIENTHU", dateAdd);
+        db.insert("CHITIETTIENTHU", null, record);
+
+        updateMucTieu(sotienthu);
+
     }
 
     public void updateTietKiemDoThu(double soTienThu, String dateBefore, String dateAdd) {
@@ -310,7 +303,6 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-
     public void insertChitietTienChi(double soTienChi, String chiTietTienChi, int _id_danhMucChi, byte[] image_chi) {
         insertChitietTienChi(soTienChi, chiTietTienChi, _id_danhMucChi, image_chi, dateFormat.format(new Date()));
     }
@@ -319,8 +311,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
         // get old data
         db = getWritableDatabase();
-        Date dateBefore = new Date();
-        String strDate = dateFormat.format(dateBefore);
+        String strDate = dateFormat.format(new Date());
 
 
         // get data before
@@ -346,6 +337,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
         db.insert("CHITIETTIENCHI", null, record);
 
+        updateMucTieu(-soTienChi);
 
     }
 
@@ -387,7 +379,6 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
                 insertChiTietTietKiem(0, soTienChi, dateAdd);
             }
             updateSoNgayTietKiem(dateBefore, dateAdd, soNgay);
-
         } catch (Exception e) {
 
         }
@@ -499,13 +490,13 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     // muc tieu
     public void insertMucTieu(String tenMucTieu, String moTaMucTieu, double SoTienMucTieu, double SoTienTietKiem, byte[] image_mucTieu) {
         db = getWritableDatabase();
+
         ContentValues record = new ContentValues();
         record.put("TENMUCTIEU", tenMucTieu);
         record.put("MOTAMUCTIEU", moTaMucTieu);
         record.put("SOTIENMUCTIEU", SoTienMucTieu);
         record.put("HOANTHANH", 0);
         record.put("SOTIENTIETKIEM", SoTienTietKiem);
-
         // image is option
         if (image_mucTieu != null)
             record.put("IMAGE_MUCTIEU", image_mucTieu);
@@ -540,11 +531,22 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
 
-            if (cursor.getInt(6) == 1) {// chua hoan thanh
+            if (cursor.getInt(6) == 0) {// chua hoan thanh
+                // lay du lieu cu
                 int highestID = cursor.getInt(0);
                 double oldTienTietKiem = cursor.getDouble(4);
+                double soTienMucTieu = cursor.getDouble(3);
+
                 ContentValues contentValues = new ContentValues();
-                contentValues.put("SOTIENMUCTIEU", oldTienTietKiem + soTienTietKiem);
+                // if enough -- > finish
+                if (oldTienTietKiem + soTienTietKiem >= soTienMucTieu) {
+                    contentValues.put("HOANTHANH", 1);
+                }
+                if (oldTienTietKiem + soTienTietKiem >= 0)
+                    contentValues.put("SOTIENTIETKIEM", oldTienTietKiem + soTienTietKiem);
+                else{
+                    contentValues.put("SOTIENTIETKIEM", 0);
+                }
                 db.update("MUCTIEU", contentValues, "_id_MucTieu = ? ", new String[]{String.valueOf(highestID)});
             }
         }
@@ -554,7 +556,6 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     ////////////////////////////////////////////////////
     // order stuff
     public void addSomeBeginDatabase(SQLiteDatabase db) {
-
 
         ContentValues beginUser = new ContentValues();
         beginUser.put("USERNAME", "AAA");

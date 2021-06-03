@@ -17,11 +17,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar;
 import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.R;
-import com.example.myproject22.Presenter.ASavingDatabaseHelper;
 import com.example.myproject22.Presenter.SavingInterface;
 import com.example.myproject22.Presenter.SavingPresenter;
 import com.github.mikephil.charting.charts.BarChart;
@@ -68,7 +68,6 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     ArrayList<BarEntry> recordTietKiem = new ArrayList<>();
     SavingDatabaseHelper ASavingDatabaseHelper = new SavingDatabaseHelper(this, null, null, 0);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -91,10 +90,10 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         mSavingPresenter.LoadTietKiem();
         mSavingPresenter.LoadMucTieu();
 
-        View overlay = findViewById(R.id.mylayout);
+      /*  View overlay = findViewById(R.id.mylayout);
         overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_FULLSCREEN);
+                | View.SYSTEM_UI_FLAG_FULLSCREEN);*/
     }
 
     @Override
@@ -283,7 +282,11 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                     goalMoney = cursor.getDouble(3);
                     SavingMoney = cursor.getDouble(4);
                     strGoal = SavingMoney + "/" + goalMoney;
-                    progress = SavingMoney / goalMoney;
+                    progress = SavingMoney * 100 / goalMoney;
+                    if (progress >= 100) {
+                        progress = 100;
+                    }
+
                     goal_image = cursor.getBlob(5);
 
 
@@ -294,7 +297,6 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
             return false;
         }
 
-
         @Override
         protected void onPostExecute(Boolean havingRecord) {
 
@@ -303,14 +305,15 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 tvGoalName.setText(goalName);
                 tvGoalDescription.setText(goalDescription);
                 tvMoneyGoal.setText(strGoal);
-                ProgressSaving.setProgressText(String.valueOf(progress));
-                ProgressSaving.setProgress((float) progress);
+
+                ProgressSaving.setProgressText(String.valueOf(Math.round((float) progress)));
+                ProgressSaving.setProgress(Math.round((float) progress));
 
 
+                Toast.makeText(SavingActivity.this, String.valueOf(progress), Toast.LENGTH_SHORT).show();
                 Bitmap bitmap = ByteToBitmap(goal_image);
                 Drawable d = new BitmapDrawable(bitmap);
                 ivGoal.setImageDrawable(d);
-
                 if (progress <= 90) {
                     ProgressSaving.setSecondaryProgress((float) progress + 10);
                 }

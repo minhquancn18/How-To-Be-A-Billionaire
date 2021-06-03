@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e9ebed"
     android:orientation="vertical"
     android:id="@+id/mylayout"
     tools:context=".View.SavingActivity">
@@ -13,13 +12,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e9ebed"
         android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
             android:layout_width="match_parent"
-            android:background="#e9ebed"
             android:layout_height="120dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +24,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:background="#e9ebed"
                 android:layout_height="match_parent">
 
 
@@ -214,7 +210,7 @@
                     <com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar
                         android:id="@+id/Progress_saving"
                         android:layout_width="220dp"
-                        android:layout_height="25dp"
+                        android:layout_height="45dp"
                         android:layout_marginLeft="15dp"
                         android:background="@drawable/iv_border"
                         app:rcBackgroundColor="#0A000000"
@@ -222,14 +218,14 @@
                         app:rcMax="100"
                         app:rcProgress="60"
                         app:rcProgressColor="@color/green"
-                        app:rcRadius="10dp"
+                        app:rcRadius="3dp"
                         app:rcSecondaryProgress="67"
                         app:rcSecondaryProgressColor="#6D8BC34A"
                         app:rcTextPositionPriority="inside"
                         app:rcTextProgress="60%"
                         app:rcTextProgressColor="@color/white"
                         app:rcTextProgressMargin="10dp"
-                        app:rcTextProgressSize="12dp" />
+                        app:rcTextProgressSize="20dp" />
 
                 </LinearLayout>
 
