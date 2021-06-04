@@ -1,10 +1,16 @@
 package com.example.myproject22.Model;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
 
+import com.example.myproject22.R;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,5 +86,15 @@ public class MoneyCategoryClass {
         this.boolChild = false;
         this.listChild = null;
     }
+
+    static public MoneyCategoryClass Default = new MoneyCategoryClass("Nhóm cha", 0,R.drawable.question);
+
+    public Boolean IsDefaultCategory(){
+        if(this.nameType == Default.nameType)
+            return true;
+        else
+            return false;
+    }
+
 }
 

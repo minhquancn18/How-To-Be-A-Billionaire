@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar;
 import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.R;
-import com.example.myproject22.Presenter.ASavingDatabaseHelper;
 import com.example.myproject22.Presenter.SavingInterface;
 import com.example.myproject22.Presenter.SavingPresenter;
 import com.github.mikephil.charting.charts.BarChart;
@@ -126,14 +125,14 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
     public void AddRecords() {
 
-        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-9");
-        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-10");
-        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-11");
-        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-12");
-        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-13");
-        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-14");
-        ASavingDatabaseHelper.insertChitietTienChi(12, "me cho", 1, null, "2020-05-15");
-        ASavingDatabaseHelper.insertChitietTienChi(500, "me cho", 1, null, "2020-05-15");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-9",null);
+        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-10",null);
+        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-11",null);
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-12",null);
+        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-13",null);
+        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-14",null);
+        ASavingDatabaseHelper.insertChitietTienChi(12, "me cho", 1, null, "2020-05-15",null);
+        ASavingDatabaseHelper.insertChitietTienChi(500, "me cho", 1, null, "2020-05-15",null);
 
         ASavingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
         ASavingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");

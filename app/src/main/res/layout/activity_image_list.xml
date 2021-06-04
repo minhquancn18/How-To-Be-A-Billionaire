@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.ImageListActivity">
-
-    <LinearLayout
-        android:id="@+id/linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+    tools:context=".View.ImageListActivity"
+    android:orientation="horizontal">
         <GridView
             android:id="@+id/gv_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:numColumns="4"
             android:horizontalSpacing="4dp"
             android:verticalSpacing="4dp"/>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

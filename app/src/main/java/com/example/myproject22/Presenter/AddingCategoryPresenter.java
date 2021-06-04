@@ -2,6 +2,7 @@ package com.example.myproject22.Presenter;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,6 +17,7 @@ import com.example.myproject22.R;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AddingCategoryPresenter {
     private CategoryMoneyInterface categoryMoneyInterface;
@@ -28,19 +30,19 @@ public class AddingCategoryPresenter {
 
     //Lưu category mới vào database
     public void SaveCategory(String name, String parent_name,byte[] image, Boolean type , SavingDatabaseHelper dbHelper){
-
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         try{
             if(type == true){
                 int isChild = 1;
                 if(parent_name.equals("0"))
                     isChild = 0;
-                dbHelper.insertDanhMucThu(name,image,isChild,parent_name);
+                dbHelper.insertDanhMucThu(name,image,isChild,parent_name,db);
             }
             else{
                 int isChild = 1;
                 if(parent_name.equals("0"))
                     isChild = 0;
-                dbHelper.insertDanhMucChi(name,image,isChild,parent_name);
+                dbHelper.insertDanhMucChi(name,image,isChild,parent_name,db);
             }
         }
         catch (SQLiteException sqLiteException){
@@ -55,19 +57,32 @@ public class AddingCategoryPresenter {
 
         if(bundle != null) {
             int bType = bundle.getInt("Type");
+            String name = bundle.getString("Name");
+            byte[] image = bundle.getByteArray("ImageType");
+
+            if(image == null){
+                image = ConvertToByte(R.drawable.question);
+            }
+
             if(bType == 1) {
                 ArrayList<AddingCategoryClass> list = dbHelper.getAddingCategoryList();
+
                 int moneyID = bundle.getInt("IDType");
+
                 int ID = list.get(moneyID).getID();
                 String type = list.get(moneyID).getNameType();
                 byte[] iconType = list.get(moneyID).getImageResource();
                 int isType = list.get(moneyID).isBoolType();
                 ArrayList<MoneyCategoryClass> listChild = list.get(moneyID).getListChild();
-
                 MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(ID, type, isType, iconType, listChild);
-                return  moneyCategoryClass;
+
+                ArrayList<MoneyCategoryClass> listTemp = new ArrayList<>();
+                listTemp.add(moneyCategoryClass);
+                int id = new Random().nextInt(50) + 1;
+                MoneyCategoryClass categoryClass = new MoneyCategoryClass(id,name,isType,image,listTemp);
+                return  categoryClass;
             }
-            else {
+            else if(bType == -1){
                 ArrayList<SpendingCategoryClass> list = dbHelper.getSpendingCategoryList();
                 int moneyID = bundle.getInt("IDType");
                 int ID = list.get(moneyID).getID();
@@ -75,9 +90,24 @@ public class AddingCategoryPresenter {
                 byte[] iconType = list.get(moneyID).getImageResource();
                 int isType = list.get(moneyID).isBoolType();
                 ArrayList<MoneyCategoryClass> listChild = list.get(moneyID).getListChild();
-
                 MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(ID, type, isType, iconType, listChild);
-                return  moneyCategoryClass;
+
+                ArrayList<MoneyCategoryClass> listTemp = new ArrayList<>();
+                listTemp.add(moneyCategoryClass);
+                int id = new Random().nextInt(50) + 1;
+                MoneyCategoryClass categoryClass = new MoneyCategoryClass(id,name,isType,image,listTemp);
+                return  categoryClass;
+            }
+            else{
+                byte[] images = bundle.getByteArray("ImageChoose");
+                if(images != null){
+                    MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(0,name,0,images);
+                    return  moneyCategoryClass;
+                }
+                else{
+                    MoneyCategoryClass moneyCategoryClass = new MoneyCategoryClass(0,name,0,image);
+                    return  moneyCategoryClass;
+                }
             }
         }
         else{
@@ -95,5 +125,34 @@ public class AddingCategoryPresenter {
         byte[] bitMapData = stream.toByteArray();
 
         return bitMapData;
+    }
+
+    public void SaveNewCategory(String name, byte[] image,int isType, String parentName, SavingDatabaseHelper dbHelper){
+        if(name.isEmpty()){
+            categoryMoneyInterface.NullNameData();
+            return;
+        }
+
+        String sParent = "0";
+        int isChild = 0;
+        if(!parentName.equals(sParent)){
+            sParent = parentName;
+            isChild = 1;
+        }
+        try{
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            if (isType == 1) {
+                dbHelper.insertDanhMucThu(name, image, isChild, sParent, db);
+                categoryMoneyInterface.GetAddSuccessful();
+            }
+            else{
+                dbHelper.insertDanhMucChi(name, image, isChild, sParent, db);
+                categoryMoneyInterface.GetSpendSuccessful();
+            }
+        }
+        catch (SQLiteException e){
+            categoryMoneyInterface.GetDataFail();
+        }
+
     }
 }

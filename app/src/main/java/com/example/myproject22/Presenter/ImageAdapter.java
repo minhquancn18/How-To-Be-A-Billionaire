@@ -49,6 +49,6 @@ public class ImageAdapter extends BaseAdapter {
         Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
         bitmap = Bitmap.createScaledBitmap(bitmap,96,96,true);
         ivItem.setImageBitmap(bitmap);
-        return null;
+        return convertView;
     }
 }

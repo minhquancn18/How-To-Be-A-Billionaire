@@ -21,16 +21,16 @@
         android:id="@+id/iBtn_category"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginStart="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        android:src="@drawable/question"
+        android:adjustViewBounds="true"
         android:backgroundTint="@android:color/transparent"
         android:backgroundTintMode="screen"
         android:scaleType="fitXY"
-        android:adjustViewBounds="true"/>
+        android:src="@drawable/question"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tf_category"
@@ -54,11 +54,11 @@
         android:id="@+id/rg_category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginStart="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/tf_category"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toBottomOf="@+id/tf_category">
 
         <RadioButton
             android:id="@+id/rBtn_add"
@@ -67,7 +67,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="30dp"
             android:text="Khoản thu"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/rBtn_spend"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:text="Khoản chi"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
     </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
@@ -84,30 +84,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
         android:gravity="start"
         android:text="Nhóm cha"
         android:textSize="18sp"
-        app:iconSize="24dp"
         app:icon="@drawable/question"
+        app:iconSize="24dp"
         app:iconTint="@android:color/transparent"
         app:iconTintMode="screen"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_category"/>
+        app:layout_constraintTop_toBottomOf="@id/rg_category" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_saving_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginTop="30dp"
         android:layout_marginStart="100dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="100dp"
-        app:layout_constraintTop_toBottomOf="@id/btn_category_parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@android:color/holo_blue_light"
         android:text="LƯU"
         android:textSize="20sp"
-        android:backgroundTint="@android:color/holo_blue_light"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_category_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

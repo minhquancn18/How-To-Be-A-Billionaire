@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
+import android.view.View;
 
 import com.example.myproject22.Model.AddingCategoryClass;
 import com.example.myproject22.Model.MoneyCategoryClass;
@@ -111,13 +113,14 @@ public class AddingMoneyPresentent {
     }
 
     //Hàm lưu dữ liệu vào database
-    public Boolean AddMoneyIntoDB(String sMoney, String sDescription, MoneyCategoryClass moneyCategoryClass, SavingDatabaseHelper db) {
+    public Boolean AddMoneyIntoDB(String sMoney, String sDescription, MoneyCategoryClass moneyCategoryClass,Bitmap image,byte[] audio, SavingDatabaseHelper db) {
 
         //khởi tạo đối tượng xử lý dữ liệu
         String foo = null; //Kiểm tra null
         String sType = moneyCategoryClass.getNameType();
         int isType = moneyCategoryClass.isBoolType();
         Double money = 0.0; //Ép kiểu từ string sMoney
+        byte[] Byteimage = null;
 
 
         //Kiểm tra tiền có khác 0 và khác null ko
@@ -137,7 +140,8 @@ public class AddingMoneyPresentent {
         if (sType.equals(foo)) {
             anInterface.GetNoCategoryData();
             return false;
-        } else if (sType.equals("Chọn loại")) {
+        }
+        else if (sType.equals("Chọn loại")) {
             anInterface.GetNoCategoryData();
             return false;
         }
@@ -148,16 +152,20 @@ public class AddingMoneyPresentent {
             return false;
         }
 
+        if(image != null){
+            Byteimage = encodeTobase64(image);
+        }
+
         //Nếu ko có chuỗi null và tiền nhập vào hợp lệ và loại thu chi hợp lê thì dưa dữ liệu vào database
         try {
             //Nếu loại thu chi là 1 thì đưa vào bảng ChiTietTienThu
             if (isType == 1) {
-                db.insertChiTietTienThu(money, sDescription, db.getThuID(sType));
+                db.insertChiTietTienThu(money, sDescription, db.getThuID(sType), Byteimage,audio);
                 anInterface.GetAddSuccessful();
             }
             //Nếu loại thu chi là -1 thì đưa vào bảng ChiTietTienChi
             else if (isType == -1) {
-                db.insertChitietTienChi(money, sDescription, db.getChiID(sType));
+                db.insertChitietTienChi(money, sDescription, db.getChiID(sType), Byteimage, audio);
                 anInterface.GetSpendSuccessful();
             }
             return true;
@@ -180,7 +188,26 @@ public class AddingMoneyPresentent {
         return bitMapData;
     }
 
+    public static byte[] encodeTobase64(Bitmap image) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG,80,stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
+    }
+
     public void onButtonCategoryClicked(String sMoney, String sDescription){
         anInterface.ButtonCategoryClickWithBoth(context,sMoney,sDescription);
+    }
+
+    public void CaptureImage(){
+        anInterface.CapturePicture();
+    }
+
+    public void CaptureRecord(){
+        anInterface.CaptureRecord();
+    }
+
+    public void CaptureAudio(){
+        anInterface.CaptureAudio();
     }
 }

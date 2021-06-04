@@ -23,6 +23,11 @@ public class CategoryParentActivity extends AppCompatActivity {
     private ListView lvCategoryAdding;
     private ArrayList<AddingCategoryClass> addType;
     private ArrayList<SpendingCategoryClass> spendType;
+
+    int type = 1;
+    byte[] imageChoose;
+    String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,14 +35,32 @@ public class CategoryParentActivity extends AppCompatActivity {
 
         lvCategoryAdding = findViewById(R.id.lv_category_adding);
 
+        GetBundleData();
+
+        int finalType = type;
+        lvCategoryAdding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent new_intent = new Intent(view.getContext(), AddingTypeCategoryActivity.class);
+                new_intent.putExtra("Type", finalType);
+                new_intent.putExtra("IDType", position);
+                new_intent.putExtra("Name",name);
+                new_intent.putExtra("ImageType",imageChoose);
+                view.getContext().startActivity(new_intent);
+                ((Activity)view.getContext()).finish();
+            }
+        });
+    }
+    private void GetBundleData(){
         //Connect to database to get addingList
         SavingDatabaseHelper savingDatabaseHelper = new SavingDatabaseHelper(this);
 
-        int type = 1;
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle != null){
             type = bundle.getInt("Type");
+            name = bundle.getString("Name");
+            imageChoose = bundle.getByteArray("ImageType");
         }
 
         if(type == 1){
@@ -50,17 +73,16 @@ public class CategoryParentActivity extends AppCompatActivity {
             ListSpendingCategoryAdapter listCategoryAdapter = new ListSpendingCategoryAdapter(spendType,this);
             lvCategoryAdding.setAdapter(listCategoryAdapter);
         }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        GetBundleData();
 
-        int finalType = type;
-        lvCategoryAdding.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent new_intent = new Intent(view.getContext(), AddingTypeCategoryActivity.class);
-                new_intent.putExtra("Type", finalType);
-                new_intent.putExtra("IDType", position);
-                view.getContext().startActivity(new_intent);
-                ((Activity)view.getContext()).finish();
-            }
-        });
+        Intent new_intent = new Intent(this, AddingTypeCategoryActivity.class);
+        new_intent.putExtra("Name",name);
+        new_intent.putExtra("ImageType",imageChoose);
+        startActivity(new_intent);
+        finish();
     }
 }
