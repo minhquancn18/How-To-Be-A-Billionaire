@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.zip.Inflater;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class SavingActivity extends AppCompatActivity implements SavingInterface {
 
     private BarChart weekchart;
@@ -75,6 +77,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_saving);
 
+
         ngayTrongTuan.add("Chủ Nhật");
         ngayTrongTuan.add("Thứ 2");
         ngayTrongTuan.add("Thứ 3");
@@ -85,6 +88,8 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         InitViews();
 
+        AddRecords();
+
         mSavingPresenter = new SavingPresenter(this);
         mSavingPresenter.LoadGetTietKiemData();
         mSavingPresenter.LoadTietKiem();
@@ -94,6 +99,15 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_FULLSCREEN);*/
+
+        CircleImageView profile_image = findViewById(R.id.profile_image);
+        profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     @Override
@@ -127,18 +141,22 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
 
     public void AddRecords() {
+/*
 
-        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-9");
-        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-10");
-        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-11");
-        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-12");
-        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-13");
-        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-14");
-        ASavingDatabaseHelper.insertChitietTienChi(12, "me cho", 1, null, "2020-05-15");
-        ASavingDatabaseHelper.insertChitietTienChi(500, "me cho", 1, null, "2020-05-15");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-06-03");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-06-04");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-06-05");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-06-06");
 
-        ASavingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
-        ASavingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
+        ASavingDatabaseHelper.insertChiTietTienThu(10, "ssa", 1, "2020-06-07");
+        ASavingDatabaseHelper.insertChitietTienChi(10, "ssa", 1, null,"2020-06-07");
+
+
+        ASavingDatabaseHelper.insertChitietTienChi(10, "ssa", 1, null,"2020-06-08");
+        ASavingDatabaseHelper.insertChiTietTienThu(10, "ssa", 1, "2020-06-09");
+*/
+
+
     }
 
     public void InitViews() {
@@ -233,6 +251,9 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         @Override
         protected void onPreExecute() {
+
+            // sieu nhan dien quang
+
 
         }
 
@@ -360,6 +381,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         }
         return null;
     }
+
 
 }
 

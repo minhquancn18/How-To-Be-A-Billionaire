@@ -7,9 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.myproject22.R;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
+
+import io.alterac.blurkit.BlurLayout;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -19,12 +23,11 @@ public class DashboardActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_dashboard);
 
-        MaterialCardView savingCardView =  findViewById(R.id.CardViewSaving);
-        savingCardView.setOnClickListener(new View.OnClickListener() {
+        BlurLayout blurLayout = findViewById(R.id.blurLayout);
+        blurLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DashboardActivity.this, SavingActivity.class);
-                startActivity(intent);
+                Toast.makeText(DashboardActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
             }
         });
     }

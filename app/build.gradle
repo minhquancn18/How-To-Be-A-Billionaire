@@ -45,4 +45,7 @@ dependencies {
     implementation 'me.abhinay.input:currency-edittext:1.1'
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.2' //
 
+    //flur
+    implementation 'io.alterac.blurkit:blurkit:1.1.0'
+
 }

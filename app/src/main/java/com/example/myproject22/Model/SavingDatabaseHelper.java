@@ -197,11 +197,9 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
 
         // get data before
-        cursor = getTienThu();
+        cursor = getChiTietTietKiem();
         if (cursor.moveToFirst()) {
-
-            tienThu = cursor.getDouble(1);
-            strDate = cursor.getString(2);
+            strDate = cursor.getString(4);
         }
         updateTietKiemDoThu(sotienthu, strDate, dateAdd);
 
@@ -254,11 +252,11 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
                             tongSoTienThuTrongNgay + soTienThu, soTienTietKiemTrongNgay + soTienThu);
                     tangSongayLen1(soNgay);
                 } else {
-                    insertChiTietTietKiem(soTienThu, 0);
+                    insertChiTietTietKiem(soTienThu, 0, dateAdd);
                 }
 
             } else {
-                insertChiTietTietKiem(soTienThu, 0);
+                insertChiTietTietKiem(soTienThu, 0, dateAdd);
             }
 
             updateSoNgayTietKiem(dateBefore, dateAdd, soNgay);
@@ -315,9 +313,9 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
 
         // get data before
-        cursor = getTienChi();
+        cursor = getChiTietTietKiem();
         if (cursor.moveToFirst()) {
-            strDate = cursor.getString(2);
+            strDate = cursor.getString(4);
         }
         updateTietKiemDoChi(soTienChi, strDate, dateAdd);
 
@@ -419,7 +417,7 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getChiTietTietKiem() {
         db = getReadableDatabase();
-        cursor = db.query("CHITIETTIETKIEM", new String[]{"_id_chiTietTietKiem", "TONGSOTIENCHITRONGNGAY", "TONGSOTIENTHUTRONGNGAY", "SOTIENTIETKIEMTRONGNGAY"}
+        cursor = db.query("CHITIETTIETKIEM", new String[]{"_id_chiTietTietKiem", "TONGSOTIENCHITRONGNGAY", "TONGSOTIENTHUTRONGNGAY", "SOTIENTIETKIEMTRONGNGAY", "NGAY_TIETKIEM"}
                 , null, null, null, null, "_id_chiTietTietKiem DESC");
         return cursor;
     }

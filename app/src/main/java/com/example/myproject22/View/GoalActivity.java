@@ -40,7 +40,6 @@ public class GoalActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_goal);
         ivImage = findViewById(R.id.ivImage);
-
     }
 
 
@@ -131,6 +130,7 @@ public class GoalActivity extends AppCompatActivity {
         }
         return null;
     }
+
 
 
     public void saveAllIntoDatabase(double goalMoney, String name, String description, byte[] image) {
