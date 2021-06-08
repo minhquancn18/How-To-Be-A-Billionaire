@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
-        <item>@font/amiko</item>
-        <item>@font/arimo</item>
-        <item>@font/montserrat</item>
+        <item>@font/athiti</item>
+        <item>@font/athiti_light</item>
+        <item>@font/athiti_semibold</item>
     </array>
 </resources>
