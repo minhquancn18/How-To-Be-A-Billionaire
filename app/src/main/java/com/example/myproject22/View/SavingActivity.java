@@ -40,6 +40,8 @@ import java.util.zip.Inflater;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.example.myproject22.Util.FormatImage.ByteToBitmap;
+
 public class SavingActivity extends AppCompatActivity implements SavingInterface {
 
     private BarChart weekchart;
@@ -349,38 +351,6 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         startActivity(intent);
     }
 
-    public static Bitmap ByteToBitmap(byte[] images) {
-        if (images != null) {
-            images = decompress(images);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(images, 0, images.length);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            return bitmap;
-        }
-        return null;
-    }
-
-    // decompress
-    public static byte[] decompress(byte[] data) {
-
-        try {
-            Inflater inflater = new Inflater();
-            inflater.setInput(data);
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-            byte[] buffer = new byte[1024];
-            while (!inflater.finished()) {
-                int count = inflater.inflate(buffer);
-                outputStream.write(buffer, 0, count);
-            }
-            outputStream.close();
-            byte[] output = outputStream.toByteArray();
-
-            return output;
-        } catch (Exception e) {
-
-        }
-        return null;
-    }
 
 
 }

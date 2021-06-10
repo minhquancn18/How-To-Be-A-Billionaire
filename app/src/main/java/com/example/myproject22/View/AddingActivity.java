@@ -1,37 +1,30 @@
 package com.example.myproject22.View;
 
 import android.Manifest;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myproject22.MainActivity;
-import com.example.myproject22.Model.MoneyCategoryClass;
 import com.example.myproject22.Model.SavingDatabaseHelper;
-import com.example.myproject22.Presenter.AddingMoneyInterface;
-import com.example.myproject22.Presenter.AddingMoneyPresentent;
 import com.example.myproject22.R;
-import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
-import com.gauravk.audiovisualizer.visualizer.BlastVisualizer;
+import com.example.myproject22.Util.CategoryItemAdapter;
+import com.example.myproject22.Util.FormatImage;
 import com.gauravk.audiovisualizer.visualizer.WaveVisualizer;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import io.alterac.blurkit.BlurLayout;
 
@@ -46,6 +39,9 @@ public class AddingActivity extends AppCompatActivity {
     BlurLayout blurLayout;
     MediaPlayer mediaPlayer;
     ImageButton btnPlay;
+
+    private BottomSheetBehavior bottomSheetBehavior;
+    private ConstraintLayout playerSheet;
 
 
     @Override
@@ -76,6 +72,56 @@ public class AddingActivity extends AppCompatActivity {
             }
         });
         mVisualizer.setVisibility(View.INVISIBLE);
+
+
+        playerSheet = findViewById(R.id.player_sheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(playerSheet);
+
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            ImageButton btnList = findViewById(R.id.btnList);
+
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+
+                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                    btnList.setImageDrawable(getDrawable(R.drawable.icon_arrow_up));
+
+                }
+
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    btnList.setImageDrawable(getDrawable(R.drawable.icon_arrow_down));
+
+                }
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                //We cant do anything here for this app
+            }
+        });
+
+
+        ArrayList<byte[]> images = new ArrayList<>();
+        ArrayList<String> categoryNames = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            Bitmap bitmap = ((BitmapDrawable) btnPlay.getDrawable()).getBitmap();
+            images.add(FormatImage.BitmapToByte(bitmap));
+            categoryNames.add("Mua bim bim");
+        }
+
+        RecyclerView categoryRecycler = findViewById(R.id.category_recycler);
+        CategoryItemAdapter adapter = new CategoryItemAdapter(images, categoryNames);
+        categoryRecycler.setAdapter(adapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        categoryRecycler.setLayoutManager(layoutManager);
+
     }
 
     @Override
@@ -103,6 +149,14 @@ public class AddingActivity extends AppCompatActivity {
             btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause, null));
 
         }
+    }
+
+    public void AddImageClicked(View view) {
+        ((ImageButton) view).setImageDrawable(getDrawable(R.drawable.avatar));
+        ((ImageButton) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ((ImageButton) view).setScaleX(1);
+        ((ImageButton) view).setScaleY(1);
+
     }
 }
 
