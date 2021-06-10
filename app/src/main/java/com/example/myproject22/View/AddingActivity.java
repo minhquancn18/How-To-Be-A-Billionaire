@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +43,7 @@ public class AddingActivity extends AppCompatActivity {
 
     private BottomSheetBehavior bottomSheetBehavior;
     private ConstraintLayout playerSheet;
+    TextView tvChooseImage;
 
 
     @Override
@@ -50,17 +52,21 @@ public class AddingActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_adding);
 
-        btnPlay = findViewById(R.id.btnPlay);
-        blurLayout = findViewById(R.id.blurLayout);
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.RECORD_AUDIO},
                 1);
 
-        mVisualizer = findViewById(R.id.blast);
-        mediaPlayer = MediaPlayer.create(this, R.raw.demo);
 
-        //TODO: init MediaPlayer and play the audio
-        //get the AudioSessionId from your MediaPlayer and pass it to the visualizer
+        btnPlay = findViewById(R.id.btnPlay);
+        blurLayout = findViewById(R.id.blurLayout);
+        mVisualizer = findViewById(R.id.blast);
+        playerSheet = findViewById(R.id.player_sheet);
+        tvChooseImage = findViewById(R.id.tvChooseCategory);
+        mediaPlayer = MediaPlayer.create(this, R.raw.demo);
+        RecyclerView categoryRecycler = findViewById(R.id.category_recycler);
+        RecyclerView categoryRecycler1 = findViewById(R.id.category_recycler2);
+
+
         int audioSessionId = mediaPlayer.getAudioSessionId();
         mVisualizer.setAudioSessionId(audioSessionId);
 
@@ -72,11 +78,7 @@ public class AddingActivity extends AppCompatActivity {
             }
         });
         mVisualizer.setVisibility(View.INVISIBLE);
-
-
-        playerSheet = findViewById(R.id.player_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(playerSheet);
-
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             ImageButton btnList = findViewById(R.id.btnList);
 
@@ -114,13 +116,23 @@ public class AddingActivity extends AppCompatActivity {
             categoryNames.add("Mua bim bim");
         }
 
-        RecyclerView categoryRecycler = findViewById(R.id.category_recycler);
-        CategoryItemAdapter adapter = new CategoryItemAdapter(images, categoryNames);
+        CategoryItemAdapter adapter = new CategoryItemAdapter(images, categoryNames, bottomSheetBehavior, tvChooseImage);
         categoryRecycler.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         categoryRecycler.setLayoutManager(layoutManager);
+
+
+
+
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this);
+        layoutManager1.setOrientation(RecyclerView.HORIZONTAL);
+
+        categoryRecycler1.setAdapter(adapter);
+        categoryRecycler1.setLayoutManager(layoutManager1);
+
+
 
     }
 
