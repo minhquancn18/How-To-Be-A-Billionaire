@@ -1,0 +1,7 @@
+gmail htbbillionaire@gmail.com
+pass HOWTOBE1BILLIONAIRE
+
+host localhost
+username id17019440_tester
+pass V=9Gx|_ASsl?&TD#
+database name id17019440_billionaire
