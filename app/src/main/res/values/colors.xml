@@ -11,4 +11,12 @@
     <color name="dimGray">#9F9999</color>
     <color name="gray">#827B7B</color>
     <color name="background">#FFFFFF</color>
+    <color name="hintColor">#84B3AFAF</color>
+
+    <color name="colorPrimary">#6177FC</color>
+    <color name="colorPrimaryDark">#576EF7</color>
+    <color name="colorAccent">#FF6584</color>
+
+    <color name="colorDarkBlue">#3D4054</color>
+
 </resources>

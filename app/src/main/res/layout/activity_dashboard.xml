@@ -161,13 +161,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/motion1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layoutDescription="@xml/activity_dashboard_xml_constraintlayout_scene">
 
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/btnGraph"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginStart="20dp"
@@ -179,20 +181,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/btnMaybe"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/activity"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton"
-                app:layout_constraintStart_toEndOf="@+id/imageButton3"
+                app:layout_constraintEnd_toStartOf="@+id/btnNewRecord"
+                app:layout_constraintStart_toEndOf="@+id/btnGraph"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.555" />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/btnNewRecord"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginEnd="20dp"
@@ -204,7 +206,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.542" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.motion.widget.MotionLayout>
     </io.alterac.blurkit.BlurLayout>
 
 

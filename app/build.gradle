@@ -48,4 +48,6 @@ dependencies {
     //flur
     implementation 'io.alterac.blurkit:blurkit:1.1.0'
 
+    // sound wave
+    implementation 'com.gauravk.audiovisualizer:audiovisualizer:0.9.2'
 }
