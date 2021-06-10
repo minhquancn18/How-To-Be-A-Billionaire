@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ConnectionClass {
-    public static String urlString = "https://howtobebillionaire.000webhostapp.com/";
+    public static String urlString = "https://howtobeabillionaire.000webhostapp.com/";
 
     public static void insertIncomeCategory(String name, byte[] image, int child, String parent) {
         //Start ProgressBar first (Set visibility VISIBLE)
