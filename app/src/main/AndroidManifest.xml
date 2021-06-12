@@ -25,7 +25,10 @@
         <activity android:name=".View.AddingActivity">
 
         </activity>
-        <activity android:name=".View.DashboardActivity"></activity>
+        <activity android:name=".View.DashboardActivity">
+
+
+        </activity>
         <activity android:name=".View.GoalActivity" />
         <activity android:name=".View.SavingActivity"></activity>
 

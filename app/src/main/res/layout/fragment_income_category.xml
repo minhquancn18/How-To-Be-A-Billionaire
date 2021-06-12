@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="290dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="20dp"
@@ -89,12 +89,16 @@
     </com.google.android.material.card.MaterialCardView>
 
 
-    <!--  <androidx.coordinatorlayout.widget.CoordinatorLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          app:layout_constraintBottom_toBottomOf="parent">
-          <include layout="@layout/report_sheet" />
-      </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+    <io.alterac.blurkit.BlurLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </io.alterac.blurkit.BlurLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

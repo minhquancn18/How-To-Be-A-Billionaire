@@ -54,15 +54,17 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int i) {
-                if(i == R.id.end1){
+                if(i == R.id.end){
                    Intent intent = new Intent(DashboardActivity.this, AddingActivity.class);
                     startActivity(intent);
                 }
-                if(i == R.id.end){
-                    Intent intent = new Intent(DashboardActivity.this, SavingActivity.class);
+                if(i == R.id.end1){
+                    Intent intent = new Intent(DashboardActivity.this, ReportGraphActivity.class);
                     startActivity(intent);
                 }
-
+                if(i == R.id.end2){
+                    
+                }
             }
 
             @Override
