@@ -17,4 +17,8 @@
 
     <string name="chooseType">Chọn loại</string>
     <string name="money">0</string>
+
+    <string name="category_income">Tiền thu</string>
+    <string name="category_outcome">Tiền chi</string>
+
 </resources>

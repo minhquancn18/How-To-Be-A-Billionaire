@@ -49,7 +49,6 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     // for debugg
     double ivSize = 0;
 
-
     // tiet kiem
     private TextView tvDayStreak;
     private TextView tvTotalSaving;

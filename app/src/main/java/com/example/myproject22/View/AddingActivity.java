@@ -56,7 +56,6 @@ public class AddingActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.RECORD_AUDIO},
                 1);
 
-
         btnPlay = findViewById(R.id.btnPlay);
         blurLayout = findViewById(R.id.blurLayout);
         mVisualizer = findViewById(R.id.blast);
