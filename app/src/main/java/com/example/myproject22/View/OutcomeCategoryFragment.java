@@ -7,12 +7,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myproject22.R;
+import com.example.myproject22.Util.WeekItemAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -82,7 +85,7 @@ public class OutcomeCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_income_category, container, false);
+        return inflater.inflate(R.layout.fragment_outcome_category, container, false);
     }
 
     @Override
@@ -184,5 +187,21 @@ public class OutcomeCategoryFragment extends Fragment {
         Legend l2 = weekchart.getLegend();
         l2.setTextColor(Color.WHITE);
         l2.setTextSize(15);
+
+        ArrayList<String>weeks = new ArrayList<>();
+
+        for(int i=0 ;i< 12; i++) {
+            weeks.add("Tuần 1.1.2020");
+        }
+
+
+        RecyclerView weekRecycler = view.findViewById(R.id.week_recycler);
+        WeekItemAdapter adapter = new WeekItemAdapter(weeks, getContext());
+
+        weekRecycler.setAdapter(adapter);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
+        layoutManager1.setOrientation(RecyclerView.HORIZONTAL);
+        weekRecycler.setLayoutManager(layoutManager1);
+
     }
 }

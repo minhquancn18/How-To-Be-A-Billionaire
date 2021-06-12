@@ -1,6 +1,8 @@
 package com.example.myproject22.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.res.ColorStateList;
@@ -46,6 +48,9 @@ public class ReportGraphActivity extends AppCompatActivity  {
 
         tabLayout.getTabAt(0).setIcon(R.drawable.icon_edit);
         tabLayout.getTabAt(1).setIcon(R.drawable.icon_music);
+
+
+
     }
 
 

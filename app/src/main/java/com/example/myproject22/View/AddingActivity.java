@@ -131,8 +131,6 @@ public class AddingActivity extends AppCompatActivity {
         categoryRecycler1.setAdapter(adapter);
         categoryRecycler1.setLayoutManager(layoutManager1);
 
-
-
     }
 
     @Override
