@@ -1,4 +1,4 @@
-package com.example.myproject22.View;
+package com.example.myproject22.View.Activity;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.myproject22.Presenter.SectionsPagerAdapter;
 import com.example.myproject22.R;
+import com.example.myproject22.View.Fragment.AddingCategoryFragment;
+import com.example.myproject22.View.Fragment.SpendingCategoryFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class CategoryActivity extends AppCompatActivity {

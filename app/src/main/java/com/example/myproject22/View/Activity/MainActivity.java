@@ -1,4 +1,4 @@
-package com.example.myproject22;
+package com.example.myproject22.View.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myproject22.View.AddingActivity;
+import com.example.myproject22.R;
+import com.example.myproject22.View.Activity.AddingActivity;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.myproject22.View;
+package com.example.myproject22.View.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.example.myproject22.Model.SpendingCategoryClass;
 import com.example.myproject22.Presenter.SpendingCategoryAdapter;
 import com.example.myproject22.R;
+import com.example.myproject22.View.Activity.AddingActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class SpendingCategoryFragment extends Fragment {
         lvSpendingType.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Intent intent = new Intent(v.getContext(),AddingActivity.class);
+                Intent intent = new Intent(v.getContext(), AddingActivity.class);
                 //Tạo bundle để truyền dữ liệu để chuyển từ AddingTypeActivity sang AddingAcitivty
                 Bundle bundle = new Bundle();
                 //Do khi click vào thư mục con thì cần id của cả cha lẫn con

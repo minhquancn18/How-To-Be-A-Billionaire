@@ -1,20 +1,15 @@
-package com.example.myproject22.View;
+package com.example.myproject22.View.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.myproject22.R;
-import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.snackbar.Snackbar;
 
 import io.alterac.blurkit.BlurKit;
 import io.alterac.blurkit.BlurLayout;
@@ -59,7 +54,7 @@ public class DashboardActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 if(i == R.id.end1){
-                    Intent intent = new Intent(DashboardActivity.this, ReportGraphActivity.class);
+                    Intent intent = new Intent(DashboardActivity.this, ReportCategoryGraphActivity.class);
                     startActivity(intent);
                 }
                 if(i == R.id.end2){

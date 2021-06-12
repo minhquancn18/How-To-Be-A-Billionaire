@@ -1,4 +1,4 @@
-package com.example.myproject22.View;
+package com.example.myproject22.View.Fragment;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -36,10 +36,10 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link OutcomeCategoryFragment#newInstance} factory method to
+ * Use the {@link OutcomeCategoryGraphFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class OutcomeCategoryFragment extends Fragment {
+public class OutcomeCategoryGraphFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +50,7 @@ public class OutcomeCategoryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public OutcomeCategoryFragment() {
+    public OutcomeCategoryGraphFragment() {
         // Required empty public constructor
     }
 
@@ -63,8 +63,8 @@ public class OutcomeCategoryFragment extends Fragment {
      * @return A new instance of fragment OutcomeCategoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static OutcomeCategoryFragment newInstance(String param1, String param2) {
-        OutcomeCategoryFragment fragment = new OutcomeCategoryFragment();
+    public static OutcomeCategoryGraphFragment newInstance(String param1, String param2) {
+        OutcomeCategoryGraphFragment fragment = new OutcomeCategoryGraphFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -202,6 +202,5 @@ public class OutcomeCategoryFragment extends Fragment {
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
         layoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         weekRecycler.setLayoutManager(layoutManager1);
-
     }
 }

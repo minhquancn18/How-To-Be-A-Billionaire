@@ -1,4 +1,4 @@
-package com.example.myproject22.View;
+package com.example.myproject22.View.Activity;
 
 import android.Manifest;
 import android.graphics.Bitmap;

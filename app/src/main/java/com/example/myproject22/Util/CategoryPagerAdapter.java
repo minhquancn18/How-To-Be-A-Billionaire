@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.myproject22.View.IncomeCategoryFragment;
-import com.example.myproject22.View.OutcomeCategoryFragment;
+import com.example.myproject22.View.Fragment.IncomeCategoryGraphFragment;
+import com.example.myproject22.View.Fragment.OutcomeCategoryGraphFragment;
 
 public class CategoryPagerAdapter extends FragmentPagerAdapter {
     public CategoryPagerAdapter(@NonNull FragmentManager fm) {
@@ -19,9 +19,9 @@ public class CategoryPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new IncomeCategoryFragment();
+                return new IncomeCategoryGraphFragment();
             case 1:
-                return new OutcomeCategoryFragment();
+                return new OutcomeCategoryGraphFragment();
         }
         return null;
     }

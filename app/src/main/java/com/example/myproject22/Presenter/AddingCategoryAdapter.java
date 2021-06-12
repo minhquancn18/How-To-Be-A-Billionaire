@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.myproject22.Model.AddingCategoryClass;
 import com.example.myproject22.R;
-import com.example.myproject22.View.AddingActivity;
+import com.example.myproject22.View.Activity.AddingActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

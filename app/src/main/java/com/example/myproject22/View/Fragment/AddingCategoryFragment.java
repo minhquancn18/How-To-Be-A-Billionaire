@@ -1,4 +1,4 @@
-package com.example.myproject22.View;
+package com.example.myproject22.View.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.example.myproject22.Model.AddingCategoryClass;
 import com.example.myproject22.Presenter.AddingCategoryAdapter;
 import com.example.myproject22.R;
+import com.example.myproject22.View.Activity.AddingActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

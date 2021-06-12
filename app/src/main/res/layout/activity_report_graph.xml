@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Activity.ReportCategoryActivity">
+    android:orientation="vertical"
+    tools:context=".View.Activity.ReportCategoryGraphActivity">
 
-
-    <!-- i will copy the same tabLayout in ReportGraph -->
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <io.alterac.blurkit.BlurLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            app:blk_fps="20"
             app:blk_blurRadius="20"
-            app:blk_fps="20">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/category_tabs"
+                app:tabTextColor="@color/white"
+                android:background="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:theme="@style/tab_text2"
-                app:tabTextColor="@color/white" />
+                android:theme="@style/tab_text2" />
         </io.alterac.blurkit.BlurLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/category_pager"
+        android:id="@+id/category_graph_pager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        android:layout_height="match_parent" />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

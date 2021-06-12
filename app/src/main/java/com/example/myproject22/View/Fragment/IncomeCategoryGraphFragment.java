@@ -1,6 +1,5 @@
-package com.example.myproject22.View;
+package com.example.myproject22.View.Fragment;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,16 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.myproject22.R;
 import com.example.myproject22.Util.WeekItemAdapter;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -36,18 +32,14 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import io.alterac.blurkit.BlurKit;
-import io.alterac.blurkit.BlurLayout;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link IncomeCategoryFragment#newInstance} factory method to
+ * Use the {@link IncomeCategoryGraphFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IncomeCategoryFragment extends Fragment {
+public class IncomeCategoryGraphFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +50,7 @@ public class IncomeCategoryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public IncomeCategoryFragment() {
+    public IncomeCategoryGraphFragment() {
         // Required empty public constructor
     }
 
@@ -71,8 +63,8 @@ public class IncomeCategoryFragment extends Fragment {
      * @return A new instance of fragment IncomeCategoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static IncomeCategoryFragment newInstance(String param1, String param2) {
-        IncomeCategoryFragment fragment = new IncomeCategoryFragment();
+    public static IncomeCategoryGraphFragment newInstance(String param1, String param2) {
+        IncomeCategoryGraphFragment fragment = new IncomeCategoryGraphFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -215,7 +207,6 @@ public class IncomeCategoryFragment extends Fragment {
             weeks.add("Tuần 1.1.2020");
         }
 
-
         RecyclerView weekRecycler = view.findViewById(R.id.week_recycler);
         WeekItemAdapter adapter = new WeekItemAdapter(weeks, getContext());
 
@@ -223,9 +214,6 @@ public class IncomeCategoryFragment extends Fragment {
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
         layoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         weekRecycler.setLayoutManager(layoutManager1);
-
-
-
     }
 
 
