@@ -2,9 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mylayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".View.SavingActivity">
 
@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
@@ -41,7 +40,7 @@
                         android:layout_marginStart="36dp"
                         android:layout_marginTop="16dp"
                         android:fontFamily="monospace"
-                        android:text="HuyenTran"
+                        android:text="Lalaland"
                         android:textSize="18dp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -70,18 +69,37 @@
 
                 </LinearLayout>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image"
+
+                <FrameLayout
                     android:layout_width="95dp"
-                    android:layout_height="95dp"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="28dp"
-                    android:src="@drawable/avatar"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    >
 
+                    <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profile_image"
+                        android:layout_width="95dp"
+                        android:layout_height="95dp"
+
+                        android:src="@drawable/avatar"
+                        app:civ_border_color="#FF000000"
+                        app:civ_border_width="2dp"
+                       />
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:background="@android:color/transparent"
+                        android:scrollY="0dp"
+                        android:layout_margin="20dp"
+                        android:src="@drawable/outline_auto_fix_normal_white_48" />
+
+
+                </FrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -118,8 +136,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/ivGoal"
-                    android:layout_width="280dp"
-                    android:layout_height="280dp"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:onClick="onModifyGoalClicked"
@@ -144,7 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/custom_background"
                 android:elevation="20dp"
@@ -211,7 +229,7 @@
                     <com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar
                         android:id="@+id/Progress_saving"
                         android:layout_width="220dp"
-                        android:layout_height="25dp"
+                        android:layout_height="45dp"
                         android:layout_marginLeft="15dp"
                         android:background="@drawable/iv_border"
                         app:rcBackgroundColor="#0A000000"
@@ -219,14 +237,14 @@
                         app:rcMax="100"
                         app:rcProgress="60"
                         app:rcProgressColor="@color/green"
-                        app:rcRadius="10dp"
+                        app:rcRadius="3dp"
                         app:rcSecondaryProgress="67"
                         app:rcSecondaryProgressColor="#6D8BC34A"
                         app:rcTextPositionPriority="inside"
                         app:rcTextProgress="60%"
                         app:rcTextProgressColor="@color/white"
                         app:rcTextProgressMargin="10dp"
-                        app:rcTextProgressSize="12dp" />
+                        app:rcTextProgressSize="20dp" />
 
                 </LinearLayout>
 
@@ -290,7 +308,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-
                     android:layout_marginRight="20dp"
                     android:fontFamily="monospace"
                     android:text="Chuỗi ngày"

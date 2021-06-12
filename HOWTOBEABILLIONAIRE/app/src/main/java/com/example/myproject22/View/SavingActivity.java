@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar;
 import com.example.myproject22.Model.SavingDatabaseHelper;
@@ -36,6 +37,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.zip.Inflater;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.example.myproject22.Util.FormatImage.ByteToBitmap;
 
 public class SavingActivity extends AppCompatActivity implements SavingInterface {
 
@@ -67,13 +72,13 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     ArrayList<BarEntry> recordTietKiem = new ArrayList<>();
     SavingDatabaseHelper ASavingDatabaseHelper = new SavingDatabaseHelper(this, null, null, 0);
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_saving);
+
 
         ngayTrongTuan.add("Chủ Nhật");
         ngayTrongTuan.add("Thứ 2");
@@ -85,11 +90,25 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         InitViews();
 
+        AddRecords();
+
         mSavingPresenter = new SavingPresenter(this);
         mSavingPresenter.LoadGetTietKiemData();
         mSavingPresenter.LoadTietKiem();
         mSavingPresenter.LoadMucTieu();
 
+      /*  View overlay = findViewById(R.id.mylayout);
+        overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_FULLSCREEN);*/
+
+        CircleImageView profile_image = findViewById(R.id.profile_image);
+        profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
@@ -124,18 +143,22 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
 
     public void AddRecords() {
+/*
 
-        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-9",null);
-        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-10",null);
-        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-11",null);
-        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-05-12",null);
-        ASavingDatabaseHelper.insertChitietTienChi(30, "me cho", 1, null, "2020-05-13",null);
-        ASavingDatabaseHelper.insertChitietTienChi(10, "me cho", 1, null, "2020-05-14",null);
-        ASavingDatabaseHelper.insertChitietTienChi(12, "me cho", 1, null, "2020-05-15",null);
-        ASavingDatabaseHelper.insertChitietTienChi(500, "me cho", 1, null, "2020-05-15",null);
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-06-03");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-06-04");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-06-05");
+        ASavingDatabaseHelper.insertChitietTienChi(20, "me cho", 1, null, "2020-06-06");
 
-        ASavingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
-        ASavingDatabaseHelper.insertChiTietTienThu(500, "me cho", 1, "2020-05-15");
+        ASavingDatabaseHelper.insertChiTietTienThu(10, "ssa", 1, "2020-06-07");
+        ASavingDatabaseHelper.insertChitietTienChi(10, "ssa", 1, null,"2020-06-07");
+
+
+        ASavingDatabaseHelper.insertChitietTienChi(10, "ssa", 1, null,"2020-06-08");
+        ASavingDatabaseHelper.insertChiTietTienThu(10, "ssa", 1, "2020-06-09");
+*/
+
+
     }
 
     public void InitViews() {
@@ -231,6 +254,9 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         @Override
         protected void onPreExecute() {
 
+            // sieu nhan dien quang
+
+
         }
 
         @Override
@@ -279,7 +305,11 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                     goalMoney = cursor.getDouble(3);
                     SavingMoney = cursor.getDouble(4);
                     strGoal = SavingMoney + "/" + goalMoney;
-                    progress = SavingMoney / goalMoney;
+                    progress = SavingMoney * 100 / goalMoney;
+                    if (progress >= 100) {
+                        progress = 100;
+                    }
+
                     goal_image = cursor.getBlob(5);
 
 
@@ -290,7 +320,6 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
             return false;
         }
 
-
         @Override
         protected void onPostExecute(Boolean havingRecord) {
 
@@ -299,14 +328,15 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 tvGoalName.setText(goalName);
                 tvGoalDescription.setText(goalDescription);
                 tvMoneyGoal.setText(strGoal);
-                ProgressSaving.setProgressText(String.valueOf(progress));
-                ProgressSaving.setProgress((float) progress);
+
+                ProgressSaving.setProgressText(String.valueOf(Math.round((float) progress)));
+                ProgressSaving.setProgress(Math.round((float) progress));
 
 
+                Toast.makeText(SavingActivity.this, String.valueOf(progress), Toast.LENGTH_SHORT).show();
                 Bitmap bitmap = ByteToBitmap(goal_image);
                 Drawable d = new BitmapDrawable(bitmap);
                 ivGoal.setImageDrawable(d);
-
                 if (progress <= 90) {
                     ProgressSaving.setSecondaryProgress((float) progress + 10);
                 }
@@ -321,38 +351,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         startActivity(intent);
     }
 
-    public static Bitmap ByteToBitmap(byte[] images) {
-        if (images != null) {
-            images = decompress(images);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(images, 0, images.length);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            return bitmap;
-        }
-        return null;
-    }
 
-    // decompress
-    public static byte[] decompress(byte[] data) {
-
-        try {
-            Inflater inflater = new Inflater();
-            inflater.setInput(data);
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-            byte[] buffer = new byte[1024];
-            while (!inflater.finished()) {
-                int count = inflater.inflate(buffer);
-                outputStream.write(buffer, 0, count);
-            }
-            outputStream.close();
-            byte[] output = outputStream.toByteArray();
-
-            return output;
-        } catch (Exception e) {
-
-        }
-        return null;
-    }
 
 }
 

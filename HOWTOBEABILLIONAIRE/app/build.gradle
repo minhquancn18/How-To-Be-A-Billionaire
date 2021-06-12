@@ -17,9 +17,6 @@ android {
     }
 
     buildTypes {
-        customDebugType{
-            debuggable true
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -48,13 +45,20 @@ dependencies {
     implementation 'me.abhinay.input:currency-edittext:1.1'
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.2' //
 
-    //MySQL
+    //flur
+    implementation 'io.alterac.blurkit:blurkit:1.1.0'
+
+    // sound wave
+    implementation 'com.gauravk.audiovisualizer:audiovisualizer:0.9.2'
+
+    //MySQL (Put Data && Fetch Data)
     implementation 'com.github.VishnuSivadasVS:Advanced-HttpURLConnection:1.2'
 
     // To convert JSON string into Java class object
-    implementation 'org.json:json:20200518'
     implementation 'com.google.code.gson:gson:2.8.7'
 
     // To send an HTTP request to PHP server
-    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.android.volley:volley:1.2.0'
+
+    implementation 'com.karumi:dexter:6.2.2'
 }

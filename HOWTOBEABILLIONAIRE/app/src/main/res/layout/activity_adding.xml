@@ -1,116 +1,325 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".View.AddingActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_ChossingType"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout2"
+        android:layout_width="370dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/border"
+        app:blk_cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:text="@string/chooseType"
-            android:textSize="18sp"
-            app:icon="@drawable/question"
-            app:iconSize="24dp"
-            app:iconTint="@android:color/transparent"
-            app:iconTintMode="screen" />
+            android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/moneyTextField"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:hint="@string/input_money_text"
-            app:counterEnabled="true"
-            app:counterMaxLength="20"
-            app:endIconMode="clear_text"
-            app:endIconTint="@color/colorPrimaryDark"
-            app:shapeAppearance="@style/ShapeAppearance.MaterialComponents.LargeComponent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/money_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLines="1"
-                android:text="@string/money"
-                android:textSize="18sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fBtn_mic"
+            <TextView
+                android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginStart="250dp"
-                android:backgroundTint="@android:color/background_dark"
-                android:src="@drawable/ic_mic"
-                app:borderWidth="0dp"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/athiti"
+                android:text="Hãy nhập số tiền của bạn"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fBtn_record"
+            <SeekBar
+                android:id="@+id/seekBar"
+                style="@style/MySeekBar"
+                android:layout_width="250dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="70dp"
+                android:layout_marginBottom="16dp"
+                android:indeterminate="false"
+                android:theme="@style/Theme.AppCompat"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
+                android:fontFamily="@font/athiti"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+                app:layout_constraintEnd_toStartOf="@+id/seekBar"
+                app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/athiti"
+                android:text="5.000.000"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+                app:layout_constraintStart_toEndOf="@+id/seekBar"
+                app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
+            <EditText
+                android:id="@+id/editTextNumber2"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:fontFamily="@font/athiti"
+                android:inputType="textMultiLine|number"
+                android:singleLine="false"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="20dp"
-                android:backgroundTint="@android:color/background_dark"
-                android:src="@drawable/ic_record"/>
-        </LinearLayout>
+                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView8"
+                app:srcCompat="@drawable/icon_edit" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/descriptiontextField"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </io.alterac.blurkit.BlurLayout>
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout"
+        android:layout_width="370dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/border"
+        app:blk_cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/blurLayout2"
+        app:layout_constraintStart_toStartOf="@+id/blurLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/blurLayout2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginBottom="20dp"
-            android:hint="@string/description_text"
-            android:padding="20dp">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <ImageButton
+                android:id="@+id/imageView2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12"
+                app:srcCompat="@drawable/ic_baseline_surround_sound_24" />
+
+            <ImageButton
+                android:id="@+id/btnPlay"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="30dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:srcCompat="@drawable/icon_play" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/athiti"
+                android:text="Thu âm"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.gauravk.audiovisualizer.visualizer.WaveVisualizer
+                android:id="@+id/blast"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="5dp"
+                app:avColor="#22cebc"
+                app:avDensity="0.9"
+                app:avSpeed="normal"
+                app:avType="outline"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnPlay"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.7" />
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView12"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView12"
+                app:srcCompat="@drawable/icon_music" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </io.alterac.blurkit.BlurLayout>
+
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout12"
+        android:layout_width="370dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/border"
+        app:blk_cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/blurLayout"
+        app:layout_constraintStart_toStartOf="@+id/blurLayout"
+        app:layout_constraintTop_toBottomOf="@+id/blurLayout">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <EditText
+                android:id="@+id/editTextTextMultiLine"
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="top"
-                android:text="@string/description"
-                app:layout_anchor="@+id/tf_description"
-                app:layout_anchorGravity="center" />
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="  Ghi chú"
+                android:inputType="textMultiLine"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hintColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <ProgressBar
+                android:id="@+id/progress3"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_saving"
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </io.alterac.blurkit.BlurLayout>
+
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout3"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/border"
+        app:blk_cornerRadius="20dp"
+        app:layout_constraintStart_toStartOf="@+id/blurLayout12"
+        app:layout_constraintTop_toBottomOf="@+id/blurLayout12">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:text="LƯU"
-            android:textSize="20sp" />
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:scaleX="0.3"
+                android:scaleY="0.3"
+                android:src="@drawable/icon_video"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/athiti"
+                android:text="Thêm hình ảnh"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </io.alterac.blurkit.BlurLayout>
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout4"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:background="@drawable/border"
+        app:blk_cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/blurLayout3"
+        app:layout_constraintEnd_toEndOf="@+id/blurLayout12"
+        app:layout_constraintTop_toTopOf="@+id/blurLayout3">
 
         <ImageButton
-            android:id="@+id/iBtn_camera"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:backgroundTint="@color/white"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_camera"
-            android:scaleType="fitXY"/>
-    </LinearLayout>
-</ScrollView>
+            android:id="@+id/imageButton2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            android:src="@drawable/icon_send" />
+    </io.alterac.blurkit.BlurLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <include layout="@layout/player_sheet" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
