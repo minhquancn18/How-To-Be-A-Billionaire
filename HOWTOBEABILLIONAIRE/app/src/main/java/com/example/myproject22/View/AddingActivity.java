@@ -42,10 +42,18 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.myproject22.Model.CategoryClass;
 import com.example.myproject22.Presenter.AddingMoneyInterface;
 import com.example.myproject22.Presenter.AddingMoneyPresentent;
 import com.example.myproject22.R;
+import com.example.myproject22.Util.CategoryAdapter;
 import com.example.myproject22.Util.CategoryItemAdapter;
 import com.example.myproject22.Util.FormatImage;
 import com.gauravk.audiovisualizer.visualizer.WaveVisualizer;
@@ -61,6 +69,9 @@ import com.vishnusivadas.advanced_httpurlconnection.FetchData;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -73,7 +84,9 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import io.alterac.blurkit.BlurLayout;
 
@@ -122,10 +135,8 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     //Các array list để lấy danh sách
     private ArrayList<CategoryClass> arrayList = new ArrayList<>();
     private ArrayList<CategoryClass> arrayList1 = new ArrayList<>();
-    private ArrayList<byte[]> images = new ArrayList<>();
-    private ArrayList<String> categoryNames = new ArrayList<>();
-    private ArrayList<byte[]> images1 = new ArrayList<>();
-    private ArrayList<String> categoryNames1 = new ArrayList<>();
+    private CategoryClass categoryClass;
+
 
     //Const mặc định để xét permission
     private static final int PERMISSION_IMAGE = 1000;
@@ -222,7 +233,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 String image = addingMoneyPresentent.getStringImage();
                 String audio = addingMoneyPresentent.getStringAudio();
 
-                addingMoneyPresentent.savingMoneyData(money, description, category_id, image, audio);
+                addingMoneyPresentent.savingMoneyData(money,description,category_id,image,audio);
             }
         });
     }
@@ -231,92 +242,118 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     public void LoadCategory() {
         progressBar1.setVisibility(View.VISIBLE);
         progressBar2.setVisibility(View.VISIBLE);
-        new Handler().postDelayed(category, 3000);
+        new Handler().postDelayed(category_runable, 3000);
     }
 
-    Runnable category = new Runnable() {
+    Runnable category_runable = new Runnable() {
         @Override
         public void run() {
-            FetchData fetchData = new FetchData(urlString + "getIncomeCategory.php");
-            if (fetchData.startFetch()) {
-                if (fetchData.onComplete()) {
-                    String result = fetchData.getResult();
-                    Gson gson = new Gson();
-                    CategoryClass[] IncomeCategory = gson.fromJson(result, (Type) CategoryClass[].class);
-
-                    for (int i = 0; i < IncomeCategory.length; i++) {
-                        arrayList.add(IncomeCategory[i]);
-                    }
-
-                    for (int i = 0; i < arrayList.size(); i++) {
-                        String sname = arrayList.get(i).Get_NAME();
-                        String simage = arrayList.get(i).Get_IMAGE();
-                        if (simage != null) {
-                            byte[] image = Base64.decode(simage, Base64.DEFAULT);
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-                            bitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, true);
-                            images.add(FormatImage.BitmapToByte(bitmap));
-                        } else {
-                            Bitmap bitmap = ((BitmapDrawable) btnPlay.getDrawable()).getBitmap();
-                            images.add(FormatImage.BitmapToByte(bitmap));
-                        }
-                        categoryNames.add(sname);
-                    }
-
-                    CategoryItemAdapter adapter = new CategoryItemAdapter(images, categoryNames, bottomSheetBehavior, tvChooseImage);
-                    categoryRecycler.setAdapter(adapter);
-
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(AddingActivity.this);
-                    layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                    categoryRecycler.setLayoutManager(layoutManager);
-
-                    progressBar1.setVisibility(View.GONE);
-                    //End ProgressBar (Set visibility to GONE)
-                    Log.i("FetchData", result);
-                }
-            }
-
-
-            FetchData fetchData1 = new FetchData(urlString + "getSpendingCategory.php");
-            if (fetchData1.startFetch()) {
-                if (fetchData1.onComplete()) {
-                    String result = fetchData1.getResult();
-                    Gson gson = new Gson();
-                    CategoryClass[] SpendingCategory = gson.fromJson(result, (Type) CategoryClass[].class);
-
-                    for (int i = 0; i < SpendingCategory.length; i++) {
-                        arrayList1.add(SpendingCategory[i]);
-                    }
-
-                    for (int i = 0; i < arrayList1.size(); i++) {
-                        String sname = arrayList1.get(i).Get_NAME();
-                        String simage = arrayList1.get(i).Get_IMAGE();
-                        if (simage != null) {
-                            byte[] image = Base64.decode(simage, Base64.DEFAULT);
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
-                            bitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, true);
-                            images1.add(FormatImage.BitmapToByte(bitmap));
-                        } else {
-                            Bitmap bitmap = ((BitmapDrawable) btnPlay.getDrawable()).getBitmap();
-                            images1.add(FormatImage.BitmapToByte(bitmap));
-                        }
-                        categoryNames1.add(sname);
-                    }
-
-                    LinearLayoutManager layoutManager1 = new LinearLayoutManager(AddingActivity.this);
-                    layoutManager1.setOrientation(RecyclerView.HORIZONTAL);
-
-                    CategoryItemAdapter adapter1 = new CategoryItemAdapter(images1, categoryNames1, bottomSheetBehavior, tvChooseImage);
-                    categoryRecycler1.setAdapter(adapter1);
-                    categoryRecycler1.setLayoutManager(layoutManager1);
-
-                    progressBar2.setVisibility(View.GONE);
-                    //End ProgressBar (Set visibility to GONE)
-                    Log.i("FetchData", result);
-                }
-            }
+            FetchIncomeCategory();
+            FetchOutcomeCategory();
         }
     };
+
+    public void FetchIncomeCategory(){
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "getIncomeCategory.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if(success.equals("1")){
+                        for(int i = 0; i < jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+
+                            String id = object.getString("ID_CATEGORY");
+                            String name = object.getString("NAME");
+                            String image_category = object.getString("IMAGE");
+
+                            String url_image = urlString + "ImagesCategory/" + image_category;
+
+                            categoryClass = new CategoryClass(Integer.parseInt(id), name, url_image);
+                            arrayList.add(categoryClass);
+                        }
+
+                        CategoryAdapter adapter = new CategoryAdapter(arrayList, bottomSheetBehavior, tvChooseImage);
+                        categoryRecycler.setAdapter(adapter);
+
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(AddingActivity.this);
+                        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                        categoryRecycler.setLayoutManager(layoutManager);
+
+                        progressBar1.setVisibility(View.GONE);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar1.setVisibility(View.GONE);
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
+
+    public void FetchOutcomeCategory(){
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "getOutcomeCategory.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if(success.equals("1")){
+                        for(int i = 0; i < jsonArray.length(); i++){
+                            JSONObject object = jsonArray.getJSONObject(i);
+
+                            String id = object.getString("ID_CATEGORY");
+                            String name = object.getString("NAME");
+                            String image_category = object.getString("IMAGE");
+
+                            String url_image = urlString + "ImagesCategory/" + image_category;
+
+                            categoryClass = new CategoryClass(Integer.parseInt(id), name, url_image);
+                            arrayList1.add(categoryClass);
+                        }
+
+                        LinearLayoutManager layoutManager1 = new LinearLayoutManager(AddingActivity.this);
+                        layoutManager1.setOrientation(RecyclerView.HORIZONTAL);
+
+                        CategoryAdapter adapter1 = new CategoryAdapter(arrayList1, bottomSheetBehavior, tvChooseImage);
+                        categoryRecycler1.setAdapter(adapter1);
+                        categoryRecycler1.setLayoutManager(layoutManager1);
+
+                        progressBar2.setVisibility(View.GONE);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar2.setVisibility(View.GONE);
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
 
     @Override
     public Boolean CheckPermissionRecord() {
@@ -411,16 +448,6 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     }
 
     @Override
-    public void AddingCategoryFail() {
-
-    }
-
-    @Override
-    public void GetBuddleSuccessful() {
-
-    }
-
-    @Override
     public void GetNoMoneyData() {
         Toast.makeText(getApplicationContext(), "Nhập thông tin về tiền!", Toast.LENGTH_SHORT).show();
         progressBar3.setVisibility(View.GONE);
@@ -430,21 +457,6 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     public void GetNoCategoryData() {
         Toast.makeText(getApplicationContext(), "Chọn loại thu chi.", Toast.LENGTH_SHORT).show();
         progressBar3.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void GetAddSuccessful() {
-
-    }
-
-    @Override
-    public void GetSpendSuccessful() {
-
-    }
-
-    @Override
-    public void GetDataFail() {
-
     }
 
     @Override
@@ -535,18 +547,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         if (isRecord) {
             //Stop recording
             StopRecord();
-            mVisualizer.setVisibility(View.INVISIBLE);
-            btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_surround_sound_24, null));
-            Toast.makeText(this, "Stop " + recordFile, Toast.LENGTH_SHORT).show();
-            isRecord = false;
         } else {
             if (CheckPermissionRecord()) {
                 StartRecord();
-                mVisualizer.setVisibility(View.VISIBLE);
-                btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause, null));
-                Toast.makeText(this, "Start record", Toast.LENGTH_SHORT).show();
-
-                isRecord = true;
             } else {
                 Toast.makeText(this, "Not permission granted", Toast.LENGTH_SHORT).show();
             }
@@ -620,11 +623,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         if (addingMoneyPresentent.isNullImage(bmImage)) {
             image = "NULL";
         } else {
-            byte[] image_byte = FormatImage.BitmapToByte(bmImage);
-            image = convertByteToString(image_byte);
+            byte[] bytes = encodeTobase64(bmImage);
+            image = convertByteToString(bytes);
             Log.i("IMAGETEST", image);
         }
-
         return image;
     }
 
@@ -656,7 +658,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         mediaRecorder.stop();
         mediaRecorder.release();
         mediaRecorder = null;
-
+        mVisualizer.setVisibility(View.INVISIBLE);
+        btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_surround_sound_24, null));
+        Toast.makeText(this, "Stop record", Toast.LENGTH_SHORT).show();
+        isRecord = false;
     }
 
     //Start record
@@ -680,6 +685,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         }
 
         mediaRecorder.start();
+        mVisualizer.setVisibility(View.VISIBLE);
+        btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause, null));
+        Toast.makeText(this, "Start record", Toast.LENGTH_SHORT).show();
+        isRecord = true;
     }
 
     //Start audio
@@ -689,60 +698,40 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         if (isSDPresent) {
             String outputFile = AddingActivity.this.getExternalFilesDir("/").getAbsolutePath() + "/" + recordFile;
 
-            if (IsValidFile(outputFile) == false) {
-                recordFile = "NO";
-                return;
-            } else {
-                Toast.makeText(this, "Start " + recordFile, Toast.LENGTH_SHORT).show();
-                try {
-                    mediaPlayer.setDataSource(outputFile);
-                    mediaPlayer.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                int audioSessionId = mediaPlayer.getAudioSessionId();
-                mVisualizer.setAudioSessionId(audioSessionId);
-
-                mediaPlayer.start();
-
-                mVisualizer.setVisibility(View.VISIBLE);
-                btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause, null));
-
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        StopAudio();
-                    }
-                });
-                isPlaying = true;
+            Toast.makeText(this, "Start current record", Toast.LENGTH_SHORT).show();
+            try {
+                mediaPlayer.setDataSource(outputFile);
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }
-    }
 
-    private Boolean IsValidFile(String filename) {
-        File file = new File(filename);
+            int audioSessionId = mediaPlayer.getAudioSessionId();
+            mVisualizer.setAudioSessionId(audioSessionId);
 
-        long fileSizeInBytes = file.length();
-        long fileSizeInKB = fileSizeInBytes / 1024;
+            mediaPlayer.start();
 
-        if (fileSizeInKB > 30) {
-            Toast.makeText(AddingActivity.this, "Size of file too much", Toast.LENGTH_SHORT).show();
-            return false;
-        } else {
-            return true;
+            mVisualizer.setVisibility(View.VISIBLE);
+            btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause, null));
+
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    StopAudio();
+                }
+            });
+            isPlaying = true;
         }
     }
 
     //Stop audio
     private void StopAudio() {
-
         mediaPlayer.release();
         mediaPlayer = null;
         isPlaying = false;
         mVisualizer.setVisibility(View.INVISIBLE);
         btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.icon_play, null));
-        Toast.makeText(this, "Stop audio", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Stop current record", Toast.LENGTH_SHORT).show();
     }
 
     private void TakeImageFromGallery() {
@@ -796,114 +785,366 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     public byte[] Convert3gbToByte() {
         byte[] audio = null;
         String outputFile = AddingActivity.this.getExternalFilesDir("/").getAbsolutePath() + "/" + recordFile;
-        if (IsValidFile(outputFile)) {
-            try {
-                FileInputStream inputStream = new FileInputStream(outputFile);
-                BufferedInputStream bif = new BufferedInputStream(inputStream);
-                audio = new byte[bif.available()];
-                bif.read(audio);
+        try {
+            FileInputStream inputStream = new FileInputStream(outputFile);
+            BufferedInputStream bif = new BufferedInputStream(inputStream);
+            audio = new byte[bif.available()];
+            bif.read(audio);
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return audio;
     }
 
     @Override
     public void SavingMoneyData(String money, String description, int category_id, String image, String audio) {
-        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-
-        //insert data to php database
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                //Starting Write and Read data with URL
-                //Creating array for parameters
-                if (audio.equals("NULL")) {
-                    String[] field = new String[6];
-                    field[0] = "idmoney";
-                    field[1] = "money";
-                    field[2] = "idcategory";
-                    field[3] = "description";
-                    field[4] = "date";
-                    field[5] = "image";
-                    //Creating array for data
-                    String[] data = new String[6];
-                    data[0] = "1";
-                    data[1] = money;
-                    data[2] = String.valueOf(category_id);
-                    data[3] = description;
-                    data[4] = currentDateandTime;
-                    data[5] = image;
+        if (image.equals("NULL") && audio.equals("NULL")) {
+            if (isCategory == 1) {
+                UploadIncomeNoBothToServer(money, description, category_id);
+            } else if (isCategory == -1) {
+                UploadOutcomeNoBothToServer(money, description, category_id);
+            }
+        } else {
+            if (!image.equals("NULL") && !audio.equals("NULL")) {
+                if (isCategory == 1) {
+                    UploadIncomeToServer(money, description, category_id, image, audio);
+                } else if (isCategory == -1) {
+                    UploadOutcomeToServer(money, description, category_id, image, audio);
+                }
+            } else {
+                if (image.equals("NULL")) {
                     if (isCategory == 1) {
-                        PutData putData = new PutData(urlString + "insertIncomeDetailNoAudio.php", "POST", field, data);
-                        if (putData.startPut()) {
-                            if (putData.onComplete()) {
-                                progressBar3.setVisibility(View.GONE);
-                                String result = putData.getResult();
-                                Log.i("PutData", result);
-                                Toast.makeText(AddingActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    } else {
-                        PutData putData = new PutData(urlString + "insertSpendingDetailNoAudio.php", "POST", field, data);
-                        if (putData.startPut()) {
-                            if (putData.onComplete()) {
-                                progressBar3.setVisibility(View.GONE);
-                                String result = putData.getResult();
-                                Log.i("PutData", result);
-                                Toast.makeText(AddingActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
+                        UploadIncomeNoImageToServer(money, description, category_id, audio);
+                    } else if (isCategory == -1) {
+                        UploadOutcomeNoImageToServer(money, description, category_id, audio);
                     }
-                    //End Write and Read data with URL
                 } else {
-                    String[] field = new String[7];
-                    field[0] = "idmoney";
-                    field[1] = "money";
-                    field[2] = "idcategory";
-                    field[3] = "description";
-                    field[4] = "date";
-                    field[5] = "image";
-                    field[6] = "audio";
-                    //Creating array for data
-                    String[] data = new String[7];
-                    data[0] = "1";
-                    data[1] = money;
-                    data[2] = String.valueOf(category_id);
-                    data[3] = description;
-                    data[4] = currentDateandTime;
-                    data[5] = image;
-                    data[6] = audio;
                     if (isCategory == 1) {
-                        PutData putData = new PutData(urlString + "insertIncomeDetail.php", "POST", field, data);
-                        if (putData.startPut()) {
-                            if (putData.onComplete()) {
-                                progressBar3.setVisibility(View.GONE);
-                                String result = putData.getResult();
-                                Log.i("PutData", result);
-                                Toast.makeText(AddingActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    } else {
-                        PutData putData = new PutData(urlString + "insertSpendingDetail.php", "POST", field, data);
-                        if (putData.startPut()) {
-                            if (putData.onComplete()) {
-                                progressBar3.setVisibility(View.GONE);
-                                String result = putData.getResult();
-                                Log.i("PutData", result);
-                                Toast.makeText(AddingActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
+                        UploadIncomeNoAudioToServer(money, description, category_id, image);
+                    } else if (isCategory == -1) {
+                        UploadOutcomeNoAudioToServer(money, description, category_id, image);
                     }
-                    //End Write and Read data with URL
                 }
             }
-        });
+        }
     }
+
+    //Upload income detail to server (all attribute or not image or not audio or not both)
+    public void UploadIncomeToServer(String money, String description, int category_id, String image, String audio) {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "insertIncomeDetail.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+                if(response.equals("Add new income detailed success")){
+                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("idmoney", "1");
+                params.put("money", money);
+                params.put("idcategory", String.valueOf(category_id));
+                params.put("description", description);
+                params.put("date", currentDateandTime);
+                params.put("image", image);
+                params.put("audio", audio);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
+
+    public void UploadIncomeNoAudioToServer(String money, String description, int category_id, String image) {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "insertIncomeDetailNoAudio.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+                if(response.equals("Add new income detailed success")){
+                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("idmoney", "2");
+                params.put("money", money);
+                params.put("idcategory", String.valueOf(category_id));
+                params.put("description", description);
+                params.put("date", currentDateandTime);
+                params.put("image", image);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
+
+    public void UploadIncomeNoImageToServer(String money, String description, int category_id, String audio) {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "insertIncomeDetailNoImage.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+                if(response.equals("Add new income detailed success")){
+                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("idmoney", "1");
+                params.put("money", money);
+                params.put("idcategory", String.valueOf(category_id));
+                params.put("description", description);
+                params.put("date", currentDateandTime);
+                params.put("audio", audio);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
+
+    public void UploadIncomeNoBothToServer(String money, String description, int category_id) {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "insertIncomeDetailNoBoth.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+                if(response.equals("Add new income detailed success")){
+                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("idmoney", "1");
+                params.put("money", money);
+                params.put("idcategory", String.valueOf(category_id));
+                params.put("description", description);
+                params.put("date", currentDateandTime);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
+
+    //Upload outcome detail to server (all attribute or not image or not audio or not both)
+    public void UploadOutcomeToServer(String money, String description, int category_id, String image, String audio) {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "insertOutcomeDetail.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+                if(response.equals("Add new outcome detailed success")){
+                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("idmoney", "1");
+                params.put("money", money);
+                params.put("idcategory", String.valueOf(category_id));
+                params.put("description", description);
+                params.put("date", currentDateandTime);
+                params.put("image", image);
+                params.put("audio", audio);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
+
+    public void UploadOutcomeNoAudioToServer(String money, String description, int category_id, String image) {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "insertOutcomeDetailNoAudio.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+                if(response.equals("Add new outcome detailed success")){
+                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("idmoney", "1");
+                params.put("money", money);
+                params.put("idcategory", String.valueOf(category_id));
+                params.put("description", description);
+                params.put("date", currentDateandTime);
+                params.put("image", image);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
+
+    public void UploadOutcomeNoImageToServer(String money, String description, int category_id, String audio) {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "insertOutcomeDetailNoImage.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+                if(response.equals("Add new outcome detailed success")){
+                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("idmoney", "1");
+                params.put("money", money);
+                params.put("idcategory", String.valueOf(category_id));
+                params.put("description", description);
+                params.put("date", currentDateandTime);
+                params.put("audio", audio);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
+
+    public void UploadOutcomeNoBothToServer(String money, String description, int category_id) {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        StringRequest request = new StringRequest(Request.Method.POST,
+                urlString + "insertOutcomeDetailNoBoth.php", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+                if(response.equals("Add new outcome detailed success")){
+                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                progressBar3.setVisibility(View.GONE);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("idmoney", "1");
+                params.put("money", money);
+                params.put("idcategory", String.valueOf(category_id));
+                params.put("description", description);
+                params.put("date", currentDateandTime);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+        requestQueue.add(request);
+    }
+
+
+    public static byte[] encodeTobase64(Bitmap image) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
+    }
+
 }
 

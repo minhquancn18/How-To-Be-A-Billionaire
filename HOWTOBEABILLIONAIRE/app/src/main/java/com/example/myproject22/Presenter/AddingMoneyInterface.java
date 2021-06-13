@@ -4,14 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 
 public interface AddingMoneyInterface {
-    public void AddingCategoryFail();
-    public void GetBuddleSuccessful();
-
-    public void GetNoCategoryData();
-    public void GetAddSuccessful();
-    public  void GetSpendSuccessful();
-    public void GetDataFail();
-
     //Set component
     public void SetInit();
 
@@ -48,7 +40,8 @@ public interface AddingMoneyInterface {
     //Saving
     public void SavingMoneyData(String money, String description, int category_id, String image, String audio);
 
-    //If money not numeric, toast user
+    //If money not numeric or category, toast user
     public void GetNoMoneyData();
+    public void GetNoCategoryData();
 
 }
