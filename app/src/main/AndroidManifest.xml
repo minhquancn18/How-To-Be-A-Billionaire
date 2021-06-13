@@ -13,29 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyProject22">
-
-        <!--Phan report cua Son-->
+        <activity android:name=".View.Activity.ReportCategoryDetailActivity"></activity>
+        <!-- Phan report cua Son -->
         <activity android:name=".View.Activity.ReportCategoryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.Activity.ReportCategoryGraphActivity"></activity>
-
-
-        <!-- phan cua Quan -->
+        <activity android:name=".View.Activity.ReportCategoryGraphActivity" /> <!-- phan cua Quan -->
         <activity android:name=".View.Activity.AddingTypeCategoryActivity" />
         <activity android:name=".View.Activity.CategoryActivity" />
-        <activity android:name=".View.Activity.AddingActivity"></activity>
-
-        <!--Giao dien chinh-->
-        <activity android:name=".View.Activity.DashboardActivity"></activity>
-
-        <!-- Phan cua Tam -->
+        <activity android:name=".View.Activity.AddingActivity" /> <!-- Giao dien chinh -->
+        <activity android:name=".View.Activity.DashboardActivity" /> <!-- Phan cua Tam -->
         <activity android:name=".View.Activity.GoalActivity" />
         <activity android:name=".View.Activity.SavingActivity" />
-t
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

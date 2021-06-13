@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.example.myproject22.R;
-import com.example.myproject22.Util.CategoryPagerAdapter;
+import com.example.myproject22.Util.CategoryGraphPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class ReportCategoryGraphActivity extends AppCompatActivity  {
@@ -19,9 +19,9 @@ public class ReportCategoryGraphActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_report_graph);
 
 
-        CategoryPagerAdapter categoryPagerAdapter = new CategoryPagerAdapter(getSupportFragmentManager());
+        CategoryGraphPagerAdapter categoryGraphPagerAdapter = new CategoryGraphPagerAdapter(getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.category_graph_pager);
-        viewPager.setAdapter(categoryPagerAdapter);
+        viewPager.setAdapter(categoryGraphPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.category_tabs);
         tabLayout.setupWithViewPager(viewPager);

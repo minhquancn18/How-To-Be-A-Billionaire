@@ -23,10 +23,10 @@ import io.alterac.blurkit.BlurKit;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link IncomeCategoryFragment#newInstance} factory method to
+ * Use the {@link OutcomeCategoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IncomeCategoryFragment extends Fragment {
+public class OutcomeCategoryFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,7 +37,7 @@ public class IncomeCategoryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public IncomeCategoryFragment() {
+    public OutcomeCategoryFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +47,11 @@ public class IncomeCategoryFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment IncomeCategoryDetailFragment.
+     * @return A new instance of fragment OutcomeCategoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static IncomeCategoryFragment newInstance(String param1, String param2) {
-        IncomeCategoryFragment fragment = new IncomeCategoryFragment();
+    public static OutcomeCategoryFragment newInstance(String param1, String param2) {
+        OutcomeCategoryFragment fragment = new OutcomeCategoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -68,37 +68,36 @@ public class IncomeCategoryFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_income_category, container, false);
-    }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         BlurKit.init(getContext());
+
 
         ArrayList<DayItem> days = new ArrayList<>();
         days.add(new DayItem(new Date(), 2));
-        days.add(new DayItem(new Date(), 3));
-        days.add(new DayItem(new Date(), 4124));
-        days.add(new DayItem(new Date(), 5));
-        days.add(new DayItem(new Date(), 5));
-        days.add(new DayItem(new Date(), 5));
-        days.add(new DayItem(new Date(), 5));
         days.add(new DayItem(new Date(), 5));
         days.add(new DayItem(new Date(), 5));
         days.add(new DayItem(new Date(), 5));
 
-        DayItemAdapter dayItemAdapter = new DayItemAdapter(days, getContext(), true);
+
+        DayItemAdapter dayItemAdapter = new DayItemAdapter(days, getContext(), false);
         RecyclerView recyclerView = view.findViewById(R.id.day_recycler);
         recyclerView.setAdapter(dayItemAdapter);
 
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_outcome_category, container, false);
     }
 }

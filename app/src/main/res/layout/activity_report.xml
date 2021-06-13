@@ -7,12 +7,15 @@
     tools:context=".View.Activity.ReportCategoryActivity">
 
 
-    <!-- i will copy the same tabLayout in ReportGraph -->
 
+    <!-- i will copy the same tabLayout in ReportGraph -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <io.alterac.blurkit.BlurLayout
             android:layout_width="match_parent"
@@ -31,12 +34,14 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/category_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
+        app:layout_constraintBottom_toTopOf="@+id/appBarLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

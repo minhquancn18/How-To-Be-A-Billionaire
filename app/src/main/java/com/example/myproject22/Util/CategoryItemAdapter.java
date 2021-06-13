@@ -43,16 +43,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
         this.tvChooseItem = tvChooseItem;
     }
 
-    public CategoryItemAdapter(ArrayList<byte[]> images, ArrayList<String> categoryNames, BottomSheetBehavior bottomSheetBehavior) {
-        this.images = images;
-        this.categoryNames = categoryNames;
-        this.bottomSheetBehavior = bottomSheetBehavior;
-    }
 
-    public CategoryItemAdapter(ArrayList<byte[]> images, ArrayList<String> categoryNames) {
-        this.images = images;
-        this.categoryNames = categoryNames;
-    }
 
     @NonNull
     @Override
