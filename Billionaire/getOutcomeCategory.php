@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_user'])){
 
     $result = array();
     $result['data'] = array();
-    $select = "SELECT * from incomecategory WHERE (ID_USER = 0) or (ID_USER = ".$_POST['id_user']. ") ";
+    $select = "SELECT * from outcomecategory WHERE (ID_USER = 0) or (ID_USER = ".$_POST['id_user']. ") ";
     $reponse = mysqli_query($connect, $select);
 
     while($row = mysqli_fetch_row($reponse)){

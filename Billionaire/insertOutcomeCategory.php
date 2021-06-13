@@ -11,24 +11,24 @@ if (isset($_POST['id_user']) && isset($_POST['name']) && isset($_POST['image']))
     $id_user = $_POST['id_user'];
     $name = $_POST['name'];
 
-    $select = "SELECT * FROM incomecategory WHERE (ID_USER = 0 or ID_USER = $id_user) and (NAME = $name) ";
+    $select = "SELECT * FROM outcomecategory WHERE (ID_USER = 0 or ID_USER = $id_user) and (NAME = '$name') ";
     $response = mysqli_query($connect, $select);
 
     if($response){
         $row = mysqli_fetch_row($response);
         if($row == 0){
 
-            $select = "INSERT INTO incomecategory (ID_USER, NAME, IMAGE) VALUES (
+            $select = "INSERT INTO outcomecategory (ID_USER, NAME, IMAGE) VALUES (
             '$id_user', '$name','$imageStore')";
 
             $response = mysqli_query($connect, $select);
 
             if($response){
-                echo "Add new income category success";
+                echo "Add new outcome category success";
                 mysqli_close($connect);
             }
             else{
-                echo "Error: " . mysqli_error($connect). "\n Add new income category failed" ;
+                echo "Error: " . mysqli_error($connect). "\n Add new outcome category failed" ;
             }
         }
         else{
