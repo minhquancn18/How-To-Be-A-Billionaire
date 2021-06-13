@@ -299,7 +299,14 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar1.setVisibility(View.GONE);
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id_user", "1");
+                return params;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
         requestQueue.add(request);
     }
@@ -350,7 +357,14 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar2.setVisibility(View.GONE);
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id_user", "1");
+                return params;
+            }
+        };
         RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
         requestQueue.add(request);
     }

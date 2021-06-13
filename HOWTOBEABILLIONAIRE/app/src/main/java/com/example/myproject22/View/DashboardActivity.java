@@ -1,8 +1,11 @@
 package com.example.myproject22.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.motion.widget.MotionLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,12 +15,30 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.myproject22.Model.CategoryClass;
 import com.example.myproject22.R;
+import com.example.myproject22.Util.CategoryAdapter;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import io.alterac.blurkit.BlurKit;
 import io.alterac.blurkit.BlurLayout;
+
+import static com.example.myproject22.Model.ConnectionClass.urlString;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -72,10 +93,6 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -85,4 +102,5 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
     }
+    
 }
