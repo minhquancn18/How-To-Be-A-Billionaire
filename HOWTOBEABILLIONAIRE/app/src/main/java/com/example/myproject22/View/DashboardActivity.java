@@ -42,6 +42,10 @@ import static com.example.myproject22.Model.ConnectionClass.urlString;
 
 public class DashboardActivity extends AppCompatActivity {
 
+    private int id_user;
+    private int id_income;
+    private int id_outcome;
+
     BlurLayout blurLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +53,14 @@ public class DashboardActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_dashboard);
 
+        SetData();
 
         BlurKit.init(this);
         ImageButton btnAddRecord = findViewById(R.id.btnNewRecord);
         btnAddRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DashboardActivity.this, AddingActivity.class);
-                startActivity(intent);
+                btnAddingClick();
             }
         });
 
@@ -76,8 +80,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int i) {
                 if(i == R.id.end1){
-                   Intent intent = new Intent(DashboardActivity.this, AddingActivity.class);
-                    startActivity(intent);
+                    btnAddingClick();
                 }
                 if(i == R.id.end){
                     Intent intent = new Intent(DashboardActivity.this, SavingActivity.class);
@@ -102,5 +105,22 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
     }
-    
+
+    public void btnAddingClick(){
+        Intent intent = new Intent(DashboardActivity.this, AddingActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("ID_USER", id_user);
+        bundle.putInt("ID_INCOME", id_income);
+        bundle.putInt("ID_OUTCOME", id_outcome);
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+    }
+
+    public void SetData(){
+        id_user = 2;
+        id_income = 2;
+        id_outcome= 2;
+    }
 }

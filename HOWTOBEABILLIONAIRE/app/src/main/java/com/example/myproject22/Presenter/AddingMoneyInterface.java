@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 public interface AddingMoneyInterface {
     //Set component
     public void SetInit();
+    public void GetDataBundle();
 
     //Load income and spending category
     public void LoadCategory();

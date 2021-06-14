@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -58,6 +59,7 @@ import com.example.myproject22.Util.CategoryItemAdapter;
 import com.example.myproject22.Util.FormatImage;
 import com.gauravk.audiovisualizer.visualizer.WaveVisualizer;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -101,8 +103,6 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     private ImageButton btnImage;
     private TextView tvImage;
     private Bitmap bmImage;
-    private Uri image_uri;
-    String encodedImage;
 
     //Component về record và audio
     private ImageButton btnPlay;
@@ -123,6 +123,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     private ProgressBar progressBar1;
     private ProgressBar progressBar2;
     TextView tvChooseImage;
+    MaterialButton btnAddCategory;
 
     //Component về tiền
     private EditText etMoney;
@@ -149,6 +150,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     //Parameter for saving
     int isCategory = 0;
 
+    private int id_user;
+    private int id_income;
+    private int id_outcome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,9 +161,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         setContentView(R.layout.activity_adding);
 
         addingMoneyPresentent = new AddingMoneyPresentent(this);
-
+        addingMoneyPresentent.getDataBundle();
         addingMoneyPresentent.setInit();
-        addingMoneyPresentent.loadingIncomeCategory();
+
 
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +207,26 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             }
         });
 
+        //Hide keyboard
+        etMoney.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+        //Hide keyboard
+        etDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
         etMoney.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -234,8 +259,28 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 String audio = addingMoneyPresentent.getStringAudio();
 
                 addingMoneyPresentent.savingMoneyData(money,description,category_id,image,audio);
+
+                /*Toast.makeText(AddingActivity.this, String.valueOf(id_user) + "\n" + String.valueOf(id_income) + "\n" + String.valueOf(id_outcome), Toast.LENGTH_SHORT).show();*/
             }
         });
+    }
+
+    @Override
+    public void GetDataBundle(){
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        id_user = bundle.getInt("ID_USER");
+        id_income = bundle.getInt("ID_INCOME");
+        id_outcome = bundle.getInt("ID_OUTCOME");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        arrayList = new ArrayList<>();
+        arrayList1 = new ArrayList<>();
+        LoadCategory();
     }
 
     @Override
@@ -278,7 +323,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                             arrayList.add(categoryClass);
                         }
 
-                        CategoryAdapter adapter = new CategoryAdapter(arrayList, bottomSheetBehavior, tvChooseImage);
+                        CategoryAdapter adapter = new CategoryAdapter(arrayList, bottomSheetBehavior, tvChooseImage, btnAddCategory, id_user);
                         categoryRecycler.setAdapter(adapter);
 
                         LinearLayoutManager layoutManager = new LinearLayoutManager(AddingActivity.this);
@@ -303,7 +348,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id_user", "1");
+                params.put("id_user", String.valueOf(id_user));
                 return params;
             }
         };
@@ -339,7 +384,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                         LinearLayoutManager layoutManager1 = new LinearLayoutManager(AddingActivity.this);
                         layoutManager1.setOrientation(RecyclerView.HORIZONTAL);
 
-                        CategoryAdapter adapter1 = new CategoryAdapter(arrayList1, bottomSheetBehavior, tvChooseImage);
+                        CategoryAdapter adapter1 = new CategoryAdapter(arrayList1, bottomSheetBehavior, tvChooseImage, btnAddCategory, id_user);
                         categoryRecycler1.setAdapter(adapter1);
                         categoryRecycler1.setLayoutManager(layoutManager1);
 
@@ -361,7 +406,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id_user", "1");
+                params.put("id_user", String.valueOf(id_user));
                 return params;
             }
         };
@@ -484,6 +529,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         mVisualizer = findViewById(R.id.blast);
         playerSheet = findViewById(R.id.player_sheet);
         tvChooseImage = findViewById(R.id.tvChooseCategory);
+        btnAddCategory = findViewById(R.id.btnAddCategory);
         categoryRecycler = findViewById(R.id.category_recycler);
         categoryRecycler1 = findViewById(R.id.category_recycler2);
         progressBar1 = findViewById(R.id.progress1);
@@ -856,7 +902,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
                 if(response.equals("Add new income detailed success")){
-                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -871,7 +917,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("idmoney", "1");
+                params.put("idmoney", String.valueOf(id_income));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
                 params.put("description", description);
@@ -895,7 +941,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
                 if(response.equals("Add new income detailed success")){
-                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -910,7 +956,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("idmoney", "2");
+                params.put("idmoney", String.valueOf(id_income));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
                 params.put("description", description);
@@ -933,7 +979,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
                 if(response.equals("Add new income detailed success")){
-                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -948,7 +994,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("idmoney", "1");
+                params.put("idmoney", String.valueOf(id_income));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
                 params.put("description", description);
@@ -971,7 +1017,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
                 if(response.equals("Add new income detailed success")){
-                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -986,7 +1032,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("idmoney", "1");
+                params.put("idmoney", String.valueOf(id_income));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
                 params.put("description", description);
@@ -1009,7 +1055,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
                 if(response.equals("Add new outcome detailed success")){
-                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -1024,7 +1070,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("idmoney", "1");
+                params.put("idmoney", String.valueOf(id_outcome));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
                 params.put("description", description);
@@ -1048,7 +1094,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
                 if(response.equals("Add new outcome detailed success")){
-                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -1063,7 +1109,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("idmoney", "1");
+                params.put("idmoney", String.valueOf(id_outcome));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
                 params.put("description", description);
@@ -1086,7 +1132,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
                 if(response.equals("Add new outcome detailed success")){
-                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -1101,7 +1147,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("idmoney", "1");
+                params.put("idmoney", String.valueOf(id_outcome));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
                 params.put("description", description);
@@ -1124,7 +1170,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
                 if(response.equals("Add new outcome detailed success")){
-                    Intent intent = new Intent(AddingActivity.this, AddingActivity.class);
+                    Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -1139,7 +1185,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("idmoney", "1");
+                params.put("idmoney", String.valueOf(id_outcome));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
                 params.put("description", description);
@@ -1152,12 +1198,16 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         requestQueue.add(request);
     }
 
-
     public static byte[] encodeTobase64(Bitmap image) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 80, stream);
         byte[] byteArray = stream.toByteArray();
         return byteArray;
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".View.AddingCategoryActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout12"
+        android:layout_width="370dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/border"
+        app:blk_cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView10">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView8"
+                app:srcCompat="@drawable/icon_edit" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/athiti"
+                android:text="Hãy nhập tên loại thu chi"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/etCategory"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:fontFamily="@font/athiti"
+                android:inputType="textCapSentences|textAutoCorrect"
+                android:textAllCaps="true"
+                android:singleLine="false"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </io.alterac.blurkit.BlurLayout>
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout13"
+        android:layout_width="370dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/border"
+        app:blk_cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/blurLayout12"
+        app:layout_constraintStart_toStartOf="@+id/blurLayout12"
+        app:layout_constraintTop_toBottomOf="@+id/blurLayout12">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RadioGroup
+                android:id="@+id/rgCategory"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbtnIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_marginTop="16dp"
+                    android:checked="true"
+                    android:fontFamily="@font/athiti"
+                    android:text="Khoản thu"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/rbtnOutcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:fontFamily="@font/athiti"
+                    android:text="Khoản chi"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </RadioGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </io.alterac.blurkit.BlurLayout>
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout14"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/border"
+        app:blk_cornerRadius="20dp"
+        app:layout_constraintStart_toStartOf="@+id/blurLayout13"
+        app:layout_constraintTop_toBottomOf="@+id/blurLayout13">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/ibtnCategory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:scaleX="0.3"
+                android:scaleY="0.3"
+                android:src="@drawable/icon_video"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/athiti"
+                android:text="Thêm hình ảnh"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </io.alterac.blurkit.BlurLayout>
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blurLayout15"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:background="@drawable/border"
+        app:blk_cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/blurLayout14"
+        app:layout_constraintEnd_toEndOf="@+id/blurLayout13"
+        app:layout_constraintTop_toTopOf="@+id/blurLayout14">
+
+        <ImageButton
+            android:id="@+id/ibtnSavingCategory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:scaleX="0.4"
+            android:scaleY="0.4"
+            android:src="@drawable/icon_send" />
+    </io.alterac.blurkit.BlurLayout>
+
+    <ProgressBar
+        android:id="@+id/pbCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="310dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/imageView10"
+        app:layout_constraintTop_toTopOf="@id/imageView10" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

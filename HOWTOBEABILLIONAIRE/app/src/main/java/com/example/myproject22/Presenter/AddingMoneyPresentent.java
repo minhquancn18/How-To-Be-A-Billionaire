@@ -18,18 +18,12 @@ public class AddingMoneyPresentent {
     public AddingMoneyPresentent(AddingMoneyInterface anInterface) {
         this.anInterface = anInterface;
     }
-    //Chuyển đổi image từ int sang byte[]
-    public byte[] getImageByID(MaterialButton btn) {
-        Bitmap bitmap = ((BitmapDrawable) btn.getIcon()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageInByte = baos.toByteArray();
-        return imageInByte;
-    }
+    public void getDataBundle(){anInterface.GetDataBundle();}
 
     public void setInit(){
         anInterface.SetInit();
     }
+
     public void loadingIncomeCategory(){
         anInterface.LoadCategory();
     }
