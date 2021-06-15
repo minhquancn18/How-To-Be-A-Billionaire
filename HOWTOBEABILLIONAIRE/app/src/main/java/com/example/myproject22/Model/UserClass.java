@@ -7,13 +7,13 @@ public class UserClass {
     private String EMAIL;
     private String FULLNAME;
     private String DateStart;
-    private Double INCOME;
+    private Double SALARY;
     private String USERIMAGE;
 
-    public UserClass(String FULLNAME, String dateStart, Double INCOME, String USERIMAGE) {
+    public UserClass(String FULLNAME, String dateStart, Double SALARY, String USERIMAGE) {
         this.FULLNAME = FULLNAME;
         DateStart = dateStart;
-        this.INCOME = INCOME;
+        this.SALARY = SALARY;
         this.USERIMAGE = USERIMAGE;
     }
 
@@ -29,10 +29,10 @@ public class UserClass {
         this.PASSWORD = PASSWORD;
     }
 
-    public UserClass(String FULLNAME, String dateStart, Double INCOME) {
+    public UserClass(String FULLNAME, String dateStart, Double SALARY) {
         this.FULLNAME = FULLNAME;
         DateStart = dateStart;
-        this.INCOME = INCOME;
+        this.SALARY = SALARY;
     }
 
     public int getID_USER() {
@@ -59,8 +59,8 @@ public class UserClass {
         return DateStart;
     }
 
-    public Double getINCOME() {
-        return INCOME;
+    public Double getSALARY() {
+        return SALARY;
     }
 
     public String getUSERIMAGE() {
@@ -91,8 +91,8 @@ public class UserClass {
         DateStart = dateStart;
     }
 
-    public void setINCOME(Double INCOME) {
-        this.INCOME = INCOME;
+    public void setSALARY(Double SALARY) {
+        this.SALARY = SALARY;
     }
 
     public void setUSERIMAGE(String USERIMAGE) {

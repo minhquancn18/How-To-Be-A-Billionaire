@@ -189,7 +189,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardInt
             tvDateUse.setText(String.valueOf(diffdate));
         }
 
-        Double money = classUser.getINCOME();
+        Double money = classUser.getSALARY();
         tvMoney.setText(String.valueOf(money));
 
         String url = classUser.getUSERIMAGE();
@@ -250,15 +250,15 @@ public class DashboardActivity extends AppCompatActivity implements DashboardInt
 
                             String name = object.getString("FULLNAME");
                             String datestart = object.getString("DATESTART");
-                            String income = object.getString("INCOME");
+                            String salary = object.getString("SALARY");
                             String imageuser = object.getString("USERIMAGE");
                             if(imageuser.equals("null")){
-                                userClass = new UserClass(name,datestart,Double.parseDouble(income));
+                                userClass = new UserClass(name,datestart,Double.parseDouble(salary));
                                 SetComponent(userClass);
                             }
                             else{
                                 String url_image = urlString + "ImagesUser/" + imageuser;
-                                userClass = new UserClass(name, datestart, Double.parseDouble(income), url_image);
+                                userClass = new UserClass(name, datestart, Double.parseDouble(salary), url_image);
                                 SetComponent(userClass);
                             }
 
