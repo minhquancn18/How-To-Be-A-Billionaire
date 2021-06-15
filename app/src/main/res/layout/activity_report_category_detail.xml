@@ -42,7 +42,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:theme="@style/ToolbarTheme"
+            style="@style/ToolbarTheme"
             app:titleTextColor="@color/white" />
     </io.alterac.blurkit.BlurLayout>
 

@@ -2,6 +2,7 @@ package com.example.myproject22.Util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,13 +52,17 @@ public class DayItemAdapter extends RecyclerView.Adapter<DayItemAdapter.ViewHold
         TextView tvNumberOfRecord = cardView.findViewById(R.id.tvNumberOfRecord);
 
         DateFormat formater = new SimpleDateFormat("EEEE");
+        String weekday = formater.format(days.get(position).date);
         tvDay.setText(formater.format(days.get(position).date));
 
         formater = new SimpleDateFormat("dd.MM.yyyy");
         tvDayDetail.setText(formater.format(days.get(position).date));
         tvNumberOfRecord.setText(String.valueOf(days.get(position).numberOfRecord));
 
-
+        if(weekday.equals("Monday"))
+        {
+            cardView.setCardBackgroundColor(context.getColor(R.color.teal_200));
+        }
 
 
         cardView.setOnClickListener(new View.OnClickListener() {

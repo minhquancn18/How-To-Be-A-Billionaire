@@ -25,13 +25,12 @@ public class ReportCategoryDetailActivity extends AppCompatActivity {
 
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         linearLayout.setOrientation(RecyclerView.VERTICAL);
-
         recyclerView.setLayoutManager(linearLayout);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setTitle("  Tiền thu 1.1.2020");
+        getSupportActionBar().setTitle("   1.1.2020");
+        getSupportActionBar().setIcon(R.drawable.yoyoyo);
 
     }
 }

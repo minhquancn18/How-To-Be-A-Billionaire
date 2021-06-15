@@ -41,7 +41,8 @@
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:fontFamily">@font/cabin</item>
+        <item name="android:fontFamily">@font/athiti_light</item>
     </style>
+
 
 </resources>

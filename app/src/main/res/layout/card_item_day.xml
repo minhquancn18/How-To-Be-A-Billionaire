@@ -13,6 +13,7 @@
     app:strokeColor="@color/hintColor"
     app:strokeWidth="1dp">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,37 +44,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDay" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <io.alterac.blurkit.BlurLayout
             android:id="@+id/blurLayout512"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:blk_blurRadius="15"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="#03DAC5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvNumberOfRecord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/athiti"
-            android:text="TextView"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/blurLayout512"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/blurLayout512" />
+
+            <TextView
+                android:id="@+id/tvNumberOfRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/athiti"
+                android:text="TextView"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
+        </io.alterac.blurkit.BlurLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </com.google.android.material.card.MaterialCardView>
 
