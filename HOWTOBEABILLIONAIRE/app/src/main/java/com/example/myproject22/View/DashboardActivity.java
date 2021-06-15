@@ -154,9 +154,9 @@ public class DashboardActivity extends AppCompatActivity implements DashboardInt
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle == null){
-            id_user = 2;
-            id_income = 2;
-            id_outcome= 2;
+            id_user = 1;
+            id_income = 1;
+            id_outcome= 1;
         }
         else{
             id_user = bundle.getInt("ID_USER");
@@ -290,7 +290,6 @@ public class DashboardActivity extends AppCompatActivity implements DashboardInt
     public static int CalculateDateUse(Date fromDate, Date toDate){
         if(fromDate==null||toDate==null)
             return 0;
-
         return (int)( (toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24));
     }
 }

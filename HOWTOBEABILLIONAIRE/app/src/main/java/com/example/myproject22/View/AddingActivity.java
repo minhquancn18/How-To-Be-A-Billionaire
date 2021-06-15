@@ -13,6 +13,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -149,6 +151,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
     //Parameter for saving
     int isCategory = 0;
+    Boolean isMax = false;
 
     private int id_user;
     private int id_income;
@@ -190,10 +193,16 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = progress;
-                String svalue = String.valueOf(value);
-                etMoney.setText(svalue);
-                etMoney.setSelection(svalue.length());
+                if (isMax == false) {
+                    int value = progress;
+                    if (value == 0) {
+                        etMoney.setText("");
+                    } else {
+                        String svalue = String.valueOf(value);
+                        etMoney.setText(svalue);
+                        etMoney.setSelection(svalue.length());
+                    }
+                }
             }
 
             @Override
@@ -242,6 +251,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 if (etMoney.isEnabled() == false) {
                     etMoney.setEnabled(true);
                 }
+                seekBar.setEnabled(true);
             }
         });
 
@@ -258,7 +268,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 String image = addingMoneyPresentent.getStringImage();
                 String audio = addingMoneyPresentent.getStringAudio();
 
-                addingMoneyPresentent.savingMoneyData(money,description,category_id,image,audio);
+                addingMoneyPresentent.savingMoneyData(money, description, category_id, image, audio);
 
                 /*Toast.makeText(AddingActivity.this, String.valueOf(id_user) + "\n" + String.valueOf(id_income) + "\n" + String.valueOf(id_outcome), Toast.LENGTH_SHORT).show();*/
             }
@@ -266,7 +276,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     }
 
     @Override
-    public void GetDataBundle(){
+    public void GetDataBundle() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
@@ -298,19 +308,19 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         }
     };
 
-    public void FetchIncomeCategory(){
+    public void FetchIncomeCategory() {
         StringRequest request = new StringRequest(Request.Method.POST,
                 urlString + "getIncomeCategory.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try{
+                try {
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
 
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                    if(success.equals("1")){
-                        for(int i = 0; i < jsonArray.length(); i++){
+                    if (success.equals("1")) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
 
                             String id = object.getString("ID_CATEGORY");
@@ -342,7 +352,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar1.setVisibility(View.GONE);
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -354,19 +364,19 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         requestQueue.add(request);
     }
 
-    public void FetchOutcomeCategory(){
+    public void FetchOutcomeCategory() {
         StringRequest request = new StringRequest(Request.Method.POST,
                 urlString + "getOutcomeCategory.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try{
+                try {
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
 
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                    if(success.equals("1")){
-                        for(int i = 0; i < jsonArray.length(); i++){
+                    if (success.equals("1")) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
 
                             String id = object.getString("ID_CATEGORY");
@@ -400,7 +410,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar2.setVisibility(View.GONE);
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -626,21 +636,30 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             Toast.makeText(this, "No Audio is saving now", Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     public void IsValidNumber(CharSequence s) {
-        if (s.length() > 9) {
+        if (s.length() > 15) {
+            Toast.makeText(AddingActivity.this, "Số tiền quá lớn.", Toast.LENGTH_SHORT).show();
+            isMax = false;
             etMoney.setEnabled(false);
             etMoney.setText("");
+            seekBar.setProgress(0);
         } else if (s.length() > 0) {
             etMoney.setSelection(s.length());
             if (isNumeric(s.toString())) {
-                int progress = Integer.parseInt(s.toString());
+                long progress = Long.parseLong(s.toString());
                 if (progress > 5000000) {
+                    isMax = true;
                     seekBar.setProgress(5000000);
                 } else {
-                    int value = progress;
-                    seekBar.setProgress(value);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        int progress_int = Math.toIntExact(progress);
+                        isMax = false;
+                        seekBar.setEnabled(false);
+                        int value = progress_int;
+                        seekBar.setProgress(value);
+                    }
+
                 }
             } else {
                 etMoney.setEnabled(false);
@@ -711,14 +730,18 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         return audio;
     }
 
+    private long starttime = 0;
+    private long stoptime = 0;
+
     //Stop record
     private void StopRecord() {
         mediaRecorder.stop();
+        stoptime = System.nanoTime();
         mediaRecorder.release();
         mediaRecorder = null;
         mVisualizer.setVisibility(View.INVISIBLE);
         btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_surround_sound_24, null));
-        Toast.makeText(this, "Stop record", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Stop record in  " + String.valueOf((stoptime - starttime) / 1000000000) + "s", Toast.LENGTH_SHORT).show();
         isRecord = false;
     }
 
@@ -743,6 +766,8 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         }
 
         mediaRecorder.start();
+        starttime = System.nanoTime();
+
         mVisualizer.setVisibility(View.VISIBLE);
         btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause, null));
         Toast.makeText(this, "Start record", Toast.LENGTH_SHORT).show();
@@ -756,7 +781,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         if (isSDPresent) {
             String outputFile = AddingActivity.this.getExternalFilesDir("/").getAbsolutePath() + "/" + recordFile;
 
-            Toast.makeText(this, "Start current record", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Start current record in " + String.valueOf((stoptime - starttime) / 1000000000) + "s", Toast.LENGTH_SHORT).show();
             try {
                 mediaPlayer.setDataSource(outputFile);
                 mediaPlayer.prepare();
@@ -899,7 +924,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             public void onResponse(String response) {
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
-                if(response.equals("Add new income detailed success")){
+                if (response.equals("Add new income detailed success")) {
                     Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
@@ -938,7 +963,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             public void onResponse(String response) {
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
-                if(response.equals("Add new income detailed success")){
+                if (response.equals("Add new income detailed success")) {
                     Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
@@ -976,7 +1001,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             public void onResponse(String response) {
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
-                if(response.equals("Add new income detailed success")){
+                if (response.equals("Add new income detailed success")) {
                     Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
@@ -1014,7 +1039,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             public void onResponse(String response) {
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
-                if(response.equals("Add new income detailed success")){
+                if (response.equals("Add new income detailed success")) {
                     Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
@@ -1052,7 +1077,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             public void onResponse(String response) {
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
-                if(response.equals("Add new outcome detailed success")){
+                if (response.equals("Add new outcome detailed success")) {
                     Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
@@ -1091,7 +1116,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             public void onResponse(String response) {
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
-                if(response.equals("Add new outcome detailed success")){
+                if (response.equals("Add new outcome detailed success")) {
                     Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
@@ -1129,7 +1154,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             public void onResponse(String response) {
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
-                if(response.equals("Add new outcome detailed success")){
+                if (response.equals("Add new outcome detailed success")) {
                     Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
@@ -1167,7 +1192,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             public void onResponse(String response) {
                 Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();
                 progressBar3.setVisibility(View.GONE);
-                if(response.equals("Add new outcome detailed success")){
+                if (response.equals("Add new outcome detailed success")) {
                     Intent intent = new Intent(AddingActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
@@ -1204,7 +1229,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     }
 
     public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
