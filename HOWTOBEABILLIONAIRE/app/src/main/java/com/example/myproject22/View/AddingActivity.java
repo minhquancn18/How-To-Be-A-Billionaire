@@ -207,7 +207,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                isMax = false;
             }
 
             @Override
@@ -251,7 +251,6 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 if (etMoney.isEnabled() == false) {
                     etMoney.setEnabled(true);
                 }
-                seekBar.setEnabled(true);
             }
         });
 
@@ -288,6 +287,8 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     @Override
     protected void onResume() {
         super.onResume();
+        categoryRecycler.setVisibility(View.INVISIBLE);
+        categoryRecycler1.setVisibility(View.INVISIBLE);
         arrayList = new ArrayList<>();
         arrayList1 = new ArrayList<>();
         LoadCategory();
@@ -339,7 +340,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                         LinearLayoutManager layoutManager = new LinearLayoutManager(AddingActivity.this);
                         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
                         categoryRecycler.setLayoutManager(layoutManager);
-
+                        categoryRecycler.setVisibility(View.VISIBLE);
                         progressBar1.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
@@ -395,7 +396,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                         CategoryAdapter adapter1 = new CategoryAdapter(arrayList1, bottomSheetBehavior, tvChooseImage, btnAddCategory, id_user);
                         categoryRecycler1.setAdapter(adapter1);
                         categoryRecycler1.setLayoutManager(layoutManager1);
-
+                        categoryRecycler1.setVisibility(View.VISIBLE);
                         progressBar2.setVisibility(View.GONE);
                     }
 
@@ -655,14 +656,12 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                         int progress_int = Math.toIntExact(progress);
                         isMax = false;
-                        seekBar.setEnabled(false);
                         int value = progress_int;
                         seekBar.setProgress(value);
                     }
 
                 }
             } else {
-                etMoney.setEnabled(false);
                 etMoney.setText("");
             }
         }

@@ -132,7 +132,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                app:layout_constraintTop_toBottomOf="@+id/textView13"/>
 
             <ProgressBar
                 android:id="@+id/progress2"
@@ -160,7 +160,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView14"
-                app:layout_constraintVertical_bias="0.075" />
+                app:layout_constraintVertical_bias="0.075"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddCategory"
