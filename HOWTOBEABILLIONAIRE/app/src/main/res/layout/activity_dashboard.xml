@@ -35,7 +35,8 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.168">
+        app:layout_constraintVertical_bias="0.168"
+        android:visibility="invisible">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -134,7 +135,7 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/athiti_semibold"
                 android:text="2.400.123 VND"
                 android:textColor="@color/white"
@@ -209,6 +210,5 @@
 
         </androidx.constraintlayout.motion.widget.MotionLayout>
     </io.alterac.blurkit.BlurLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

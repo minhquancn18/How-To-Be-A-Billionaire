@@ -332,8 +332,6 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
                         progressBar1.setVisibility(View.GONE);
                     }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
