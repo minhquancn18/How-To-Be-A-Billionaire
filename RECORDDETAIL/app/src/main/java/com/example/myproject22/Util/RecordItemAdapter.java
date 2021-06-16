@@ -66,18 +66,10 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
         TextView tvDescription = cardView.findViewById(R.id.tvDescription);
         TextView tvTime = cardView.findViewById(R.id.tvTime);
         TextView tvName = cardView.findViewById(R.id.tvCategory);
-        TextView tvEnd = cardView.findViewById(R.id.tvTimeEnd);
-        TextView tvStart = cardView.findViewById(R.id.tvTimeStart);
-        SeekBar seekBar = cardView.findViewById(R.id.seekbarProgressAudio);
         CircleImageView btnImage = cardView.findViewById(R.id.circleImageView);
         CircleImageView btnImageCategory = cardView.findViewById(R.id.ivCategoryImage);
         ImageView ivCategory = cardView.findViewById(R.id.circleImageView4);
-        ImageButton btnAudio = cardView.findViewById(R.id.btnPlayAudio);
 
-        tvStart.setVisibility(View.INVISIBLE);
-        tvEnd.setVisibility(View.INVISIBLE);
-        seekBar.setVisibility(View.INVISIBLE);
-        btnAudio.setVisibility(View.INVISIBLE);
 
         DetailItem item = arrays.get(position);
         tvMoney.setText(String.valueOf(item.get_MONEY()));
@@ -105,95 +97,6 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
             Glide.with(cardView).load(image_category_url).into(btnImageCategory);
         }
 
-        String audio_url = item.get_AUDIO();
-        if (audio_url.equals("NULL")) {
-        } else {
-          btnAudio.setVisibility(View.VISIBLE);
-        }
-
-        btnAudio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Kiểm tra xem audio của cardview này đã đc tạo chưa
-                if(flag){
-                    mediaPlayer = new MediaPlayer();
-                    try {
-                        mediaPlayer.setDataSource(audio_url); //Lấy audio từ url web
-                        mediaPlayer.prepare();
-                        int duration = mediaPlayer.getDuration(); //Lấy độ dài của video
-                        seekBar.setMax(duration); //Set thanh seek bar
-                        tvEnd.setText(String.valueOf(duration / 1000));//Set text end (độ dài của video)
-
-                        //Khi nhấn vào nút audio thì chuẩn bị chạy và hiện lại textView End, text view Srart, seekbar
-                        tvEnd.setVisibility(View.VISIBLE);
-                        tvStart.setVisibility(View.VISIBLE);
-                        seekBar.setVisibility(View.VISIBLE);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    //Xét cờ bằng false để ko cho những audio khác phát
-                    flag = false;
-                }
-
-                //Kiểm tra media đang phát hay ngừng
-                if(mediaPlayer.isPlaying()){
-                    //Dừng media khi bấm nút
-                    mediaPlayer.pause();
-                    btnAudio.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_play, null));
-                } else {
-                    //Bắt đầu media
-                    mediaPlayer.start();
-                    btnAudio.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_pause, null));
-
-                    //Nếu audio đã hết thì mới cho mở cờ (giải phóng media)
-                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            mediaPlayer.stop();
-                            mediaPlayer.release();
-
-                            flag = true;
-
-                            //Ẩn những thông tin khác
-                            tvStart.setVisibility(View.INVISIBLE);
-                            tvEnd.setVisibility(View.INVISIBLE);
-                            seekBar.setVisibility(View.INVISIBLE);
-                            btnAudio.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_play, null));
-                        }
-                    });
-
-                    //Set thanh seekbar
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                        }
-                    }, 100);
-                }
-            }
-        });
-
-        //Xử lí seekbar
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(fromUser){
-                    mediaPlayer.seekTo(progress);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
 
     }
 

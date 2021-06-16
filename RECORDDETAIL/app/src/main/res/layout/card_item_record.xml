@@ -49,7 +49,7 @@
                 android:background="#F0C2C2C2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnPlayAudio" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -103,9 +103,9 @@
 
             <ImageView
                 android:id="@+id/circleImageView4"
-                android:layout_width="60dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="25dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="15dp"
                 android:background="@drawable/round_background_income"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="@+id/ivCategoryImage"
@@ -124,33 +124,6 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
-
-            <TextView
-                android:id="@+id/tvTimeStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:fontFamily="monospace"
-                android:text="0.00"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/btnPlayAudio"
-                app:layout_constraintStart_toEndOf="@+id/btnPlayAudio"
-                app:layout_constraintTop_toTopOf="@+id/btnPlayAudio" />
-
-            <TextView
-                android:id="@+id/tvTimeEnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="monospace"
-                android:text="2.00"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/seekbarProgressAudio"
-                app:layout_constraintStart_toEndOf="@+id/seekbarProgressAudio"
-                app:layout_constraintTop_toTopOf="@+id/seekbarProgressAudio" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -181,35 +154,16 @@
 
             <TextView
                 android:id="@+id/tvCategory"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/athiti_semibold"
+                android:inputType="textMultiLine"
                 android:text="Điện ảnh "
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView18"
                 app:layout_constraintStart_toStartOf="@+id/tvTime"
                 app:layout_constraintTop_toTopOf="@+id/textView18" />
-
-            <SeekBar
-                android:id="@+id/seekbarProgressAudio"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/tvTimeStart"
-                app:layout_constraintStart_toEndOf="@+id/tvTimeStart"
-                app:layout_constraintTop_toTopOf="@+id/tvTimeStart" />
-
-            <ImageButton
-                android:id="@+id/btnPlayAudio"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:layout_constraintStart_toStartOf="@+id/circleImageView"
-                app:layout_constraintTop_toBottomOf="@+id/tvDescription"
-                app:srcCompat="@drawable/icon_play" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </io.alterac.blurkit.BlurLayout>
