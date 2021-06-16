@@ -33,17 +33,69 @@
         android:id="@+id/blurLayoutH"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:blk_cornerRadius="15dp"
+        app:blk_cornerRadius="2dp"
+        app:blk_blurRadius="20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            style="@style/ToolbarTheme"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            style="@style/ToolbarTheme"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/athiti"
+                    android:text="   1.1.2021"
+                    android:textSize="20dp"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="18dp"
+                    android:background="@drawable/round_background_income"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/athiti"
+                    android:text="Thu"
+                    android:textSize="20dp"
+                    android:textColor="@color/white" />
+
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="18dp"
+                    android:background="@drawable/round_background_outcome"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/athiti"
+                    android:text="Chi"
+                    android:textSize="20dp"
+                    android:textColor="@color/white" />
+
+
+            </LinearLayout>
+
+
+        </androidx.appcompat.widget.Toolbar>
     </io.alterac.blurkit.BlurLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

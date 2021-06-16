@@ -28,7 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/white">
+
+        </androidx.appcompat.widget.Toolbar>
     </io.alterac.blurkit.BlurLayout>
 
 

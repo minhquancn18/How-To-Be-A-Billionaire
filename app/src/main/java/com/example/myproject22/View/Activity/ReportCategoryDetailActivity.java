@@ -29,7 +29,6 @@ public class ReportCategoryDetailActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("   1.1.2020");
         getSupportActionBar().setIcon(R.drawable.yoyoyo);
 
     }
