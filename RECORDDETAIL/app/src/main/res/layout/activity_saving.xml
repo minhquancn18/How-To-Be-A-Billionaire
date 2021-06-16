@@ -1,38 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-=======
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> origin/Quan
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mylayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-<<<<<<< HEAD
     tools:context=".View.Activity.SavingActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-=======
-<<<<<<<< HEAD:app/src/main/res/layout/activity_main.xml
-    android:weightSum="8"
-    tools:context=".View.Activity.MainActivity">
-========
-    tools:context=".View.Activity.SavingActivity">
->>>>>>>> origin/Quan:RECORDDETAIL/app/src/main/res/layout/activity_saving.xml
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_adding"
-        android:layout_width="match_parent"
-<<<<<<<< HEAD:app/src/main/res/layout/activity_main.xml
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:text="Add" />
-========
->>>>>>> origin/Quan
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -432,11 +410,5 @@
 
     </LinearLayout>
 
-<<<<<<< HEAD
 
 </ScrollView>
-=======
->>>>>>>> origin/Quan:RECORDDETAIL/app/src/main/res/layout/activity_saving.xml
-
-</LinearLayout>
->>>>>>> origin/Quan
