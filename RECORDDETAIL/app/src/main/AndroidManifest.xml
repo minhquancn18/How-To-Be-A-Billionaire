@@ -16,14 +16,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyProject22">
-        <activity android:name=".View.Activity.ReportCategoryDetailActivity"></activity>
-        <!-- Phan report cua Son -->
-        <activity android:name=".View.Activity.ReportCategoryActivity">
+        <activity android:name=".View.Activity.RecordDetailActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".View.Activity.ReportCategoryDetailActivity" /> <!-- Phan report cua Son -->
+        <activity android:name=".View.Activity.ReportCategoryActivity">
+
         </activity>
         <activity android:name=".View.Activity.ReportCategoryGraphActivity" /> <!-- phan cua Quan -->
         <activity android:name=".View.Activity.AddingTypeCategoryActivity" />

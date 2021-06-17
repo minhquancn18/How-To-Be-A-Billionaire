@@ -19,5 +19,6 @@
 
     <color name="colorDarkBlue">#3D4054</color>
     <color name="nearlyRed">#FF7167</color>
+    <color name="backgroundTransForText">#84000000</color>
 
 </resources>
