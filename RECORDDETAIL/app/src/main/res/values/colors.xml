@@ -21,4 +21,6 @@
     <color name="nearlyRed">#FF7167</color>
     <color name="backgroundTransForText">#84000000</color>
 
+    <color name="textForRoundProgressBar">#828282</color>
+
 </resources>

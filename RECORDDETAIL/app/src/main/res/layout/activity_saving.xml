@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mylayout"
@@ -9,406 +9,112 @@
     tools:context=".View.Activity.SavingActivity">
 
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/imageView10"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:scaleType="centerCrop"
+        android:src="@drawable/backgroundhome"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="36dp"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="monospace"
-                        android:text="Lalaland"
-                        android:textSize="18dp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="36dp"
-                            android:src="@drawable/time_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:fontFamily="monospace"
-                            android:text="Joined June 2010" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-                <FrameLayout
-                    android:layout_width="95dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="28dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    >
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/profile_image"
-                        android:layout_width="95dp"
-                        android:layout_height="95dp"
-
-                        android:src="@drawable/avatar"
-                        app:civ_border_color="#FF000000"
-                        app:civ_border_width="2dp"
-                       />
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center_horizontal|bottom"
-                        android:background="@android:color/transparent"
-                        android:scrollY="0dp"
-                        android:layout_margin="20dp"
-                        android:src="@drawable/outline_auto_fix_normal_white_48" />
-
-
-                </FrameLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvGoalName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:fontFamily="monospace"
-                android:text="[ Mua nhà ]"
-                android:textSize="22dp"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ivGoal"
-                    android:layout_width="250dp"
-                    android:layout_height="250dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:onClick="onModifyGoalClicked"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/house"
-                    app:civ_border_color="@color/black"
-                    app:civ_border_width="2.5dp" />
-
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:background="@android:color/transparent"
-                    android:paddingTop="20dp"
-                    android:scrollY="10dp"
-                    android:src="@drawable/outline_auto_fix_normal_white_48" />
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/custom_background"
-                android:elevation="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvGoalDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="monospace"
-                    android:text="* Mua nhà chung cư *"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="23dp"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="monospace"
-                        android:text="Số tiền "
-                        android:textSize="17dp" />
-
-
-                    <TextView
-                        android:id="@+id/tvMoneyGoal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="monospace"
-                        android:text="10.212/20.000 VND"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="23dp"
-                        android:fontFamily="monospace"
-                        android:text="Tiến độ"
-                        android:textSize="17dp" />
-
-                    <com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar
-                        android:id="@+id/Progress_saving"
-                        android:layout_width="220dp"
-                        android:layout_height="45dp"
-                        android:layout_marginLeft="15dp"
-                        android:background="@drawable/iv_border"
-                        app:rcBackgroundColor="#0A000000"
-                        app:rcBackgroundPadding="2dp"
-                        app:rcMax="100"
-                        app:rcProgress="60"
-                        app:rcProgressColor="@color/green"
-                        app:rcRadius="3dp"
-                        app:rcSecondaryProgress="67"
-                        app:rcSecondaryProgressColor="#6D8BC34A"
-                        app:rcTextPositionPriority="inside"
-                        app:rcTextProgress="60%"
-                        app:rcTextProgressColor="@color/white"
-                        app:rcTextProgressMargin="10dp"
-                        app:rcTextProgressSize="20dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textRoundCornerProgressBar">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="monospace"
-            android:text="Thông số"
-            android:textSize="22dp"
-            android:textStyle="bold" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_background"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp">
-
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/fire" />
-
-                    <TextView
-                        android:id="@+id/tvDayStreak"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:fontFamily="monospace"
-                        android:text="23"
-                        android:textSize="22dp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
-                    android:fontFamily="monospace"
-                    android:text="Chuỗi ngày"
-                    android:textSize="18dp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_background"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginLeft="10dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/thunder" />
-
-
-                    <TextView
-                        android:id="@+id/tvTotalSaving"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="monospace"
-                        android:text="21.3tr"
-                        android:textSize="23dp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="20dp"
-                    android:fontFamily="monospace"
-                    android:text="Tiết kiệm"
-                    android:textSize="18dp" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@drawable/custom_background"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/piechart" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:fontFamily="monospace"
-                    android:text="Tiết kiệm trong tuần"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/weekChar"
-                android:layout_width="360dp"
-                android:layout_height="250dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:elevation="10dp"
-                android:padding="0dp" />
-
-
-        </LinearLayout>
-
+            android:background="@color/backgroundTransForText"
+            android:fontFamily="@font/athiti"
+            android:padding="4dp"
+            android:paddingStart="10dp"
+            android:text="Mua cổ phần tiệm tạp hóa gần nhà"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
 
     </LinearLayout>
 
 
-</ScrollView>
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/backgroundTransForText"
+        android:drawableStart="@drawable/icon_audio"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto_mono"
+        android:padding="4dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="18.00 PM ngày 2.2.2020"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto_mono"
+        android:padding="4dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:text="22 ngày"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textRoundCornerProgressBar"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="@+id/textRoundCornerProgressBar" />
+
+    <com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar
+        android:id="@+id/textRoundCornerProgressBar"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="24dp"
+        app:barrierDirection="end"
+        app:layout_constraintStart_toEndOf="@+id/textView17"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rcBackgroundColor="#16000000"
+        app:rcBackgroundPadding="4dp"
+        app:rcMax="100"
+        app:rcProgress="40"
+        app:rcProgressColor="@color/white"
+        app:rcRadius="5dp"
+        app:rcTextInsideGravity="end"
+        app:rcTextOutsideGravity="end"
+        app:rcTextPositionPriority="outside"
+        app:rcTextProgress="40%"
+        app:rcTextProgressColor="@color/white"
+        app:rcTextProgressSize="14sp" />
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/transparent"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_edit_spe"
+        android:tint="@color/image_button_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

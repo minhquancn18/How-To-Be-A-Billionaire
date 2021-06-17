@@ -18,11 +18,6 @@
         android:theme="@style/Theme.MyProject22">
         <activity android:name=".View.Activity.RecordDetailActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".View.Activity.ReportCategoryDetailActivity" /> <!-- Phan report cua Son -->
         <activity android:name=".View.Activity.ReportCategoryActivity">
@@ -34,7 +29,13 @@
         <activity android:name=".View.Activity.AddingActivity" /> <!-- Giao dien chinh -->
         <activity android:name=".View.Activity.DashboardActivity" /> <!-- Phan cua Tam -->
         <activity android:name=".View.Activity.GoalActivity" />
-        <activity android:name=".View.Activity.SavingActivity" />
+        <activity android:name=".View.Activity.SavingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
