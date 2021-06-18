@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,30 +15,26 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.example.myproject22.Model.SavingDatabaseHelper;
+import com.bumptech.glide.Glide;
 import com.example.myproject22.R;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
 
 import me.abhinay.input.CurrencyEditText;
 
-import static com.example.myproject22.Util.FormatImage.BitmapToByte;
-
 public class GoalActivity extends AppCompatActivity {
 
     private static final int GALLERY_REQUEST = 11;
 
-    ImageView ivImage;
-    ImageView chooseImage;
+    ImageView ivGoal;
     Uri image_uri;
 
-    CurrencyEditText etInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +48,27 @@ public class GoalActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-        SpannableString s = new SpannableString("My Title");
+        //set text for title
+        SpannableString s = new SpannableString("Mục tiêu của bạn");
         s.setSpan(new TypefaceSpan("monospace"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         getSupportActionBar().setTitle(s);
+
+
+        ivGoal = findViewById(R.id.ivGoal);
+
+
     }
 
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.goal_activity_menu, menu);
+        return true;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -71,7 +81,7 @@ public class GoalActivity extends AppCompatActivity {
                         Uri selectedImage = data.getData();
                         try {
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-                            ivImage.setImageBitmap(bitmap);
+                            ivGoal.setImageBitmap(bitmap);
 
                         } catch (IOException e) {
                             Log.i("TAG", "Some exception " + e);
@@ -80,30 +90,40 @@ public class GoalActivity extends AppCompatActivity {
                 }
             }
 
-            ivImage.setImageURI(image_uri);
+            ivGoal.setImageURI(image_uri);
         }
     }
 
     // choose image
-    public void onChooseImageClick(View view) {
+    public void onChooseImageClick() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-            return true;
-        }
-        return false;
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 
-    public void saveAllIntoDatabase(double goalMoney, String name, String description, byte[] image) {
-        SavingDatabaseHelper savingDatabaseHelper = new SavingDatabaseHelper(this, null, null, 0);
-        savingDatabaseHelper.insertMucTieu(name, description, goalMoney, 0, image);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                return true;
+            }
+
+            case R.id.goal_image_add: {
+                onChooseImageClick();
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -79,12 +79,13 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
 
 
-/*      View overlay = findViewById(R.id.mylayout);
+      View overlay = findViewById(R.id.mylayout);
         overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_FULLSCREEN);
 
-        CircleImageView profile_image = findViewById(R.id.profile_image);
+
+/*        CircleImageView profile_image = findViewById(R.id.profile_image);
         profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
