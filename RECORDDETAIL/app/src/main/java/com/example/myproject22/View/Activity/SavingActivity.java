@@ -2,6 +2,7 @@ package com.example.myproject22.View.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -140,6 +141,12 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     public void onModifyGoalClicked(View view) {
         Intent intent = new Intent(this, GoalActivity.class);
         startActivity(intent);
+    }
+
+    public void NewImageClicked(View view) {
+        Intent intent = new Intent(this, GoalActivity.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 }
 

@@ -648,7 +648,6 @@ public class SavingDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void closeAll() {
-        db.close();
     }
 
 }

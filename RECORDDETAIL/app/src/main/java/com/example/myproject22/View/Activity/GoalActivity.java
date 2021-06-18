@@ -1,6 +1,9 @@
 package com.example.myproject22.View.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +12,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -39,7 +46,17 @@ public class GoalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_goal);
-        ivImage = findViewById(R.id.ivImage);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1111);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+        SpannableString s = new SpannableString("My Title");
+        s.setSpan(new TypefaceSpan("monospace"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(s);
     }
 
 
@@ -67,29 +84,6 @@ public class GoalActivity extends AppCompatActivity {
         }
     }
 
-    public void onDoneClick(View view) {
-
-        CurrencyEditText etGoalMoney = findViewById(R.id.etGoalMoney);
-        TextInputLayout etGoalDesc = findViewById(R.id.etDesc);
-        TextInputLayout etGoalName = findViewById(R.id.etGoalName);
-
-        double goalMoney = 0;
-        try {
-            goalMoney = etGoalMoney.getCleanDoubleValue();
-        } catch (Exception e) {
-        }
-
-        String name = etGoalName.getEditText().getText().toString();
-        String description = etGoalDesc.getEditText().getText().toString();
-
-        Bitmap bitmap = ((BitmapDrawable) ivImage.getDrawable()).getBitmap();
-        byte[] image = BitmapToByte(bitmap);
-
-        saveAllIntoDatabase(goalMoney, name, description, image);
-
-        this.finish();
-    }
-
     // choose image
     public void onChooseImageClick(View view) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -97,10 +91,16 @@ public class GoalActivity extends AppCompatActivity {
         startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
     }
 
-    // convert Image to add to database
 
-
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+            return true;
+        }
+        return false;
+    }
 
     public void saveAllIntoDatabase(double goalMoney, String name, String description, byte[] image) {
         SavingDatabaseHelper savingDatabaseHelper = new SavingDatabaseHelper(this, null, null, 0);

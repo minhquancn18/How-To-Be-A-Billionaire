@@ -28,8 +28,14 @@
         <activity android:name=".View.Activity.CategoryActivity" />
         <activity android:name=".View.Activity.AddingActivity" /> <!-- Giao dien chinh -->
         <activity android:name=".View.Activity.DashboardActivity" /> <!-- Phan cua Tam -->
-        <activity android:name=".View.Activity.GoalActivity" />
-        <activity android:name=".View.Activity.SavingActivity">
+
+
+        <activity android:name=".View.Activity.GoalActivity"
+            android:parentActivityName=".View.Activity.SavingActivity"
+            android:label="@string/description"
+            />
+        <activity android:name=".View.Activity.SavingActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

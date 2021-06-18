@@ -5,7 +5,7 @@
     <item android:color="#b6b7b5" android:state_enabled="false" />
 
     <!--When Button is in pressed state -->
-    <item android:color="@color/teal_200" android:state_pressed="true" />
+    <item android:color="#FBCA82" android:state_pressed="true" />
 
     <!-- &lt;!&ndash;When Button is in selected state &ndash;&gt;
      <item android:state_selected="true" android:color="#fabcff" />-->
