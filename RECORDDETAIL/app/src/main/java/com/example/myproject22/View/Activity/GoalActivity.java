@@ -17,6 +17,7 @@ import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -42,33 +43,14 @@ public class GoalActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_goal);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1111);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-
-        //set text for title
-        SpannableString s = new SpannableString("Mục tiêu của bạn");
-        s.setSpan(new TypefaceSpan("monospace"), 0, s.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        getSupportActionBar().setTitle(s);
-
 
         ivGoal = findViewById(R.id.ivGoal);
 
-
     }
 
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.goal_activity_menu, menu);
-        return true;
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -95,7 +77,7 @@ public class GoalActivity extends AppCompatActivity {
     }
 
     // choose image
-    public void onChooseImageClick() {
+    public void onChooseImageClick(View view ) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
@@ -119,11 +101,15 @@ public class GoalActivity extends AppCompatActivity {
             }
 
             case R.id.goal_image_add: {
-                onChooseImageClick();
                 return true;
             }
         }
 
         return false;
+    }
+
+    public void btnGoalDoneClicked(View view) {
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 }

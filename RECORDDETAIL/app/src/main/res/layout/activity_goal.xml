@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/myGoalLayout"
@@ -9,40 +9,32 @@
     tools:context=".View.Activity.GoalActivity">
 
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="#D7FF5959"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-
-            <ImageView
-                android:id="@+id/ivGoal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/avatar"
-                app:layout_collapseMode="parallax" />
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar1111"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-
-    <androidx.core.widget.NestedScrollView
+    <ImageView
+        android:id="@+id/ivGoal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:scaleType="centerCrop"
+        android:src="@drawable/addimage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#4A000000"
+        app:cardCornerRadius="9dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivGoal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.648"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp">
 
 
         <LinearLayout
@@ -50,80 +42,131 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="22dp"
-                android:hint="Số tiền mục tiêu"
-                app:boxStrokeColor="@color/black"
-                app:hintTextColor="@color/black">
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/roboto_mono"
+                android:gravity="center_horizontal"
+                android:text="* MỤC TIÊU *"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Số tiền"
+                android:theme="@style/EditTextTheme"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@android:color/transparent"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:prefixText="$"
+
+                app:prefixTextColor="@color/white">
+
+            <EditText
+                android:id="@+id/etGoalMoney"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType=""
+                android:layout_marginStart="20dp"
+                android:paddingTop="22dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/roboto_mono"
+                android:theme="@style/EditTextTheme" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-                <me.abhinay.input.CurrencyEditText
-                    android:id="@+id/etGoalMoney"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tên mục tiêu"
+                android:theme="@style/EditTextTheme"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@android:color/transparent"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp">
+
+                <EditText
+                    android:id="@+id/etGoalName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:inputType="numberDecimal"
-                    android:maxLines="2" />
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/roboto_mono"
+                    android:inputType="textMultiLine|number"
+                    android:paddingTop="22dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etGoalName"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="22dp"
-                android:hint="Mục tiêu"
-                app:boxStrokeColor="@color/black"
-                app:hintTextColor="@color/black">
+                android:hint="Miêu tả"
+                android:theme="@style/EditTextTheme"
+                app:boxBackgroundColor="@android:color/transparent"
+                app:boxStrokeColor="@android:color/transparent"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:prefixTextColor="@color/white">
 
-
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
+                    android:id="@+id/etGoalDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/etDesc"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="22dp"
-                android:hint="Mô tả"
-                app:boxStrokeColor="@color/black"
-                app:hintTextColor="@color/black">
-
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top|left"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/roboto_mono"
+                    android:gravity="start|top"
                     android:inputType="textMultiLine"
-                    android:minLines="4" />
+                    android:maxLines="25"
+                    android:minLines="4"
+                    android:paddingTop="22dp"
+                    android:theme="@style/EditTextTheme" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:layout_margin="14dp"
-                android:backgroundTint="#EE6565"
-                android:drawableLeft="@drawable/icon_audio"
-                android:text="Hoàn thành"
-                android:textColor="@color/white" />
+                <Button
+                    android:id="@+id/btnImageAdd"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_image_add"
+                    android:onClick="onChooseImageClick"
+                    android:padding="10dp"
+                    android:text="Hình ảnh"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btnGoalDone"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:onClick="btnGoalDoneClicked"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:text="HOÀN THÀNH"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
 
-    </androidx.core.widget.NestedScrollView>
+    </com.google.android.material.card.MaterialCardView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>
