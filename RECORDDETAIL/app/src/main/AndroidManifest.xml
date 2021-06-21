@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,23 +25,26 @@
         <activity android:name=".View.Activity.ReportCategoryActivity">
 
         </activity>
-        <activity android:name=".View.Activity.ReportCategoryGraphActivity" /> <!-- phan cua Quan -->
+        <activity android:name=".View.Activity.ReportCategoryGraphActivity">
+
+        </activity> <!-- phan cua Quan -->
         <activity android:name=".View.Activity.AddingTypeCategoryActivity" />
-        <activity android:name=".View.Activity.CategoryActivity" />
         <activity android:name=".View.Activity.AddingActivity" /> <!-- Giao dien chinh -->
         <activity android:name=".View.Activity.DashboardActivity" /> <!-- Phan cua Tam -->
 
 
-        <activity android:name=".View.Activity.GoalActivity"
-            android:parentActivityName=".View.Activity.SavingActivity"
+        <activity
+            android:name=".View.Activity.GoalActivity"
             android:label="@string/description"
-            />
-        <activity android:name=".View.Activity.SavingActivity"
-            >
+            android:parentActivityName=".View.Activity.SavingActivity" />
+        <activity android:name=".View.Activity.SavingActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
 
         </activity>
 

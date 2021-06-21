@@ -95,7 +95,6 @@ public class AddingMoneyPresentent {
             anInterface.GetNoCategoryData();
             return;
         }
-
         anInterface.SavingMoneyData(money,description,category_id,image,audio);
     }
 }

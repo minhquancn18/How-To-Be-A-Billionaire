@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/ivGoalImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -30,9 +30,10 @@
         android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textRoundCornerProgressBar">
+        app:layout_constraintTop_toBottomOf="@+id/rprogress">
 
         <TextView
+            android:id="@+id/tvGoalName"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:background="@color/backgroundTransForText"
@@ -47,7 +48,7 @@
 
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/tvGoalDateStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -66,7 +67,7 @@
 
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/tvGoalDayCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"
@@ -77,24 +78,24 @@
         android:text="22 ngày"
         android:textColor="@color/white"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textRoundCornerProgressBar"
+        app:layout_constraintBottom_toBottomOf="@+id/rprogress"
         app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-        app:layout_constraintTop_toTopOf="@+id/textRoundCornerProgressBar" />
+        app:layout_constraintTop_toTopOf="@+id/rprogress" />
 
     <com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar
-        android:id="@+id/textRoundCornerProgressBar"
+        android:id="@+id/rprogress"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="24dp"
         app:barrierDirection="end"
-        app:layout_constraintStart_toEndOf="@+id/textView17"
+        app:layout_constraintStart_toEndOf="@+id/tvGoalDayCount"
         app:layout_constraintTop_toTopOf="parent"
-        app:rcBackgroundColor="#16000000"
+        app:rcBackgroundColor="#1C000000"
         app:rcBackgroundPadding="4dp"
         app:rcMax="100"
         app:rcProgress="40"
-        app:rcProgressColor="@color/white"
+        app:rcProgressColor="#59000000"
         app:rcRadius="5dp"
         app:rcTextInsideGravity="end"
         app:rcTextOutsideGravity="end"
@@ -104,12 +105,13 @@
         app:rcTextProgressSize="14sp" />
 
     <ImageButton
-        android:id="@+id/imageButton6"
+        android:id="@+id/btnNewGoal"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
+        android:onClick="NewGoalClicked"
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/icon_edit_spe"
@@ -119,19 +121,19 @@
 
 
     <ImageButton
-        android:id="@+id/imageButton7"
+        android:id="@+id/btnDescription"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:onClick="NewImageClicked"
+        android:layout_marginStart="20dp"
         android:background="@android:color/transparent"
         android:padding="10dp"
         android:scaleType="fitCenter"
+        android:onClick="ShowDescriptionClicked"
         android:src="@drawable/icon_information_white"
         android:tint="@color/image_button_selector"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton6"
-        app:layout_constraintEnd_toStartOf="@+id/materialCardView"
-        app:layout_constraintStart_toEndOf="@+id/imageButton6"
-        app:layout_constraintTop_toTopOf="@+id/imageButton6" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnNewGoal"
+        app:layout_constraintStart_toEndOf="@+id/btnNewGoal"
+        app:layout_constraintTop_toTopOf="@+id/btnNewGoal" />
 
 
     <com.google.android.material.card.MaterialCardView
@@ -142,9 +144,9 @@
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton6"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNewGoal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageButton6"
+        app:layout_constraintTop_toTopOf="@+id/btnNewGoal"
         app:strokeColor="@color/white"
         app:strokeWidth="1.5dp">
 
@@ -155,6 +157,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tvMoneySaving"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -175,6 +178,7 @@
                 android:textColor="@color/white" />
 
             <TextView
+                android:id="@+id/tvMoneyGoal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -189,6 +193,23 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <TextView
+        android:id="@+id/tvGoalDescription"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/backgroundTransForText"
+        android:ellipsize="end"
+        android:fontFamily="@font/athiti"
+        android:maxLines="15"
+        android:paddingStart="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:text="Mua cổ phần tiệm tạp hóa gần nhà  dlkskj ksdjjk dksj ksdjskj skdjskj skdjsk  djskj skdj skdj  skdjs "
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/tvGoalDateStart"
+        app:layout_constraintTop_toBottomOf="@+id/tvGoalDateStart" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

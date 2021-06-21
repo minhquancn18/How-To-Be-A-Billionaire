@@ -10,8 +10,13 @@ import com.example.myproject22.View.Fragment.IncomeCategoryGraphFragment;
 import com.example.myproject22.View.Fragment.OutcomeCategoryGraphFragment;
 
 public class CategoryGraphPagerAdapter extends FragmentPagerAdapter {
-    public CategoryGraphPagerAdapter(@NonNull FragmentManager fm) {
+    int a;
+    int b;
+    public CategoryGraphPagerAdapter(@NonNull FragmentManager fm, int a, int b) {
+
         super(fm);
+        this.a = a;
+        this.b = b;
     }
 
     @NonNull
@@ -19,7 +24,7 @@ public class CategoryGraphPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new IncomeCategoryGraphFragment();
+                return new IncomeCategoryGraphFragment(a, b);
             case 1:
                 return new OutcomeCategoryGraphFragment();
         }

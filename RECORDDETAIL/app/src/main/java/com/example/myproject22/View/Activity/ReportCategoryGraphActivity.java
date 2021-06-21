@@ -19,7 +19,7 @@ public class ReportCategoryGraphActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_report_graph);
 
 
-        CategoryGraphPagerAdapter categoryGraphPagerAdapter = new CategoryGraphPagerAdapter(getSupportFragmentManager());
+        CategoryGraphPagerAdapter categoryGraphPagerAdapter = new CategoryGraphPagerAdapter(getSupportFragmentManager(), 99, 99);
         ViewPager viewPager = findViewById(R.id.category_graph_pager);
         viewPager.setAdapter(categoryGraphPagerAdapter);
 
