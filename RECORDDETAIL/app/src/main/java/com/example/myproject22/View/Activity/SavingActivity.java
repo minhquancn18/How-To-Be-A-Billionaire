@@ -27,6 +27,7 @@ import com.example.myproject22.Model.ConnectionClass;
 import com.example.myproject22.R;
 import com.example.myproject22.Presenter.SavingInterface;
 import com.example.myproject22.Util.FormatImage;
+import com.example.myproject22.Util.Formatter;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -34,10 +35,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -59,8 +62,9 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
     //region GLOBAL VARIABLES
     private static final int id_user = 1;
-    public static final int RESULT_ADD_OK =  10;
+    public static final int RESULT_ADD_OK = 10;
     private static final int REQUEST_NEW_GOAL = 11;
+    public static final int RESULT_ADD_FAILED = 12;
     //endregion
 
 
@@ -89,9 +93,30 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         LoadAnimation();
         FetchGoalDataFromServer();
     }
-//endregion
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_NEW_GOAL: {
+                if (resultCode == RESULT_ADD_OK) {
+                    Snackbar snackbar = Snackbar.make(tvGoalMoney, "Thêm một mục tiêu thành công", BaseTransientBottomBar.LENGTH_SHORT);
+                    snackbar.setAnchorView(R.id.tvMoneyGoal);
+                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                    snackbar.show();
+                    return;
+                }
+                if (requestCode == RESULT_ADD_FAILED) {
+                    return;
+                }
+            }
+
+        }
+    }
+    //endregion
 
 
+    //region NORMAL FUNCTIONS
     public void LoadAnimation() {
         YoYo.with(Techniques.Pulse)
                 .duration(2000)
@@ -99,7 +124,8 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 .playOn(myLayout);
     }
 
-    ;
+    //endregion
+
 
     //region OVERRIDE INTERFACE FUNCTION
     @Override
@@ -122,24 +148,10 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         myLayout = findViewById(R.id.mylayout);
         tvDescription = findViewById(R.id.tvGoalDescription);
         tvDescription.setAlpha(0.f);
-        tvDescription.setTranslationY(400);
+        tvDescription.setTranslationY(200);
     }
     //endregion
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode ){
-            case REQUEST_NEW_GOAL:{
-                String response = data.getStringExtra("RESPONSE");
-                Snackbar snackbar = Snackbar.make(tvGoalMoney, response, BaseTransientBottomBar.LENGTH_SHORT);
-                snackbar.setAnchorView(R.id.tvMoneyGoal);
-                snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                snackbar.show();
-            }
-        }
-    }
 
     //region BUTTON CLICK HANDLE
     public void NewGoalClicked(View view) {
@@ -157,7 +169,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                     .setListener(null);
         } else {
             tvDescription.animate()
-                    .translationY(400)
+                    .translationY(200)
                     .alpha(0f)
                     .setDuration(500)
                     .setListener(null);
@@ -192,6 +204,12 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                         float progress = ((float) Integer.parseInt(money_saving) / Integer.parseInt(money_goal)) * 100;
                         String urlImage = ConnectionClass.urlImageGoal + image;
 
+
+
+
+
+
+
                         String[] tem = date_start.split(" ");
                         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
                         long diff_in_times = new Date().getTime() - formatter.parse(tem[3]).getTime();
@@ -202,18 +220,17 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                                 % 365;
 
 
-
                         if (!image.equals("null"))
                             FormatImage.LoadImageIntoView(ivGoalImage, SavingActivity.this, urlImage);
 
 
                         tvGoalName.setText(name_goal);
-                        tvMoneySaving.setText(money_saving);
-                        tvGoalMoney.setText(money_goal + " VND");
+                        tvMoneySaving.setText(Formatter.getCurrencyStr(money_saving));
+                        tvGoalMoney.setText(Formatter.getCurrencyStr(money_goal) + " VND");
                         tvGoalStartDay.setText(date_start);
                         tvDescription.setText(description_goal);
                         rprogress.setProgress(progress);
-                        rprogress.setProgressText(progress + "%");
+                        rprogress.setProgressText(((int) progress) + "%");
                         tvGoalDayCount.setText(diff_in_days + " ngày");
 
                     }

@@ -112,7 +112,6 @@ public class GoalActivity extends AppCompatActivity {
 
     @SuppressLint("ResourceAsColor")
     public void DisableViews(){
-        btnGoalDone.setTextColor(R.color.black);
         btnGoalDone.setEnabled(false);
         ivGifLoading.setVisibility(View.VISIBLE);
     }
@@ -121,8 +120,6 @@ public class GoalActivity extends AppCompatActivity {
     public void EnableViews(){
         btnGoalDone.setEnabled(true);
 
-        btnGoalDone.setTextColor(ColorStateList.valueOf(R.color.av_yellow));
-        Toast.makeText(this, "EEEE", Toast.LENGTH_SHORT).show();
         ivGifLoading.setVisibility(View.INVISIBLE);
     }
 
@@ -146,9 +143,7 @@ public class GoalActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent();
-        intent.putExtra("MyData", "DSD");
-        setResult(SavingActivity.RESULT_FIRST_USER, intent);
+        setResult(SavingActivity.RESULT_ADD_FAILED);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 
@@ -168,10 +163,9 @@ public class GoalActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 // if success -> back to last activity -> show snackbar
-                if(response == "1") {
+                if(response.equals("1")) {
                     Intent data = new Intent();
-                    data.putExtra("RESPONSE", response);
-                    setResult(SavingActivity.RESULT_ADD_OK, data);
+                    setResult(SavingActivity.RESULT_ADD_OK);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
                 }
@@ -198,11 +192,6 @@ public class GoalActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
 
-                // make loading state
-
-
-
-
                 Map<String, String> map = new HashMap<>();
                 // get Image
                 BitmapDrawable tem = ((BitmapDrawable) ivGoal.getDrawable());
@@ -214,7 +203,7 @@ public class GoalActivity extends AppCompatActivity {
                 // goalname and goalmoney are required
                 if (!etGoalName.getText().toString().isEmpty())
                     map.put("name", String.valueOf(etGoalName.getText()));
-                if (!etGoalMoney.getText().equals(""))
+                if (!etGoalMoney.getText().toString().isEmpty())
                     map.put("moneygoal", String.valueOf(etGoalMoney.getText()));
 
 
