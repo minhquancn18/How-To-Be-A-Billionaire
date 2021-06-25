@@ -29,7 +29,7 @@ public class FormatImage {
 
     public static byte[] BitmapToByte(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
         byte[] byteArray = stream.toByteArray();
         return byteArray;
     }

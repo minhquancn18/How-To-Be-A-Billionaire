@@ -18,7 +18,7 @@
         <item name="android:windowActivityTransitions">true</item>
 
         <!-- specify enter and exit transitions -->
-
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!-- specify shared element transitions -->
 
     </style>

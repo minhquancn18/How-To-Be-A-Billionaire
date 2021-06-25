@@ -18,7 +18,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myproject22.Model.SavingDatabaseHelper;
 import com.example.myproject22.R;
 import com.example.myproject22.Util.CategoryItemAdapter;
 import com.example.myproject22.Util.FormatImage;
@@ -32,7 +31,6 @@ import io.alterac.blurkit.BlurLayout;
 public class AddingActivity extends AppCompatActivity {
 
     //Tạo SQLiteHelper để kết nối tới cơ sở dữ liệu
-    private SavingDatabaseHelper db = new SavingDatabaseHelper(this, null, null, 1);
 
     //Khởi tạo các component để thực hiện event
 

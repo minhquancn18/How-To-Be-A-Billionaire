@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.myproject22"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="30" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:testOnly="true"
+        android:theme="@style/Theme.MyProject22" >
+        <activity android:name="com.example.myproject22.View.Activity.ForgotPasswordActivity" />
+        <activity android:name="com.example.myproject22.View.Activity.SignUpActivity" />
+        <activity android:name="com.example.myproject22.View.Activity.LoginActivity" >
+        </activity>
+        <activity
+            android:name="com.example.myproject22.View.Activity.RecordDetailActivity"
+            android:parentActivityName="com.example.myproject22.View.Activity.ReportCategoryDetailActivity" />
+        <activity android:name="com.example.myproject22.View.Activity.ReportCategoryDetailActivity" /> <!-- Phan report cua Son -->
+        <activity android:name="com.example.myproject22.View.Activity.ReportCategoryActivity" />
+        <activity
+            android:name="com.example.myproject22.View.Activity.AddingCategoryActivity"
+            android:parentActivityName="com.example.myproject22.View.Activity.AddingActivity" />
+        <activity android:name="com.example.myproject22.View.Activity.AddingActivity" />
+        <activity android:name="com.example.myproject22.View.Activity.ReportCategoryGraphActivity" /> <!-- phan cua Quan -->
+        <!-- Giao dien chinh -->
+        <!-- Phan cua Tam -->
+        <activity android:name="com.example.myproject22.View.Activity.GoalActivity" />
+        <activity android:name="com.example.myproject22.View.Activity.SavingActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.myproject22.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity
+            android:name="com.karumi.dexter.DexterActivity"
+            android:theme="@style/Dexter.Internal.Theme.Transparent" />
+    </application>
+
+</manifest>

@@ -1,26 +1,22 @@
 package com.example.myproject22.View.Activity;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,196 +24,240 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.ConnectionClass;
 import com.example.myproject22.R;
+import com.example.myproject22.Presenter.SavingInterface;
 import com.example.myproject22.Util.FormatImage;
+import com.example.myproject22.Util.Formatter;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-public class GoalActivity extends AppCompatActivity {
+public class GoalActivity extends AppCompatActivity implements SavingInterface {
 
     //region UI COMPONENTS
-    EditText etGoalDescription;
-    EditText etGoalName;
-    EditText etGoalMoney;
-    ImageView ivGoal;
-    Uri image_uri;
-    Button btnGoalDone;
-    ImageView ivGifLoading;
+    TextView tvGoalName;
+    TextView tvGoalMoney;
+    TextView tvMoneySaving;
+    TextView tvGoalStartDay;
+    TextView tvGoalDayCount;
+    TextRoundCornerProgressBar rprogress;
+    ImageView ivGoalImage;
+    TextView tvDescription;
+    ConstraintLayout myLayout;
 
     //endregion
 
+
     //region GLOBAL VARIABLES
+    boolean neededToReload = true;
     private static final int id_user = 1;
-    private static final int GALLERY_REQUEST = 11;
+    public static final int RESULT_ADD_OK = 10;
+    private static final int REQUEST_NEW_GOAL = 11;
+    public static final int RESULT_ADD_FAILED = 12;
+    //endregion
+
+
+    //region DEFAULT FUNCTIONS
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_goal);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
+        InitView();
+        LoadAnimation();
+        FetchGoalDataFromServer();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        if (neededToReload) {
+            LoadAnimation();
+            FetchGoalDataFromServer();
+        } else neededToReload = true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_NEW_GOAL: {
+                if (resultCode == RESULT_ADD_OK) {
+                    Snackbar snackbar = Snackbar.make(tvGoalMoney, "Thêm một mục tiêu thành công", BaseTransientBottomBar.LENGTH_SHORT);
+                    snackbar.setAnchorView(R.id.tvMoneyGoal);
+                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                    snackbar.show();
+                    neededToReload = true;
+                }
+                if (resultCode == RESULT_ADD_FAILED) {
+                    neededToReload = false;
+                }
+            }
+
+        }
+    }
+    //endregion
+
+
+    //region NORMAL FUNCTIONS
+    public void LoadAnimation() {
+        YoYo.with(Techniques.Pulse)
+                .duration(2000)
+                .delay(500)
+                .playOn(myLayout);
+    }
+
+    //endregion
+
+
+    //region OVERRIDE INTERFACE FUNCTION
+    @Override
+    public void LoadGoal() {
+
+    }
 
     //endregion
 
 
     //region INIT FUNCTION
     public void InitView() {
-        etGoalDescription = findViewById(R.id.etGoalDesc);
-        etGoalName = findViewById(R.id.etGoalName);
-        etGoalMoney = findViewById(R.id.etGoalMoney);
-        ivGoal = findViewById(R.id.ivGoal);
-        btnGoalDone  = findViewById(R.id.btnGoalDone);
-        ivGifLoading  = findViewById(R.id.ivGifLoading);
-        Glide.with(this).load(R.drawable.audio_play_git).into(ivGifLoading);
+        tvGoalMoney = findViewById(R.id.tvMoneyGoal);
+        tvMoneySaving = findViewById(R.id.tvMoneySaving);
+        tvGoalName = findViewById(R.id.tvGoalName);
+        tvGoalStartDay = findViewById(R.id.tvGoalDateStart);
+        tvGoalDayCount = findViewById(R.id.tvGoalDayCount);
+        rprogress = findViewById(R.id.rprogress);
+        ivGoalImage = findViewById(R.id.ivGoalImage);
+        myLayout = findViewById(R.id.mylayout);
+        tvDescription = findViewById(R.id.tvGoalDescription);
+        tvDescription.setAlpha(0.f);
+        tvDescription.setTranslationY(200);
     }
     //endregion
 
-
-    //region DEFAULT FUNCTION
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_goal);
-        InitView();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == Activity.RESULT_OK) {
-                switch (requestCode) {
-                    case GALLERY_REQUEST:
-                        Uri selectedImage = data.getData();
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-                            ivGoal.setImageBitmap(bitmap);
-
-                        } catch (IOException e) {
-                            Log.i("TAG", "Some exception " + e);
-                        }
-                        break;
-                }
-            }
-            ivGoal.setImageURI(image_uri);
-        }
-    }
-    //endregion
-
-
-    //region NORMAL FUNCTION
-
-    @SuppressLint("ResourceAsColor")
-    public void DisableViews(){
-        btnGoalDone.setEnabled(false);
-        ivGifLoading.setVisibility(View.VISIBLE);
-    }
-
-    @SuppressLint("ResourceAsColor")
-    public void EnableViews(){
-        btnGoalDone.setEnabled(true);
-
-        ivGifLoading.setVisibility(View.INVISIBLE);
-    }
-
-
-    //endregion
-
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
 
     //region BUTTON CLICK HANDLE
-    public void onChooseImageClick(View view) {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+    public void NewGoalClicked(View view) {
+        Intent intent = new Intent(this, NewGoalActivity.class);
+        startActivityForResult(intent, REQUEST_NEW_GOAL);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        setResult(SavingActivity.RESULT_ADD_FAILED);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-    }
-
-
-    @SuppressLint("ResourceAsColor")
-    public void btnGoalDoneClicked(View view) {
-        InsertGoalToServer();
-        DisableViews();
+    public void ShowDescriptionClicked(View view) {
+        if (tvDescription.getAlpha() == 0f) {
+            tvDescription.animate()
+                    .translationY(0)
+                    .setDuration(600)
+                    .alpha(1.0f)
+                    .setListener(null);
+        } else {
+            tvDescription.animate()
+                    .translationY(200)
+                    .alpha(0f)
+                    .setDuration(500)
+                    .setListener(null);
+        }
     }
 
     //endregion
 
+
     //region DATABASE HANDLE
-    public void InsertGoalToServer() {
+
+    //region GET DATA
+    public void FetchGoalDataFromServer() {
         StringRequest request = new StringRequest(Request.Method.POST,
-                ConnectionClass.urlString + "insertGoal22.php", new Response.Listener<String>() {
+                ConnectionClass.urlString + "getGoal.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                // if success -> back to last activity -> show snackbar
-                if(response.equals("1")) {
-                    Intent data = new Intent();
-                    setResult(SavingActivity.RESULT_ADD_OK);
-                    finish();
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-                }
-                else{
-                    // -> show error right here
-                    Snackbar snackbar = Snackbar.make(ivGoal, response, Snackbar.LENGTH_SHORT);
-                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                try {
+
+
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    if (success.equals("1") && jsonArray.length() > 0) {
+                        JSONObject object = jsonArray.getJSONObject(0);
+                        String name_goal = object.getString("NAME_GOAL");
+                        String description_goal = object.getString("DESCRIPTION_GOAL");
+                        String money_goal = object.getString("MONEY_GOAL");
+                        String money_saving = object.getString("MONEY_SAVING");
+                        String image = object.getString("IMAGE_GOAL");
+                        String date_start = object.getString("DATE_START");
+                        float progress = ((float) Integer.parseInt(money_saving) / Integer.parseInt(money_goal)) * 100;
+                        String urlImage = ConnectionClass.urlImageGoal + image;
+
+
+                        String[] tem = date_start.split(" ");
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+                        long diff_in_times = new Date().getTime() - formatter.parse(tem[3]).getTime();
+
+                        long diff_in_days = TimeUnit
+                                .MILLISECONDS
+                                .toDays(diff_in_times)
+                                % 365;
+
+
+                        if (!image.equals("null"))
+                            FormatImage.LoadImageIntoView(ivGoalImage, GoalActivity.this, urlImage);
+
+
+                        tvGoalName.setText(name_goal);
+                        tvMoneySaving.setText(Formatter.getCurrencyStr(money_saving));
+                        tvGoalMoney.setText(Formatter.getCurrencyStr(money_goal) + " VND");
+                        tvGoalStartDay.setText(date_start);
+                        tvDescription.setText(description_goal);
+                        rprogress.setProgress(progress);
+                        rprogress.setProgressText(((int) progress) + "%");
+                        tvGoalDayCount.setText(diff_in_days + " ngày");
+
+                    }
+                } catch (JSONException | ParseException e) {
+                    Snackbar snackbar = Snackbar.make(tvGoalDayCount, e.getMessage() + "JSON", Snackbar.LENGTH_SHORT);
                     snackbar.show();
 
-                    EnableViews();
+                    e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(ivGoal, "ERROR " + error.getMessage(), Snackbar.LENGTH_SHORT);
-                snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                snackbar.show();
+
+                Snackbar a = Snackbar.make(tvGoalDayCount, error.getMessage() + "ERROR", BaseTransientBottomBar.LENGTH_LONG);
+                a.show();
+
+
             }
         }) {
-            @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-
-
-                Map<String, String> map = new HashMap<>();
-                // get Image
-                BitmapDrawable tem = ((BitmapDrawable) ivGoal.getDrawable());
-
-                // format day for date_add
-                SimpleDateFormat formatter = new SimpleDateFormat("h:mm a 'ngày' dd.MM.yyyy");
-                String dayStr = formatter.format(new Date());
-
-                // goalname and goalmoney are required
-                if (!etGoalName.getText().toString().isEmpty())
-                    map.put("name", String.valueOf(etGoalName.getText()));
-                if (!etGoalMoney.getText().toString().isEmpty())
-                    map.put("moneygoal", String.valueOf(etGoalMoney.getText()));
-
-
-                map.put("id_user", String.valueOf(id_user));
-                map.put("description", String.valueOf(etGoalDescription.getText()));
-                map.put("imageGoal", String.valueOf(FormatImage.convertByteToString(
-                        FormatImage.BitmapToByte(tem.getBitmap()))));
-                map.put("date_start", dayStr);
-                return map;
+                Map<String, String> params = new HashMap<>();
+                params.put("id_user", String.valueOf(1));
+                return params;
             }
-
-
         };
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
     }
@@ -226,4 +266,9 @@ public class GoalActivity extends AppCompatActivity {
     //endregion
 
 
+    //endregion
+
 }
+
+
+

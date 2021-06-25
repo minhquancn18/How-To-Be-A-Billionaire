@@ -2,18 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/myGoalLayout"
+    android:id="@+id/mylayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+    android:orientation="vertical"
     tools:context=".View.Activity.GoalActivity">
 
+
     <ImageView
-        android:id="@+id/ivGoal"
+        android:id="@+id/ivGoalImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/background4"
+        android:src="@drawable/backgroundhome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -21,167 +22,295 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rprogress">
+
+        <TextView
+            android:id="@+id/tvGoalName"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundTransForText"
+            android:fontFamily="@font/athiti"
+            android:padding="4dp"
+            android:paddingStart="10dp"
+            android:text="Mua cổ phần tiệm tạp hóa gần nhà"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvGoalDateStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/backgroundTransForText"
+        android:drawableStart="@drawable/icon_audio"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto_mono"
+        android:padding="4dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="18.00 PM ngày 2.2.2020"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+
+    <TextView
+        android:id="@+id/tvGoalDayCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundTransForText"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/roboto_mono"
+        android:padding="4dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="22 ngày"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/rprogress"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="@+id/rprogress" />
+
+    <com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar
+        android:id="@+id/rprogress"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/round_little_border"
+        app:barrierDirection="end"
+        app:layout_constraintStart_toEndOf="@+id/tvGoalDayCount"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rcBackgroundColor="#420A0A0A"
+        app:rcBackgroundPadding="4dp"
+        app:rcMax="100"
+        app:rcProgress="40"
+        app:rcProgressColor="#92171717"
+        app:rcRadius="5dp"
+        app:rcTextInsideGravity="end"
+        app:rcTextOutsideGravity="end"
+        app:rcTextPositionPriority="outside"
+        app:rcTextProgress="40%"
+        app:rcTextProgressColor="@color/white"
+        app:rcTextProgressSize="14sp" />
+
+
+    <ImageButton
+        android:id="@+id/btnNewGoal"
+        android:layout_width="@dimen/icon_size_in_goalWidth"
+        android:layout_height="@dimen/icon_size_in_goalHeight"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="30dp"
+        android:background="@android:color/transparent"
+        android:onClick="NewGoalClicked"
+        android:paddingLeft="@dimen/icon_padding_in_goal"
+        android:paddingTop="@dimen/icon_padding_in_goal"
+        android:paddingRight="@dimen/icon_padding_in_goal"
+        android:paddingBottom="@dimen/icon_padding_botom"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_add"
+        android:tint="@color/image_button_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/btnNewGoal2"
+        android:layout_width="@dimen/icon_size_in_goalWidth"
+        android:layout_height="@dimen/icon_size_in_goalHeight"
+        android:layout_marginStart="56dp"
+        android:background="@android:color/transparent"
+        android:paddingLeft="@dimen/icon_padding_in_goal"
+        android:paddingTop="@dimen/icon_padding_in_goal"
+        android:paddingRight="@dimen/icon_padding_in_goal"
+        android:paddingBottom="@dimen/icon_padding_botom"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_goal"
+        android:tint="@color/image_button_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNewGoal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/btnNewGoal"
+        app:layout_constraintTop_toTopOf="@+id/btnNewGoal"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/btnNewGoal3"
+        android:layout_width="@dimen/icon_size_in_goalWidth"
+        android:layout_height="@dimen/icon_size_in_goalHeight"
+        android:layout_marginEnd="44dp"
+        android:background="@android:color/transparent"
+        android:onClick="ShowDescriptionClicked"
+        android:paddingLeft="@dimen/icon_padding_in_goal"
+        android:paddingTop="@dimen/icon_padding_in_goal"
+        android:paddingRight="@dimen/icon_padding_in_goal"
+        android:paddingBottom="@dimen/icon_padding_botom"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_detail"
+        android:tint="@color/image_button_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/btnDescription"
+        app:layout_constraintEnd_toStartOf="@+id/btnDescription"
+        app:layout_constraintTop_toTopOf="@+id/btnDescription"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_mono"
+        android:text="Thêm mới"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNewGoal"
+        app:layout_constraintEnd_toEndOf="@+id/btnNewGoal"
+        app:layout_constraintStart_toStartOf="@+id/btnNewGoal" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_mono"
+        android:text="Lịch sử"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNewGoal2"
+        app:layout_constraintEnd_toEndOf="@+id/btnNewGoal2"
+        app:layout_constraintStart_toStartOf="@+id/btnNewGoal2" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_mono"
+        android:text="Chi tiết"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNewGoal3"
+        app:layout_constraintEnd_toEndOf="@+id/btnNewGoal3"
+        app:layout_constraintStart_toStartOf="@+id/btnNewGoal3" />
+
+    <ImageButton
+        android:id="@+id/btnDescription"
+        android:layout_width="@dimen/icon_size_in_goalWidth"
+        android:layout_height="@dimen/icon_size_in_goalHeight"
+        android:layout_marginEnd="32dp"
+        android:background="@android:color/transparent"
+        android:paddingLeft="@dimen/icon_padding_in_goal"
+        android:paddingTop="@dimen/icon_padding_in_goal"
+        android:paddingRight="@dimen/icon_padding_in_goal"
+        android:paddingBottom="@dimen/icon_padding_botom"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_take_image"
+        android:tint="@color/image_button_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNewGoal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnNewGoal"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_mono"
+        android:gravity="center"
+        android:text="Chụp ảnh"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/btnDescription"
+        app:layout_constraintEnd_toEndOf="@+id/btnDescription"
+        app:layout_constraintStart_toStartOf="@+id/btnDescription" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView2"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="#4A000000"
-        app:cardCornerRadius="9dp"
+        android:id="@+id/materialCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivGoal"
+        app:layout_constraintBottom_toTopOf="@+id/btnDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.648"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49"
         app:strokeColor="@color/white"
-        app:strokeWidth="2dp">
-
+        app:strokeWidth="1.5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="#50000000"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/tvMoneySaving"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
                 android:fontFamily="@font/roboto_mono"
-                android:gravity="center_horizontal"
-                android:text="* MỤC TIÊU *"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:paddingStart="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:text="1032322333"
+                android:textColor="@color/white" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Số tiền"
-                android:theme="@style/EditTextTheme"
-                app:boxBackgroundColor="@android:color/transparent"
-                app:boxStrokeColor="@android:color/transparent"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:prefixTextColor="@color/white"
-                app:suffixText="VND">
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="/"
+                android:textColor="@color/white" />
 
-
-                <EditText
-                    android:id="@+id/etGoalMoney"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/roboto_mono"
-                    android:inputType="number"
-                    android:paddingTop="22dp"
-                    android:theme="@style/EditTextTheme" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvMoneyGoal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Tên mục tiêu"
-                android:theme="@style/EditTextTheme"
-                app:boxBackgroundColor="@android:color/transparent"
-                app:boxStrokeColor="@android:color/transparent"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp">
-
-                <EditText
-                    android:id="@+id/etGoalName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/roboto_mono"
-                    android:inputType="text"
-                    android:paddingTop="22dp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Miêu tả"
-                android:theme="@style/EditTextTheme"
-                app:boxBackgroundColor="@android:color/transparent"
-                app:boxStrokeColor="@android:color/transparent"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:prefixTextColor="@color/white">
-
-                <EditText
-                    android:id="@+id/etGoalDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:fontFamily="@font/roboto_mono"
-                    android:gravity="start|top"
-                    android:inputType="textMultiLine"
-                    android:maxLines="10"
-                    android:minLines="4"
-                    android:paddingTop="22dp"
-                    android:theme="@style/EditTextTheme" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/btnImageAdd"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/icon_image_add"
-                    android:onClick="onChooseImageClick"
-                    android:padding="10dp"
-                    android:text="Hình ảnh"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/btnGoalDone"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:onClick="btnGoalDoneClicked"
-                    android:padding="10dp"
-                    android:text="HOÀN THÀNH"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/roboto_mono"
+                android:paddingEnd="10dp"
+                android:text="103232333 VND"
+                android:textColor="@color/white" />
 
 
         </LinearLayout>
 
-
     </com.google.android.material.card.MaterialCardView>
 
-    <ImageView
-        android:id="@+id/ivGifLoading"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:scaleType="fitCenter"
-        android:scaleX="5"
-        android:visibility="gone"
-        android:scaleY="5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView2" />
+    <TextView
+        android:id="@+id/tvGoalDescription"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/backgroundTransForText"
+        android:ellipsize="end"
+        android:fontFamily="@font/athiti"
+        android:maxLines="15"
+        android:paddingStart="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:text="Mua cổ phần tiệm tạp hóa gần nhà  dlkskj ksdjjk dksj ksdjskj skdjskj skdjsk  djskj skdj skdj  skdjs "
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/tvGoalDateStart"
+        app:layout_constraintTop_toBottomOf="@+id/tvGoalDateStart" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="205dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
