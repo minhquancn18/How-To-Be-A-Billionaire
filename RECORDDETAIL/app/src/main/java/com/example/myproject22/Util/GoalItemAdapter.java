@@ -1,4 +1,4 @@
-    package com.example.myproject22.Util;
+package com.example.myproject22.Util;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -7,20 +7,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.myproject22.Model.ConnectionClass;
+import com.example.myproject22.Model.GoalRecord;
 import com.example.myproject22.R;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.ArrayList;
+
 public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHolder> {
+
+
+    ArrayList<GoalRecord> goals;
+
+    public GoalItemAdapter(ArrayList<GoalRecord> goals) {
+        this.goals = goals;
+    }
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,23 +46,26 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MaterialCardView cardView = holder.cardView;
-        ImageView ivGoalRecord = cardView.findViewById(R.id.ivGoalRecord);
-
-
         ConstraintLayout cl_information = cardView.findViewById(R.id.cl_information);
-        if (position % 3 == 0) {
-            Glide.with(cardView.getContext())
-                    .load(R.drawable.background12)
-                    .transform(new CenterCrop(), new RoundedCorners(10))
-                    .into(ivGoalRecord);
-        } else {
-            Glide.with(cardView.getContext())
-                    .load(R.drawable.backgroundhome)
-                    .transform(new CenterCrop(), new RoundedCorners(10))
-                    .into(ivGoalRecord);
-        }
 
+        ImageView ivGoalRecord = cardView.findViewById(R.id.ivGoalRecord);
         TextView goalName = cardView.findViewById(R.id.tvGoalName);
+        TextView goalMoney = cardView.findViewById(R.id.tvGoalMoney);
+        TextView goalDayStart = cardView.findViewById(R.id.tvGoalDayStart);
+        TextView goalDayCount = cardView.findViewById(R.id.tvGoalDayCount);
+
+
+        goalMoney.setText(Formatter.getCurrencyStr(goals.get(position).getGoalMoney().toString()) + "VND");
+        goalName.setText(goals.get(position).getGoalName());
+        goalDayStart.setText(goals.get(position).getDate_start());
+        goalDayCount.setText(String.valueOf(
+                GoalRecord.getDayDiffByStr(goals.get(position).getDate_start()) + " ngày"
+        ));
+
+        String urlGoal = ConnectionClass.urlImageGoal + goals.get(position).getGoalImage();
+
+        FormatImage.LoadImageIntoView(ivGoalRecord, cardView.getContext(), urlGoal);
+
         Context a = cardView.getContext();
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +82,7 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
                                     cl_information.setVisibility(View.INVISIBLE);
                                 }
                             }
+
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 if (goalName.getVisibility() == View.VISIBLE) {
@@ -93,7 +109,7 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return 15;
+        return goals.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

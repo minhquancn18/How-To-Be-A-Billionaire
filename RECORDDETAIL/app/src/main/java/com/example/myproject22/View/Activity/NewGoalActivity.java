@@ -43,6 +43,7 @@ import java.util.Map;
 
 public class NewGoalActivity extends AppCompatActivity {
 
+    public static final String REQUEST_ADD_NEW = "add";
     //region UI COMPONENTS
     EditText etGoalDescription;
     EditText etGoalName;

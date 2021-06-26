@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyProject22">
 
+
         <activity android:name=".View.Activity.RecordDetailActivity"></activity>
         <activity android:name=".View.Activity.ReportCategoryDetailActivity" /> <!-- Phan report cua Son -->
         <activity android:name=".View.Activity.ReportCategoryActivity"></activity>
@@ -27,18 +28,33 @@
 
         <!-- GOAL PART -->
         <activity android:name=".GoalRecordActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
 
         </activity>
         <activity
             android:name=".View.Activity.NewGoalActivity"
             android:parentActivityName=".View.Activity.GoalActivity" />
-        <activity android:name=".View.Activity.GoalActivity">
+        <activity
+            android:name=".View.Activity.GoalActivity"
+            android:fitsSystemWindows="true"
 
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.myproject22.View.Activity.GoalActivity.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
 
         <meta-data
             android:name="preloaded_fonts"

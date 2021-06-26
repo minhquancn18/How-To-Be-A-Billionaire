@@ -22,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/background12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/textView23"
+                android:id="@+id/tvGoalMoney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -74,12 +73,12 @@
                 android:text="200.000.000 VND"
                 android:textColor="@color/white"
                 android:textSize="12dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView24"
+                app:layout_constraintBottom_toTopOf="@+id/tvGoalDayCount"
                 app:layout_constraintStart_toStartOf="parent" />
 
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/tvGoalDayCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -92,12 +91,12 @@
                 android:text="122 ngày"
                 android:textColor="@color/white"
                 android:textSize="12dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView25"
-                app:layout_constraintStart_toStartOf="@+id/textView23" />
+                app:layout_constraintBottom_toTopOf="@+id/tvGoalDayStart"
+                app:layout_constraintStart_toStartOf="@+id/tvGoalMoney" />
 
 
             <TextView
-                android:id="@+id/textView25"
+                android:id="@+id/tvGoalDayStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -111,7 +110,7 @@
                 android:textColor="@color/white"
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView24" />-->
+                app:layout_constraintStart_toStartOf="@+id/tvGoalDayCount" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

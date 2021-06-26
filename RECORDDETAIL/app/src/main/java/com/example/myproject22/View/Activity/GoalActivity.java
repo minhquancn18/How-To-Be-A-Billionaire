@@ -1,14 +1,24 @@
 package com.example.myproject22.View.Activity;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.os.Environment;
+import android.os.Handler;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,26 +34,47 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.myproject22.BuildConfig;
+import com.example.myproject22.GoalRecordActivity;
 import com.example.myproject22.Model.ConnectionClass;
+import com.example.myproject22.Model.GoalRecord;
 import com.example.myproject22.R;
 import com.example.myproject22.Presenter.SavingInterface;
 import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.Util.Formatter;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.mindorks.Screenshot;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import kotlin.ranges.UIntRange;
 
 public class GoalActivity extends AppCompatActivity implements SavingInterface {
 
@@ -67,22 +98,43 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
     public static final int RESULT_ADD_OK = 10;
     private static final int REQUEST_NEW_GOAL = 11;
     public static final int RESULT_ADD_FAILED = 12;
+    private static final int REQUEST_VIEW_HISTORY = 13;
+
     //endregion
 
 
     //region DEFAULT FUNCTIONS
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_goal);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow(); // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
+        Dexter.withContext(this)
+                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+
+                    }
+                }).check();
+
+
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setNavigationBarTintEnabled(true);
+        tintManager.setTintColor(Color.TRANSPARENT);
+
 
         InitView();
         LoadAnimation();
@@ -114,6 +166,12 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
                 if (resultCode == RESULT_ADD_FAILED) {
                     neededToReload = false;
                 }
+                return;
+            }
+            case REQUEST_VIEW_HISTORY: {
+                neededToReload = false;
+                return;
+
             }
 
         }
@@ -146,7 +204,7 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
         tvGoalMoney = findViewById(R.id.tvMoneyGoal);
         tvMoneySaving = findViewById(R.id.tvMoneySaving);
         tvGoalName = findViewById(R.id.tvGoalName);
-        tvGoalStartDay = findViewById(R.id.tvGoalDateStart);
+        tvGoalStartDay = findViewById(R.id.tvGoalDayStart);
         tvGoalDayCount = findViewById(R.id.tvGoalDayCount);
         rprogress = findViewById(R.id.rprogress);
         ivGoalImage = findViewById(R.id.ivGoalImage);
@@ -165,7 +223,7 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 
-    public void ShowDescriptionClicked(View view) {
+    public void GoalDetailClicked(View view) {
         if (tvDescription.getAlpha() == 0f) {
             tvDescription.animate()
                     .translationY(0)
@@ -181,6 +239,18 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
         }
     }
 
+    public void GoalHistoryClicked(View view) {
+        Intent intent = new Intent(this, GoalRecordActivity.class);
+        startActivityForResult(intent, REQUEST_VIEW_HISTORY);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+    }
+
+    public void SreenShotClicked(View view) {
+
+
+        takeScreenShot(getWindow().getDecorView());
+    }
+
     //endregion
 
 
@@ -193,8 +263,6 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
             @Override
             public void onResponse(String response) {
                 try {
-
-
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -209,17 +277,8 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
                         float progress = ((float) Integer.parseInt(money_saving) / Integer.parseInt(money_goal)) * 100;
                         String urlImage = ConnectionClass.urlImageGoal + image;
 
-
                         String[] tem = date_start.split(" ");
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-                        long diff_in_times = new Date().getTime() - formatter.parse(tem[3]).getTime();
-
-                        long diff_in_days = TimeUnit
-                                .MILLISECONDS
-                                .toDays(diff_in_times)
-                                % 365;
-
-
+                        long diff_in_days = GoalRecord.getDayDiffByStr(tem[3]);
                         if (!image.equals("null"))
                             FormatImage.LoadImageIntoView(ivGoalImage, GoalActivity.this, urlImage);
 
@@ -233,8 +292,13 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
                         rprogress.setProgressText(((int) progress) + "%");
                         tvGoalDayCount.setText(diff_in_days + " ngày");
 
+                    } else { // no goal -> need add new
+                        Intent intent = new Intent(GoalActivity.this, NewGoalActivity.class);
+                        intent.putExtra(NewGoalActivity.REQUEST_ADD_NEW, true);
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
                     }
-                } catch (JSONException | ParseException e) {
+                } catch (JSONException e) {
                     Snackbar snackbar = Snackbar.make(tvGoalDayCount, e.getMessage() + "JSON", Snackbar.LENGTH_SHORT);
                     snackbar.show();
 
@@ -263,12 +327,73 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
     }
 
 
-    //endregion
+    private void takeScreenShot(View view) {
+         //This is used to provide file name with Date a format
+        Date date = new Date();
+        CharSequence format = DateFormat.format("MM-dd-yyyy_hh:mm:ss", date);
+
+        //It will make sure to store file to given below Directory and If the file Directory dosen't exist then it will create it.
+        try {
+            File mainDir = new File(
+                    this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "FilShare");
+            if (!mainDir.exists()) {
+                boolean mkdir = mainDir.mkdir();
+            }
+
+            //Providing file name along with Bitmap to capture screenview
+            String path = mainDir + "/" + "TrendOceans" + "-" + format + ".jpeg";
+            view.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+            view.setDrawingCacheEnabled(false);
 
 
-    //endregion
+            File imageFile = new File(path);
+            FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
 
+            shareScreenShot(imageFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void shareScreenShot(File imageFile) {
+
+        //Using sub-class of Content provider
+        Uri uri = FileProvider.getUriForFile(
+                this,
+                BuildConfig.APPLICATION_ID + "." + getLocalClassName() + ".provider",
+                imageFile);
+
+        //Explicit intent
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "This is Sample App to take ScreenShot");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        //It will show the application which are available to share Image; else Toast message will throw.
+        try {
+            this.startActivity(Intent.createChooser(intent, "Share With"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private Uri saveImageExternal(Bitmap image) {
+        //TODO - Should be processed in another thread
+        Uri uri = null;
+        try {
+            File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "to-share.png");
+            FileOutputStream stream = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.PNG, 90, stream);
+            stream.close();
+            uri = Uri.fromFile(file);
+        } catch (IOException e) {
+            Log.d("ds", "IOException while trying to write file for sharing: " + e.getMessage());
+        }
+        return uri;
+    }
 }
-
-
-

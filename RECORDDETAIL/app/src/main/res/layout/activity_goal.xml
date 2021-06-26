@@ -9,6 +9,7 @@
     tools:context=".View.Activity.GoalActivity">
 
 
+
     <ImageView
         android:id="@+id/ivGoalImage"
         android:layout_width="match_parent"
@@ -48,7 +49,7 @@
 
 
     <TextView
-        android:id="@+id/tvGoalDateStart"
+        android:id="@+id/tvGoalDayStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -127,11 +128,12 @@
 
 
     <ImageButton
-        android:id="@+id/btnNewGoal2"
+        android:id="@+id/btnGoalHistory"
         android:layout_width="@dimen/icon_size_in_goalWidth"
         android:layout_height="@dimen/icon_size_in_goalHeight"
         android:layout_marginStart="56dp"
         android:background="@android:color/transparent"
+        android:onClick="GoalHistoryClicked"
         android:paddingLeft="@dimen/icon_padding_in_goal"
         android:paddingTop="@dimen/icon_padding_in_goal"
         android:paddingRight="@dimen/icon_padding_in_goal"
@@ -147,12 +149,12 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/btnNewGoal3"
+        android:id="@+id/btnGoalDetail"
         android:layout_width="@dimen/icon_size_in_goalWidth"
         android:layout_height="@dimen/icon_size_in_goalHeight"
         android:layout_marginEnd="44dp"
         android:background="@android:color/transparent"
-        android:onClick="ShowDescriptionClicked"
+        android:onClick="GoalDetailClicked"
         android:paddingLeft="@dimen/icon_padding_in_goal"
         android:paddingTop="@dimen/icon_padding_in_goal"
         android:paddingRight="@dimen/icon_padding_in_goal"
@@ -160,9 +162,9 @@
         android:scaleType="fitCenter"
         android:src="@drawable/icon_detail"
         android:tint="@color/image_button_selector"
-        app:layout_constraintBottom_toBottomOf="@+id/btnDescription"
-        app:layout_constraintEnd_toStartOf="@+id/btnDescription"
-        app:layout_constraintTop_toTopOf="@+id/btnDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/btnScreenShot"
+        app:layout_constraintEnd_toStartOf="@+id/btnScreenShot"
+        app:layout_constraintTop_toTopOf="@+id/btnScreenShot"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -183,9 +185,9 @@
         android:fontFamily="@font/roboto_mono"
         android:text="Lịch sử"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/btnNewGoal2"
-        app:layout_constraintEnd_toEndOf="@+id/btnNewGoal2"
-        app:layout_constraintStart_toStartOf="@+id/btnNewGoal2" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnGoalHistory"
+        app:layout_constraintEnd_toEndOf="@+id/btnGoalHistory"
+        app:layout_constraintStart_toStartOf="@+id/btnGoalHistory" />
 
     <TextView
         android:id="@+id/textView20"
@@ -194,16 +196,17 @@
         android:fontFamily="@font/roboto_mono"
         android:text="Chi tiết"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/btnNewGoal3"
-        app:layout_constraintEnd_toEndOf="@+id/btnNewGoal3"
-        app:layout_constraintStart_toStartOf="@+id/btnNewGoal3" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnGoalDetail"
+        app:layout_constraintEnd_toEndOf="@+id/btnGoalDetail"
+        app:layout_constraintStart_toStartOf="@+id/btnGoalDetail" />
 
     <ImageButton
-        android:id="@+id/btnDescription"
+        android:id="@+id/btnScreenShot"
         android:layout_width="@dimen/icon_size_in_goalWidth"
         android:layout_height="@dimen/icon_size_in_goalHeight"
         android:layout_marginEnd="32dp"
         android:background="@android:color/transparent"
+        android:onClick="SreenShotClicked"
         android:paddingLeft="@dimen/icon_padding_in_goal"
         android:paddingTop="@dimen/icon_padding_in_goal"
         android:paddingRight="@dimen/icon_padding_in_goal"
@@ -224,9 +227,9 @@
         android:gravity="center"
         android:text="Chụp ảnh"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/btnDescription"
-        app:layout_constraintEnd_toEndOf="@+id/btnDescription"
-        app:layout_constraintStart_toStartOf="@+id/btnDescription" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnScreenShot"
+        app:layout_constraintEnd_toEndOf="@+id/btnScreenShot"
+        app:layout_constraintStart_toStartOf="@+id/btnScreenShot" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
@@ -237,7 +240,7 @@
         app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnDescription"
+        app:layout_constraintBottom_toTopOf="@+id/btnScreenShot"
         app:layout_constraintEnd_toEndOf="parent"
         app:strokeColor="@color/white"
         app:strokeWidth="1.5dp">
@@ -302,8 +305,8 @@
         android:text="Mua cổ phần tiệm tạp hóa gần nhà  dlkskj ksdjjk dksj ksdjskj skdjskj skdjsk  djskj skdj skdj  skdjs "
         android:textColor="@color/white"
         android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="@+id/tvGoalDateStart"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoalDateStart" />
+        app:layout_constraintStart_toStartOf="@+id/tvGoalDayStart"
+        app:layout_constraintTop_toBottomOf="@+id/tvGoalDayStart" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
