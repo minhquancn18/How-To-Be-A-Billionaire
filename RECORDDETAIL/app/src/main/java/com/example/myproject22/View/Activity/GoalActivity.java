@@ -371,7 +371,7 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "This is Sample App to take ScreenShot");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Đây là mục tiêu của mình");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
 
         //It will show the application which are available to share Image; else Toast message will throw.

@@ -54,7 +54,6 @@ public class GoalItemAdapter extends RecyclerView.Adapter<GoalItemAdapter.ViewHo
         TextView goalDayStart = cardView.findViewById(R.id.tvGoalDayStart);
         TextView goalDayCount = cardView.findViewById(R.id.tvGoalDayCount);
 
-
         goalMoney.setText(Formatter.getCurrencyStr(goals.get(position).getGoalMoney().toString()) + "VND");
         goalName.setText(goals.get(position).getGoalName());
         goalDayStart.setText(goals.get(position).getDate_start());

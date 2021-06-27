@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -37,9 +39,13 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+
+import me.abhinay.input.CurrencyEditText;
 
 public class NewGoalActivity extends AppCompatActivity {
 
@@ -47,7 +53,7 @@ public class NewGoalActivity extends AppCompatActivity {
     //region UI COMPONENTS
     EditText etGoalDescription;
     EditText etGoalName;
-    EditText etGoalMoney;
+    CurrencyEditText etGoalMoney;
     ImageView ivGoal;
     Uri image_uri;
     Button btnGoalDone;
@@ -68,8 +74,12 @@ public class NewGoalActivity extends AppCompatActivity {
         etGoalName = findViewById(R.id.etGoalName);
         etGoalMoney = findViewById(R.id.etGoalMoney);
         ivGoal = findViewById(R.id.ivGoal);
-        btnGoalDone  = findViewById(R.id.btnGoalDone);
-        ivGifLoading  = findViewById(R.id.ivGifLoading);
+        btnGoalDone = findViewById(R.id.btnGoalDone);
+        ivGifLoading = findViewById(R.id.ivGifLoading);
+
+        etGoalMoney.setDecimals(false);
+
+
         Glide.with(this).load(R.drawable.audio_play_git).into(ivGifLoading);
     }
     //endregion
@@ -118,13 +128,13 @@ public class NewGoalActivity extends AppCompatActivity {
     //region NORMAL FUNCTION
 
     @SuppressLint("ResourceAsColor")
-    public void DisableViews(){
+    public void DisableViews() {
         btnGoalDone.setEnabled(false);
         ivGifLoading.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("ResourceAsColor")
-    public void EnableViews(){
+    public void EnableViews() {
         btnGoalDone.setEnabled(true);
 
         ivGifLoading.setVisibility(View.INVISIBLE);
@@ -170,13 +180,12 @@ public class NewGoalActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 // if success -> back to last activity -> show snackbar
-                if(response.equals("1")) {
+                if (response.equals("1")) {
                     Intent data = new Intent();
                     setResult(GoalActivity.RESULT_ADD_OK);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-                }
-                else{
+                } else {
                     // -> show error right here
                     Snackbar snackbar = Snackbar.make(ivGoal, response, Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
@@ -198,7 +207,6 @@ public class NewGoalActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
-
                 Map<String, String> map = new HashMap<>();
                 // get Image
                 BitmapDrawable tem = ((BitmapDrawable) ivGoal.getDrawable());
@@ -211,7 +219,7 @@ public class NewGoalActivity extends AppCompatActivity {
                 if (!etGoalName.getText().toString().isEmpty())
                     map.put("name", String.valueOf(etGoalName.getText()));
                 if (!etGoalMoney.getText().toString().isEmpty())
-                    map.put("moneygoal", String.valueOf(etGoalMoney.getText()));
+                    map.put("moneygoal", String.valueOf(etGoalMoney.getCleanDoubleValue()));
 
 
                 map.put("id_user", String.valueOf(id_user));

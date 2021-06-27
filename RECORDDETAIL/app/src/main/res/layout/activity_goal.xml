@@ -9,7 +9,6 @@
     tools:context=".View.Activity.GoalActivity">
 
 
-
     <ImageView
         android:id="@+id/ivGoalImage"
         android:layout_width="match_parent"

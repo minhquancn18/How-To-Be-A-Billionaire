@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.myproject22.R;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;
@@ -29,7 +31,7 @@ public class FormatImage {
 
     public static byte[] BitmapToByte(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
         byte[] byteArray = stream.toByteArray();
         return byteArray;
     }
@@ -39,19 +41,24 @@ public class FormatImage {
         YoYo.with(Techniques.FadeIn)
                 .duration(2500)
                 .playOn(view);
+
+
         Glide.with(context)
                 .load(url)
+                .thumbnail(
+                        Glide.with(context)
+                        .load(R.drawable.fish_gif)
+                )
                 .into(view);
     }
 
 
-    public static String convertByteToString(byte[] bytes){
-        if(bytes == null){
+    public static String convertByteToString(byte[] bytes) {
+        if (bytes == null) {
             String s = "NULL";
             return s;
-        }
-        else{
-            String s = Base64.encodeToString(bytes,Base64.DEFAULT);
+        } else {
+            String s = Base64.encodeToString(bytes, Base64.DEFAULT);
             return s;
         }
     }
