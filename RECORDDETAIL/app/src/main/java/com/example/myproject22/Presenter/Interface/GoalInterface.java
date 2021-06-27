@@ -10,8 +10,11 @@ public interface GoalInterface {
 
     // navigation
     public void HandleNoGoal();
-
     public boolean HasGoal(String success, JSONArray jsonArray);
+
+    //Utils
+    public void ForNoInternet();
+
 
     //database
     public void FetchGoalFromServer();
@@ -39,7 +42,6 @@ public interface GoalInterface {
     public void GoalDetailClick();
 
     public void NewGoalClick();
-
     public void GoalHistory();
 
 

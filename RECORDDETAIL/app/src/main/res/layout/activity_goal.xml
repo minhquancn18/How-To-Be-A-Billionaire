@@ -64,7 +64,6 @@
         app:layout_constraintStart_toStartOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-
     <TextView
         android:id="@+id/tvGoalDayCount"
         android:layout_width="wrap_content"
@@ -95,13 +94,13 @@
         app:rcBackgroundColor="#420A0A0A"
         app:rcBackgroundPadding="4dp"
         app:rcMax="100"
-        app:rcProgress="40"
+        app:rcProgress="100"
         app:rcProgressColor="#92171717"
         app:rcRadius="5dp"
         app:rcTextInsideGravity="end"
         app:rcTextOutsideGravity="end"
         app:rcTextPositionPriority="outside"
-        app:rcTextProgress="40%"
+        app:rcTextProgress="100%"
         app:rcTextProgressColor="@color/white"
         app:rcTextProgressSize="14sp" />
 
@@ -301,7 +300,7 @@
         android:paddingTop="5dp"
         android:paddingEnd="10dp"
         android:textColor="@color/white"
-        android:text="Ứng dụng này cần internet để có hoạt động"
+        android:text="Ứng dụng này cần internet để có thể hoạt động"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="@+id/tvGoalDayStart"
         app:layout_constraintTop_toBottomOf="@+id/tvGoalDayStart" />

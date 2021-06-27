@@ -307,6 +307,11 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
     }
 
     @Override
+    public void ForNoInternet() {
+        tvGoalName.setText("Không có kết nối mạng");
+    }
+
+    @Override
     public void FetchGoalFromServer() {
         StringRequest request = new StringRequest(Request.Method.POST,
                 ConnectionClass.urlString + "getGoal.php", new Response.Listener<String>() {
@@ -429,6 +434,7 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
     }
 
     //endregion
+
 
     //region BUTTON OVERRIDE
     @Override

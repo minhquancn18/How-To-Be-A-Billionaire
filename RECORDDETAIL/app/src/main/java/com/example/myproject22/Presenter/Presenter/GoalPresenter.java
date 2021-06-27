@@ -14,6 +14,9 @@ public class GoalPresenter {
             mGoalInterface.LoadAnimations();
             mGoalInterface.FetchGoalFromServer();
         }
+        if (!mGoalInterface.HasInternet()) {
+            mGoalInterface.ForNoInternet();
+        }
     }
 
     public void SetUp() {
