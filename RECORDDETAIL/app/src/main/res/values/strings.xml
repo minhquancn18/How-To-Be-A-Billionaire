@@ -20,5 +20,7 @@
 
     <string name="category_income">Tiền thu</string>
     <string name="category_outcome">Tiền chi</string>
+    <string name="MoneyGoalStr">\??????? VND</string>
+    <string name="MoneySavingStr">\?????????</string>
 
 </resources>

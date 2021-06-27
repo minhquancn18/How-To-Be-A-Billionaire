@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/backgroundhome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -40,7 +39,7 @@
             android:fontFamily="@font/athiti"
             android:padding="4dp"
             android:paddingStart="10dp"
-            android:text="Mua cổ phần tiệm tạp hóa gần nhà"
+            android:text="Bấm chi tiết để xem thêm"
             android:textColor="@color/white"
             android:textSize="20dp" />
 
@@ -59,7 +58,7 @@
         android:padding="4dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:text="18.00 PM ngày 2.2.2020"
+        android:text="XX.XX PM ngày X.X.20XX"
         android:textColor="@color/white"
         android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@+id/linearLayout2"
@@ -76,7 +75,7 @@
         android:padding="4dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:text="22 ngày"
+        android:text="XX ngày"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/rprogress"
@@ -260,7 +259,7 @@
                 android:paddingStart="10dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:text="1032322333"
+                android:text="@string/MoneySavingStr"
                 android:textColor="@color/white" />
 
 
@@ -281,7 +280,7 @@
                 android:layout_margin="5dp"
                 android:fontFamily="@font/roboto_mono"
                 android:paddingEnd="10dp"
-                android:text="103232333 VND"
+                android:text="@string/MoneyGoalStr"
                 android:textColor="@color/white" />
 
 
@@ -301,8 +300,8 @@
         android:paddingStart="5dp"
         android:paddingTop="5dp"
         android:paddingEnd="10dp"
-        android:text="Mua cổ phần tiệm tạp hóa gần nhà  dlkskj ksdjjk dksj ksdjskj skdjskj skdjsk  djskj skdj skdj  skdjs "
         android:textColor="@color/white"
+        android:text="Ứng dụng này cần internet để có hoạt động"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="@+id/tvGoalDayStart"
         app:layout_constraintTop_toBottomOf="@+id/tvGoalDayStart" />

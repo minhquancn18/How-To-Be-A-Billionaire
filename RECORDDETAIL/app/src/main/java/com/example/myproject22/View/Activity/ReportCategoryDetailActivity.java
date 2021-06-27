@@ -2,7 +2,6 @@ package com.example.myproject22.View.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,12 +20,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.myproject22.Model.DayItem;
 import com.example.myproject22.Model.DetailItem;
-import com.example.myproject22.Presenter.ReportCategoryDetailInterface;
-import com.example.myproject22.Presenter.ReportCategoryDetailPresenter;
+import com.example.myproject22.Presenter.Interface.ReportCategoryDetailInterface;
+import com.example.myproject22.Presenter.Presenter.ReportCategoryDetailPresenter;
 import com.example.myproject22.R;
-import com.example.myproject22.Util.DayItemAdapter;
 import com.example.myproject22.Util.RecordItemAdapter;
 
 import org.json.JSONArray;

@@ -1,27 +1,31 @@
 package com.example.myproject22.View.Activity;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,11 +42,12 @@ import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.BuildConfig;
-import com.example.myproject22.GoalRecordActivity;
 import com.example.myproject22.Model.ConnectionClass;
 import com.example.myproject22.Model.GoalRecord;
+import com.example.myproject22.Presenter.Interface.GoalInterface;
+import com.example.myproject22.Presenter.Presenter.GoalPresenter;
 import com.example.myproject22.R;
-import com.example.myproject22.Presenter.SavingInterface;
+import com.example.myproject22.Presenter.Interface.SavingInterface;
 import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.Util.Formatter;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -50,33 +55,23 @@ import com.google.android.material.snackbar.Snackbar;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.karumi.dexter.listener.single.PermissionListener;
-import com.mindorks.Screenshot;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import kotlin.ranges.UIntRange;
-
-public class GoalActivity extends AppCompatActivity implements SavingInterface {
+public class GoalActivity extends AppCompatActivity implements GoalInterface {
 
     //region UI COMPONENTS
     TextView tvGoalName;
@@ -93,13 +88,22 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
 
 
     //region GLOBAL VARIABLES
+    public static final String MESSAGE = "Msg";
     boolean neededToReload = true;
-    private static final int id_user = 1;
+    String message = "Hiện tại bạn chưa có mục tiêu nào";
+    private static int id_user = 1;
     public static final int RESULT_ADD_OK = 10;
     private static final int REQUEST_NEW_GOAL = 11;
     public static final int RESULT_ADD_FAILED = 12;
     private static final int REQUEST_VIEW_HISTORY = 13;
 
+
+    // handle goal
+    String success;
+    JSONArray jsonArray;
+
+    // presenter
+    GoalPresenter mGoalPresenter;
     //endregion
 
 
@@ -110,45 +114,15 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow(); // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-        Dexter.withContext(this)
-                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
-
-                    }
-                }).check();
-
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setNavigationBarTintEnabled(true);
-        tintManager.setTintColor(Color.TRANSPARENT);
-
-
-        InitView();
-        LoadAnimation();
-        FetchGoalDataFromServer();
+        mGoalPresenter = new GoalPresenter(this);
+        mGoalPresenter.SetUp();
+        mGoalPresenter.LoadData();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-
-        if (neededToReload) {
-            LoadAnimation();
-            FetchGoalDataFromServer();
-        } else neededToReload = true;
+        mGoalPresenter.LoadDataOnRestart(neededToReload);
     }
 
     @Override
@@ -165,6 +139,10 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
                 }
                 if (resultCode == RESULT_ADD_FAILED) {
                     neededToReload = false;
+                    if (!HasGoal(success, jsonArray)) {
+                        finish();
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                    }
                 }
                 return;
             }
@@ -176,31 +154,74 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
 
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
     //endregion
 
 
-    //region NORMAL FUNCTIONS
-    public void LoadAnimation() {
+    //region ANIMATIONS
+    @Override
+    public void LoadAnimations() {
         YoYo.with(Techniques.Pulse)
                 .duration(2000)
                 .delay(500)
                 .playOn(myLayout);
+
     }
 
     //endregion
 
 
-    //region OVERRIDE INTERFACE FUNCTION
+    //region INIT FUNCTIONS
     @Override
-    public void LoadGoal() {
-
+    public boolean GetBundleData() {
+        Intent intent = getIntent();
+        id_user = intent.getIntExtra("ID_USER", 0);
+        //return (id_user != 0);
+        return true;
     }
 
-    //endregion
+    @Override
+    public boolean HasInternet() {
+        return ConnectionClass.hasInternet(this);
+    }
 
+    @Override
+    public void AskForPermission() {
+        Dexter.withContext(this)
+                .withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                    }
 
-    //region INIT FUNCTION
-    public void InitView() {
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                }).check();
+    }
+
+    @Override
+    public void setUIBeforeInit() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setNavigationBarTintEnabled(true);
+        tintManager.setTintColor(Color.TRANSPARENT);
+    }
+
+    @Override
+    public void InitViews() {
         tvGoalMoney = findViewById(R.id.tvMoneyGoal);
         tvMoneySaving = findViewById(R.id.tvMoneySaving);
         tvGoalName = findViewById(R.id.tvGoalName);
@@ -212,43 +233,32 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
         tvDescription = findViewById(R.id.tvGoalDescription);
         tvDescription.setAlpha(0.f);
         tvDescription.setTranslationY(200);
+
+
+        Glide.with(this)
+                .load(R.drawable.fish_gif)
+                .into(ivGoalImage);
     }
+
+
     //endregion
 
 
     //region BUTTON CLICK HANDLE
     public void NewGoalClicked(View view) {
-        Intent intent = new Intent(this, NewGoalActivity.class);
-        startActivityForResult(intent, REQUEST_NEW_GOAL);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+        NewGoalClick();
     }
 
     public void GoalDetailClicked(View view) {
-        if (tvDescription.getAlpha() == 0f) {
-            tvDescription.animate()
-                    .translationY(0)
-                    .setDuration(600)
-                    .alpha(1.0f)
-                    .setListener(null);
-        } else {
-            tvDescription.animate()
-                    .translationY(200)
-                    .alpha(0f)
-                    .setDuration(500)
-                    .setListener(null);
-        }
+        GoalDetailClick();
     }
 
     public void GoalHistoryClicked(View view) {
-        Intent intent = new Intent(this, GoalRecordActivity.class);
-        startActivityForResult(intent, REQUEST_VIEW_HISTORY);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+        GoalHistory();
     }
 
     public void SreenShotClicked(View view) {
-
-
-        takeScreenShot(getWindow().getDecorView());
+        TakeScreenShot(getWindow().getDecorView());
     }
 
     //endregion
@@ -256,17 +266,57 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
 
     //region DATABASE HANDLE
 
-    //region GET DATA
-    public void FetchGoalDataFromServer() {
+    @Override
+    public void HandleNoGoal() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_finish_goal, null);
+        builder.setView(dialogView);
+
+
+
+        //init  view
+        ImageView ivAnimation = dialogView.findViewById(R.id.ivAnimation);
+        Button btnAddGoal = dialogView.findViewById(R.id.btnAddNewGoal);
+        Button btnGoBack = dialogView.findViewById(R.id.btnGoBack);
+
+        btnAddGoal.setOnClickListener(p -> NewGoalClick());
+        btnGoBack.setOnClickListener(p ->
+        {
+            finish();
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+        });
+
+        // gain value
+        Glide.with(this)
+                .load(R.drawable.dialog2_gif)
+                .into(ivAnimation);
+
+        YoYo.with(Techniques.Bounce)
+                .duration(1000)
+                .playOn(dialogView);
+
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    @Override
+    public boolean HasGoal(String success, JSONArray jsonArray) {
+        return (success.equals("1") && jsonArray.length() > 0);
+    }
+
+    @Override
+    public void FetchGoalFromServer() {
         StringRequest request = new StringRequest(Request.Method.POST,
                 ConnectionClass.urlString + "getGoal.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-                    if (success.equals("1") && jsonArray.length() > 0) {
+                    success = jsonObject.getString("success");
+                    jsonArray = jsonObject.getJSONArray("data");
+                    if (HasGoal(success, jsonArray)) {
                         JSONObject object = jsonArray.getJSONObject(0);
                         String name_goal = object.getString("NAME_GOAL");
                         String description_goal = object.getString("DESCRIPTION_GOAL");
@@ -282,7 +332,6 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
                         if (!image.equals("null"))
                             FormatImage.LoadImageIntoView(ivGoalImage, GoalActivity.this, urlImage);
 
-
                         tvGoalName.setText(name_goal);
                         tvMoneySaving.setText(Formatter.getCurrencyStr(money_saving));
                         tvGoalMoney.setText(Formatter.getCurrencyStr(money_goal) + " VND");
@@ -293,26 +342,19 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
                         tvGoalDayCount.setText(diff_in_days + " ngày");
 
                     } else { // no goal -> need add new
-                        Intent intent = new Intent(GoalActivity.this, NewGoalActivity.class);
-                        intent.putExtra(NewGoalActivity.REQUEST_ADD_NEW, true);
-                        startActivity(intent);
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                        HandleNoGoal();
                     }
                 } catch (JSONException e) {
                     Snackbar snackbar = Snackbar.make(tvGoalDayCount, e.getMessage() + "JSON", Snackbar.LENGTH_SHORT);
                     snackbar.show();
-
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
                 Snackbar a = Snackbar.make(tvGoalDayCount, error.getMessage() + "ERROR", BaseTransientBottomBar.LENGTH_LONG);
                 a.show();
-
-
             }
         }) {
             @Override
@@ -325,10 +367,13 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
     }
+    //endregion
 
 
-    private void takeScreenShot(View view) {
-         //This is used to provide file name with Date a format
+    //region IMAGE HANDLE
+    @Override
+    public void TakeScreenShot(View view) {
+        //This is used to provide file name with Date a format
         Date date = new Date();
         CharSequence format = DateFormat.format("MM-dd-yyyy_hh:mm:ss", date);
 
@@ -352,20 +397,21 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
+            ShareImage(imageFile);
 
-            shareScreenShot(imageFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
-    private void shareScreenShot(File imageFile) {
-
+    @Override
+    public void ShareImage(File file) {
         //Using sub-class of Content provider
         Uri uri = FileProvider.getUriForFile(
                 this,
                 BuildConfig.APPLICATION_ID + "." + getLocalClassName() + ".provider",
-                imageFile);
+                file);
 
         //Explicit intent
         Intent intent = new Intent();
@@ -382,18 +428,39 @@ public class GoalActivity extends AppCompatActivity implements SavingInterface {
         }
     }
 
-    private Uri saveImageExternal(Bitmap image) {
-        //TODO - Should be processed in another thread
-        Uri uri = null;
-        try {
-            File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "to-share.png");
-            FileOutputStream stream = new FileOutputStream(file);
-            image.compress(Bitmap.CompressFormat.PNG, 90, stream);
-            stream.close();
-            uri = Uri.fromFile(file);
-        } catch (IOException e) {
-            Log.d("ds", "IOException while trying to write file for sharing: " + e.getMessage());
+    //endregion
+
+    //region BUTTON OVERRIDE
+    @Override
+    public void GoalDetailClick() {
+        if (tvDescription.getAlpha() == 0f) {
+            tvDescription.animate()
+                    .translationY(0)
+                    .setDuration(600)
+                    .alpha(1.0f)
+                    .setListener(null);
+        } else {
+            tvDescription.animate()
+                    .translationY(200)
+                    .alpha(0f)
+                    .setDuration(500)
+                    .setListener(null);
         }
-        return uri;
     }
+
+    @Override
+    public void NewGoalClick() {
+        Intent intent = new Intent(this, NewGoalActivity.class);
+        startActivityForResult(intent, REQUEST_NEW_GOAL);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+    }
+
+    @Override
+    public void GoalHistory() {
+        Intent intent = new Intent(this, GoalRecordActivity.class);
+        startActivityForResult(intent, REQUEST_VIEW_HISTORY);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+    }
+
+    //endregion
 }

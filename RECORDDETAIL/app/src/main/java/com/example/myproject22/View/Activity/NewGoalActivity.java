@@ -1,6 +1,7 @@
 package com.example.myproject22.View.Activity;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -32,6 +33,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.myproject22.Model.ConnectionClass;
+import com.example.myproject22.Presenter.Interface.NewGoalInterface;
+import com.example.myproject22.Presenter.Presenter.NewGoalPresenter;
 import com.example.myproject22.R;
 import com.example.myproject22.Util.FormatImage;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -47,9 +50,8 @@ import java.util.Map;
 
 import me.abhinay.input.CurrencyEditText;
 
-public class NewGoalActivity extends AppCompatActivity {
+public class NewGoalActivity extends AppCompatActivity implements NewGoalInterface {
 
-    public static final String REQUEST_ADD_NEW = "add";
     //region UI COMPONENTS
     EditText etGoalDescription;
     EditText etGoalName;
@@ -58,17 +60,27 @@ public class NewGoalActivity extends AppCompatActivity {
     Uri image_uri;
     Button btnGoalDone;
     ImageView ivGifLoading;
-
     //endregion
 
+
     //region GLOBAL VARIABLES
+    public static final String REQUEST_ADD_NEW = "add";
     private static final int id_user = 1;
     private static final int GALLERY_REQUEST = 11;
-
+    private NewGoalPresenter mNewGoalPresenter;
     //endregion
 
 
     //region INIT FUNCTION
+    @Override
+    public void SetUpBeforeInit() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+    }
+
+    @Override
     public void InitView() {
         etGoalDescription = findViewById(R.id.etGoalDesc);
         etGoalName = findViewById(R.id.etGoalName);
@@ -76,12 +88,27 @@ public class NewGoalActivity extends AppCompatActivity {
         ivGoal = findViewById(R.id.ivGoal);
         btnGoalDone = findViewById(R.id.btnGoalDone);
         ivGifLoading = findViewById(R.id.ivGifLoading);
-
         etGoalMoney.setDecimals(false);
-
 
         Glide.with(this).load(R.drawable.audio_play_git).into(ivGifLoading);
     }
+
+    @Override
+    public void GetBundle() {
+
+    }
+
+    @Override
+    public void getMessage() {
+        Intent intent = getIntent();
+        String msg = intent.getStringExtra(GoalActivity.MESSAGE);
+        if(msg != null){
+            Snackbar snackbar = Snackbar.make(etGoalDescription, msg, BaseTransientBottomBar.LENGTH_LONG);
+            snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+            snackbar.show();
+        }
+    }
+
     //endregion
 
 
@@ -92,12 +119,8 @@ public class NewGoalActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_new_goal);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow(); // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
-
-        InitView();
+        mNewGoalPresenter = new NewGoalPresenter(this);
+        mNewGoalPresenter.SetUp();
     }
 
     @Override
@@ -125,56 +148,60 @@ public class NewGoalActivity extends AppCompatActivity {
     //endregion
 
 
-    //region NORMAL FUNCTION
-
-    @SuppressLint("ResourceAsColor")
-    public void DisableViews() {
-        btnGoalDone.setEnabled(false);
-        ivGifLoading.setVisibility(View.VISIBLE);
-    }
-
-    @SuppressLint("ResourceAsColor")
-    public void EnableViews() {
-        btnGoalDone.setEnabled(true);
-
-        ivGifLoading.setVisibility(View.INVISIBLE);
-    }
-
-
-    //endregion
-
-
+    //region IMAGE HANDLE
     @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    //region BUTTON CLICK HANDLE
-    public void onChooseImageClick(View view) {
+    public void ChooseImage() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
+    //endregion
+
+
+    //region ANIMATIONS
+    @Override
+    public void DisableViews() {
+        btnGoalDone.setEnabled(false);
+        ivGifLoading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void EnableViews() {
+        btnGoalDone.setEnabled(true);
+        ivGifLoading.setVisibility(View.INVISIBLE);
+    }
+    //endregion
+
+
+    //region BUTTON CLICK HANDLE
+    public void onChooseImageClick(View view) {
+        ChooseImage();
+    }
 
     @Override
     public void onBackPressed() {
+        PressBack();
+    }
+
+
+    @Override
+    public void PressBack() {
         setResult(GoalActivity.RESULT_ADD_FAILED);
         super.onBackPressed();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 
 
-    @SuppressLint("ResourceAsColor")
     public void btnGoalDoneClicked(View view) {
-        InsertGoalToServer();
-        DisableViews();
+        mNewGoalPresenter.AddGoalToServer(this, view);
     }
-
     //endregion
 
+
     //region DATABASE HANDLE
-    public void InsertGoalToServer() {
+    @Override
+    public void AddNewGoalToServer() {
         StringRequest request = new StringRequest(Request.Method.POST,
                 ConnectionClass.urlString + "insertGoal22.php", new Response.Listener<String>() {
             @Override
@@ -236,7 +263,5 @@ public class NewGoalActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
     }
-
-
     //endregion
 }

@@ -3,16 +3,12 @@ package com.example.myproject22.View.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -24,8 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myproject22.Model.DayItem;
-import com.example.myproject22.Presenter.ReportCategoryInterface;
-import com.example.myproject22.Presenter.ReportCategoryPresenter;
+import com.example.myproject22.Presenter.Interface.ReportCategoryInterface;
+import com.example.myproject22.Presenter.Presenter.ReportCategoryPresenter;
 import com.example.myproject22.R;
 import com.example.myproject22.Util.DayItemAdapter;
 
@@ -33,13 +29,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import static com.example.myproject22.Model.ConnectionClass.urlString;

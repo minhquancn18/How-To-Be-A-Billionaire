@@ -38,10 +38,10 @@ public class FormatImage {
 
     // compress image so that it becomes lighter ?
     public static void LoadImageIntoView(ImageView view, Context context, String url) {
-        YoYo.with(Techniques.FadeIn)
-                .duration(2500)
-                .playOn(view);
 
+        YoYo.with(Techniques.FadeIn)
+                .duration(2000)
+                .playOn(view);
 
         Glide.with(context)
                 .load(url)
@@ -50,6 +50,8 @@ public class FormatImage {
                         .load(R.drawable.fish_gif)
                 )
                 .into(view);
+
+
     }
 
 
