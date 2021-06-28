@@ -20,11 +20,11 @@
         android:id="@+id/pb_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="160dp"
         android:layout_marginTop="350dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,7 +95,6 @@
         android:backgroundTint="@color/transForBackground"
         app:layout_constraintBottom_toBottomOf="@+id/cardDate"
         app:layout_constraintEnd_toEndOf="@+id/cardChart">
-
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -338,7 +337,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:layout_width="20dp"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
@@ -347,8 +346,8 @@
                 android:background="@android:color/transparent"
                 android:onClick="GoalClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
                 android:src="@drawable/icon_goal"
                 android:tint="@color/icon_click_selector" />
 
@@ -356,6 +355,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Mục tiêu"
                 android:textColor="@color/white" />
@@ -369,7 +369,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:layout_width="20dp"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
@@ -378,15 +378,17 @@
                 android:background="@android:color/transparent"
                 android:onClick="OldRecordClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
                 android:src="@drawable/icon_record"
                 android:tint="@color/icon_click_selector" />
 
             <TextView
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Nhật ký"
                 android:textColor="@color/white" />
@@ -401,7 +403,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:layout_width="20dp"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
@@ -410,15 +412,17 @@
                 android:background="@android:color/transparent"
                 android:onClick="AddRecordClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
                 android:src="@drawable/icon_add"
                 android:tint="@color/icon_click_selector" />
 
             <TextView
                 android:layout_width="wrap_content"
+
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Thêm mới"
                 android:textColor="@color/white" />
@@ -432,7 +436,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:layout_width="20dp"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
@@ -441,8 +445,8 @@
                 android:background="@android:color/transparent"
                 android:onClick="GraphClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
                 android:src="@drawable/icon_piechart"
                 android:tint="@color/icon_click_selector" />
 
@@ -451,6 +455,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Thống kê"
                 android:textColor="@color/white" />

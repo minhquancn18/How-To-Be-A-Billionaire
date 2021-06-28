@@ -102,6 +102,7 @@ import static com.example.myproject22.Util.FormatImage.ByteToBitmap;
 
 public class SavingActivity extends AppCompatActivity implements SavingInterface {
 
+    private static final int REQUEST_GOAL = 200;
     //region Khởi tạo component
     // for debugg
     double ivSize = 0;
@@ -211,7 +212,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_FULLSCREEN);*/
 
-       //region Xử lí cardview click
+        //region Xử lí cardview click
         cardUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,16 +231,16 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         setAllInvisible();
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        Log.i("TEST1",  neededToReload + "");
-        if(neededToReload){
+        Log.i("TEST1", neededToReload + "");
+        if (neededToReload) {
             neededToReload = false;
             mSavingPresenter.loadDataFromServer();
-        }else{
+        } else {
             setAllVisible();
         }
     }
@@ -281,7 +282,6 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         //endregion
 
 
-
         // for animations
         cardSavingDate = findViewById(R.id.cardDate);
         cardSavingMoney = findViewById(R.id.card_savingmoney);
@@ -305,7 +305,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
     //region Tạo barchart
     @Override
-    public void CreateDataBarChart(){
+    public void CreateDataBarChart() {
 
         //region Load bar chart cột x
         ngayTrongTuan.add("Thứ 2");
@@ -396,7 +396,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         String date_string = "Đã tham gia vào \nngày " + slipday[2] + "/" + slipday[1] + "/" + slipday[0];
         tvUserDate.setText(date_string);
 
-        if(!userClass.getIMAGE().equals("null")){
+        if (!userClass.getIMAGE().equals("null")) {
             Glide.with(SavingActivity.this).load(userClass.getIMAGE()).into(ivProfile);
         }
 
@@ -421,7 +421,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 loadAnimation();
                 mSavingPresenter.fetchUserFromServer();
                 mSavingPresenter.fetchArrayDateFromServer();
-                mSavingPresenter.fetchSavingDetailFromServer(date_start,date_end);
+                mSavingPresenter.fetchSavingDetailFromServer(date_start, date_end);
             }
         }, 1000);
     }
@@ -433,7 +433,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
     //region Lấy dữ liệu từ bảng savingdetail
     @Override
-    public void FetchSavingDetailFromServer(String date_start, String date_end){
+    public void FetchSavingDetailFromServer(String date_start, String date_end) {
         StringRequest request = new StringRequest(Request.Method.POST,
                 urlString + "getSavingDetailByDate.php", new Response.Listener<String>() {
             @Override
@@ -460,10 +460,9 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                             Calendar cal = Calendar.getInstance();
                             cal.setTime(date);
                             int dow = cal.get(Calendar.DAY_OF_WEEK);
-                            if(dow == 1){
+                            if (dow == 1) {
                                 recordTietKiem.get(6).setY(money.floatValue());
-                            }
-                            else{
+                            } else {
                                 recordTietKiem.get(dow - 2).setY(money.floatValue());
                             }
 
@@ -497,7 +496,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     //endregion
 
     //region Lấy dữ liệu ngày từ savingdetail (để tìm chuỗi ngày)
-    public void FetchArrayDateFromServer(){
+    public void FetchArrayDateFromServer() {
         arrayDate = new ArrayList<>();
         count_date = 0;
         count_use = 0;
@@ -521,13 +520,13 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                             String date_string = object.getString("DATE");
                             Date date = SavingPresenter.DateFromString(date_string);
 
-                            if(arrayDate.size() == 0){
+                            if (arrayDate.size() == 0) {
                                 arrayDate.add(date);
                                 count_date++;
                                 count_use++;
-                            } else{
+                            } else {
                                 Date last_array = arrayDate.get(arrayDate.size() - 1);
-                                if(SavingPresenter.CalculateDateUse(last_array, date) > 1){
+                                if (SavingPresenter.CalculateDateUse(last_array, date) > 1) {
                                     count_date = 0;
                                 }
                                 arrayDate.add(date);
@@ -568,7 +567,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
     //region Lấy thông tin user từ bảng user
     @Override
-    public void FetchUserFromServer(){
+    public void FetchUserFromServer() {
         StringRequest request = new StringRequest(Request.Method.POST,
                 urlString + "getUser.php", new Response.Listener<String>() {
             @Override
@@ -593,12 +592,11 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                             Double income = object.getDouble("INCOME");
                             Double outcome = object.getDouble("OUTCOME");
 
-                            if(!image_string.equals("null")){
+                            if (!image_string.equals("null")) {
                                 String url_image = urlString + "ImagesUser/" + image_string;
-                                userClass = new UserClass(fullname, date_string, url_image, income ,outcome);
-                            }
-                            else{
-                                userClass = new UserClass(fullname,date_string,image_string, income, outcome);
+                                userClass = new UserClass(fullname, date_string, url_image, income, outcome);
+                            } else {
+                                userClass = new UserClass(fullname, date_string, image_string, income, outcome);
                             }
                         }
                     }
@@ -640,6 +638,10 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     }
 
     public void GoalClicked(View view) {
+        Intent intent = new Intent(this, GoalActivity.class);
+        intent.putExtra("ID_USER", id_user);
+        startActivityForResult(intent, REQUEST_GOAL);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 
     public void OldRecordClicked(View view) {
@@ -686,38 +688,37 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
-            case REQUEST_ADD_MONEY:
-            {
-                if(resultCode == RESULT_ADD_INCOME){
+        switch (requestCode) {
+            case REQUEST_ADD_MONEY: {
+                if (resultCode == RESULT_ADD_INCOME) {
                     Snackbar snackbar = Snackbar.make(cardNavigation, "Thêm một thu nhập thành công", BaseTransientBottomBar.LENGTH_SHORT);
                     snackbar.setAnchorView(R.id.cardNavigation);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                     neededToReload = true;
-                }
-                else if(resultCode == RESULT_ADD_OUTCOME){
+                } else if (resultCode == RESULT_ADD_OUTCOME) {
                     Snackbar snackbar = Snackbar.make(cardNavigation, "Thêm một chi tiêu thành công", BaseTransientBottomBar.LENGTH_SHORT);
                     snackbar.setAnchorView(R.id.cardNavigation);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                     neededToReload = true;
-                }
-                else{
+                } else {
                     neededToReload = false;
                 }
                 break;
             }
-            case REQUEST_UPDATE_USER:
-            {
-                if(resultCode == RESULT_UPDATE_SUCCESS){
+            case REQUEST_UPDATE_USER: {
+                if (resultCode == RESULT_UPDATE_SUCCESS) {
                     neededToReload = true;
-                }
-                else{
+                } else {
                     neededToReload = false;
                 }
                 Log.i("TEST2", neededToReload + "");
                 break;
+            }
+            case REQUEST_GOAL: {
+                neededToReload = false;
+                return;
             }
         }
     }
@@ -747,7 +748,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         cardSavingDate.setVisibility(View.VISIBLE);
         cardNavigation.setVisibility(View.VISIBLE);
 
-        if(!neededToReload){
+        if (!neededToReload) {
             cl_user.setVisibility(View.VISIBLE);
             cl_savingmoney.setVisibility(View.VISIBLE);
             cl_savingdate.setVisibility(View.VISIBLE);
