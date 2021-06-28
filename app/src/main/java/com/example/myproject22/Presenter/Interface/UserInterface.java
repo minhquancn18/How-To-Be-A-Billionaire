@@ -7,6 +7,7 @@ public interface UserInterface {
     //region Set Init, get Bundle
     public void SetInit();
     public void GetBundleData();
+    public void LoadAnimations();
     //endregion
 
     //region Handle Button Click

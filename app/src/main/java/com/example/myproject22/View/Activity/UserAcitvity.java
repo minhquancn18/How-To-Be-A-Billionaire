@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -21,10 +24,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -45,6 +48,7 @@ import com.example.myproject22.R;
 import com.example.myproject22.Util.Formatter;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.karumi.dexter.Dexter;
@@ -67,7 +71,6 @@ import static com.example.myproject22.Model.ConnectionClass.urlString;
 
 public class UserAcitvity extends AppCompatActivity implements UserInterface {
 
-
     //region Khởi tạo giá trị ban đầu
 
     //region Component
@@ -80,12 +83,17 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     private MaterialButton btnPassword;
     private MaterialButton btnMap;
     private MaterialButton btnLogout;
-    private ProgressBar pb_user;
     private ConstraintLayout cl_total;
 
     // ANIMATIONS
-    private ImageView ivRainbow;
+    private ImageView ivLoad;
+    private ImageView ivSign;
 
+    private MaterialCardView cardInfor;
+    private MaterialCardView cardUser;
+    private MaterialCardView cardPassword;
+    private MaterialCardView cardBank;
+    private MaterialCardView cardLogOut;
     //endregion
 
     //region Presenter
@@ -136,6 +144,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         presenter = new UserPresenter(this);
         presenter.setInit();
         presenter.getBundleData();
+        presenter.LoadAnimations();
         //endregion
 
         //region Xử lí button click
@@ -197,8 +206,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     }
     //endregion
 
-
-    //region Set Init, get bundle
+    //region Set Init, get bundle, Load Animations
     @Override
     public void SetInit() {
         tv_name = findViewById(R.id.tv_username);
@@ -210,17 +218,19 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         btnPassword = findViewById(R.id.btnPassword);
         btnMap = findViewById(R.id.btnMap);
         btnLogout = findViewById(R.id.btnLogOut);
-        pb_user = findViewById(R.id.pb_user);
         cl_total = findViewById(R.id.cl_total);
-        pb_user.bringToFront();
-        cl_total.setVisibility(View.INVISIBLE);
 
-        // animation
-        ivRainbow = findViewById(R.id.ivRainbow);
+        // animations
+        ivSign = findViewById(R.id.ivSign);
+        ivLoad = findViewById(R.id.ivLoad);
+
+        cardBank = findViewById(R.id.cardBank);
+        cardUser = findViewById(R.id.cardUser);
+        cardInfor = findViewById(R.id.cardInfor);
+        cardPassword = findViewById(R.id.cardPassword);
+        cardLogOut = findViewById(R.id.cardLogOut);
         Glide.with(this)
-                .load(R.drawable.happy_gif).into(ivRainbow);
-
-
+                .load(R.drawable.move_gif).into(ivLoad);
     }
 
     @Override
@@ -230,7 +240,41 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         id_user = bundle.getInt("ID_USER");*/
         id_user = 1;
     }
+
+    @Override
+    public void LoadAnimations() {
+
+        // LoadAnimation
+        YoYo.with(Techniques.Tada)
+                .duration(3000)
+                .playOn(cardUser);
+
+
+        YoYo.with(Techniques.Bounce).repeat(Animation.INFINITE)
+                .duration(2500)
+                .playOn(cardInfor);
+
+
+        YoYo.with(Techniques.Pulse).repeat(Animation.INFINITE)
+                .duration(2500)
+                .playOn(cardLogOut);
+
+
+        YoYo.with(Techniques.Shake).repeat(Animation.INFINITE)
+                .duration(2500)
+                .playOn(cardPassword);
+
+
+        YoYo.with(Techniques.Wobble)
+                .repeat(Animation.INFINITE)
+                .duration(2500)
+                .playOn(cardBank);
+
+    }
+
+
     //endregion
+
 
     //region Xử lí button click
 
@@ -320,15 +364,13 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     //region Button đăng xuất
     @Override
     public void BtnLogOut() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(UserAcitvity.this);
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(UserAcitvity.this, android.R.style.Theme_Material_Dialog_NoActionBar);
         builder.setMessage("Bạn thật sự muốn đăng xuât")
                 .setTitle("Đăng xuất")
-                .setCancelable(false)
-                .setPositiveButton("Vâng", new DialogInterface.OnClickListener() {
+                .setCancelable(true)
+                .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         settings.setIsLogOut(true);
 
                         Intent i = new Intent(UserAcitvity.this, LoginActivity.class);
@@ -346,6 +388,18 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
                 });
 
         AlertDialog dialog = builder.create();
+
+        // setting theme
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface d) {
+                dialog.getButton(d.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+                dialog.getButton(d.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+            }
+        });
+
+
         dialog.show();
     }
     //endregion
@@ -431,20 +485,23 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
             String money_string = "Đang nợ";
             tv_income.setText(money_string);
             String smoney = Formatter.getCurrencyStr(String.valueOf(-money));
-            smoney = "- " + smoney + " VND";
+            smoney = smoney + "VND";
+            ivSign.setImageDrawable(getDrawable(R.drawable.ic_money_minus));
             tv_money.setText(smoney);
         } else {
             Log.i("MONEY1", String.valueOf(money));
             String money_string = "Đang có";
             tv_income.setText(money_string);
             String smoney = Formatter.getCurrencyStr(String.valueOf(money));
-            smoney = "+ " + smoney + " VND";
+            smoney = smoney + "VND";
+            ivSign.setImageDrawable(getDrawable(R.drawable.ic_money_add));
             tv_money.setText(smoney);
         }
 
-
-        pb_user.setVisibility(View.GONE);
         cl_total.setVisibility(View.VISIBLE);
+      /*  YoYo.with(Techniques.SlideInUp)
+                .duration(2000)
+                .playOn(btnMap);*/
     }
 
     @Override
@@ -473,6 +530,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         MaterialButton btnAtm = dialogView.findViewById(R.id.btnATM);
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
 
         et_find.setOnFocusChangeListener(new View.OnFocusChangeListener() {

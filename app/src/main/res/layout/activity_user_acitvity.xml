@@ -7,23 +7,13 @@
     tools:context=".View.Activity.UserAcitvity">
 
 
-
-    <ProgressBar
-        android:id="@+id/pb_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="360dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_total"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/ivRainbow"
+            android:id="@+id/ivLoad"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -31,19 +21,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView4" />
-
-
+            app:layout_constraintTop_toBottomOf="@+id/cardBank" />
 
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView"
+            android:id="@+id/cardUser"
             android:layout_width="match_parent"
             android:layout_height="235dp"
             android:layout_margin="20dp"
             app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="20dp"
-            app:cardElevation="20dp"
+            app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -155,17 +143,28 @@
                     app:layout_constraintStart_toStartOf="parent">
 
 
+                    <ImageView
+                        android:id="@+id/ivSign"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="30dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_money_add"
+                        android:background="@color/colorPrimary"
+                        app:tint="@color/black" />
+
                     <TextView
                         android:id="@+id/tv_money"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="-10dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
-                        android:drawableStart="@drawable/ic_baseline_attach_money_24"
+                        android:layout_weight="4"
                         android:drawableTint="@color/white"
                         android:fontFamily="@font/roboto_mono"
-                        android:text="Lalaland"
+                        android:text="X.XXX.XXX.XXX VND"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="25dp"
@@ -180,7 +179,7 @@
                     android:layout_height="100dp"
                     android:layout_marginEnd="16dp"
                     android:src="@drawable/avatar"
-                    app:civ_border_color="@color/white"
+                    app:civ_border_color="@color/black"
                     app:civ_border_width="3dp"
                     app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -191,15 +190,15 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView3"
+            android:id="@+id/cardInfor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="10dp"
-            app:cardElevation="20dp"
-            app:layout_constraintStart_toStartOf="@+id/materialCardView"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+            app:cardElevation="5dp"
+            app:layout_constraintStart_toStartOf="@+id/cardUser"
+            app:layout_constraintTop_toBottomOf="@+id/cardUser"
             app:strokeColor="@color/black"
             app:strokeWidth="3dp">
 
@@ -246,15 +245,15 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView5"
+            android:id="@+id/cardLogOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/colorAccent"
             app:cardCornerRadius="10dp"
-            app:cardElevation="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/materialCardView3"
-            app:layout_constraintEnd_toEndOf="@+id/materialCardView"
-            app:layout_constraintTop_toTopOf="@+id/materialCardView3"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardInfor"
+            app:layout_constraintEnd_toEndOf="@+id/cardUser"
+            app:layout_constraintTop_toTopOf="@+id/cardInfor"
             app:strokeColor="@color/black"
             app:strokeWidth="3dp">
 
@@ -301,15 +300,15 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView4"
+            android:id="@+id/cardBank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             app:cardBackgroundColor="@color/colorAccent"
             app:cardCornerRadius="10dp"
-            app:cardElevation="20dp"
-            app:layout_constraintStart_toStartOf="@+id/materialCardView3"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView3"
+            app:cardElevation="5dp"
+            app:layout_constraintStart_toStartOf="@+id/cardInfor"
+            app:layout_constraintTop_toBottomOf="@+id/cardInfor"
             app:strokeColor="@color/black"
             app:strokeWidth="3dp">
 
@@ -355,15 +354,16 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/materialCardView4"
-            app:layout_constraintEnd_toEndOf="@+id/materialCardView5"
-            app:layout_constraintStart_toStartOf="@+id/materialCardView5"
-            app:layout_constraintTop_toTopOf="@+id/materialCardView4"
+            app:layout_constraintBottom_toBottomOf="@+id/cardBank"
+            app:layout_constraintEnd_toEndOf="@+id/cardLogOut"
+            app:layout_constraintStart_toStartOf="@+id/cardLogOut"
+            app:layout_constraintTop_toTopOf="@+id/cardBank"
             app:strokeColor="@color/black"
             app:strokeWidth="3dp">
 

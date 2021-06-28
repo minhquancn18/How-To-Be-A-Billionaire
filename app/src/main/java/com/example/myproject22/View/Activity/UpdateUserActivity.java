@@ -7,13 +7,16 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -25,9 +28,12 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
@@ -38,11 +44,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.SharePreferenceClass;
 import com.example.myproject22.Model.UserClass;
 import com.example.myproject22.Presenter.Interface.UpdateUserInterface;
 import com.example.myproject22.Presenter.Presenter.UpdateUserPresenter;
 import com.example.myproject22.R;
+import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -83,7 +92,6 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
 
     //region Component
     private ConstraintLayout cl_total;
-    private ProgressBar pb_user;
     private TextInputLayout til_fullname;
     private TextInputLayout til_email;
     private TextInputEditText et_fullname;
@@ -91,6 +99,9 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
     private CircleImageView iv_profile;
     private MaterialButton btnSave;
     private MaterialButton btnCancel;
+
+    // animations
+    private ImageView ivBackground;
     //endregion
 
     //region presenter
@@ -122,7 +133,11 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         setContentView(R.layout.activity_update_user);
 
         //region SharePreference
@@ -166,10 +181,9 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     presenter.hideKeyboard(v);
-                }
-                else{
+                } else {
                     til_email.setError(null);
                 }
             }
@@ -183,7 +197,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() == 0)
+                if (s.length() == 0)
                     til_email.setError("Vui lòng nhập email");
                 else
                     til_email.setError(null);
@@ -198,10 +212,9 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         et_fullname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     presenter.hideKeyboard(v);
-                }
-                else{
+                } else {
                     til_fullname.setError(null);
                 }
             }
@@ -215,7 +228,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() == 0)
+                if (s.length() == 0)
                     til_fullname.setError("Vui lòng nhập họ và tên");
                 else
                     til_fullname.setError(null);
@@ -265,7 +278,6 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
     @Override
     public void SetInit() {
         cl_total = findViewById(R.id.cl_total);
-        pb_user = findViewById(R.id.pb_user);
         til_email = findViewById(R.id.til_email);
         til_fullname = findViewById(R.id.til_fullname);
         et_email = findViewById(R.id.et_email);
@@ -274,7 +286,12 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         btnCancel = findViewById(R.id.btnCancel);
         iv_profile = findViewById(R.id.profile_image);
 
-        pb_user.bringToFront();
+        // animations
+        ivBackground = findViewById(R.id.ivBackground);
+        Glide.with(this)
+                .load(R.drawable.background_gif)
+                .into(ivBackground);
+
         cl_total.setVisibility(View.INVISIBLE);
     }
 
@@ -296,6 +313,12 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
     //region Fetch User
     @Override
     public void FetchUserFromServer() {
+
+        cl_total.setVisibility(View.VISIBLE);
+        YoYo.with(Techniques.SlideInRight)
+                .duration(2000)
+                .playOn(cl_total);
+
         StringRequest request = new StringRequest(Request.Method.POST,
                 urlString + "getUser.php", new Response.Listener<String>() {
             @Override
@@ -317,11 +340,10 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
                             String image_string = object.getString("USERIMAGE");
 
 
-                            if(!image_string.equals("null")){
+                            if (!image_string.equals("null")) {
                                 String url_image = urlString + "ImagesUser/" + image_string;
                                 userClass = new UserClass(email, fullname, date_string, url_image);
-                            }
-                            else{
+                            } else {
                                 userClass = new UserClass(email, fullname, date_string, image_string);
                             }
                         }
@@ -359,12 +381,13 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         et_fullname.setText(userClass.getFULLNAME());
         et_email.setText(userClass.getEMAIL());
 
-        if(!userClass.getIMAGE().equals("null")){
-            Glide.with(UpdateUserActivity.this).load(userClass.getIMAGE()).into(iv_profile);
+        if (!userClass.getIMAGE().equals("null")) {
+            FormatImage.LoadImageIntoView(iv_profile, UpdateUserActivity.this, userClass.getIMAGE());
         }
 
-        pb_user.setVisibility(View.GONE);
-        cl_total.setVisibility(View.VISIBLE);
+        //cl_total.setVisibility(View.VISIBLE);
+
+
     }
 
     @Override
@@ -374,7 +397,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
             public void run() {
                 FetchUserFromServer();
             }
-        },1000);
+        }, 1000);
     }
     //endregion
 
@@ -382,25 +405,33 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
     @Override
     public void BtnSaveClick() {
         String fullname = et_fullname.getText().toString().trim();
-        if(!presenter.getNoFullName(fullname)){
+        if (!presenter.getNoFullName(fullname)) {
             return;
         }
 
         String email = et_email.getText().toString().trim();
-        if(!presenter.getNoEmail(email)){
+        if (!presenter.getNoEmail(email)) {
             return;
         }
 
         String image_string = presenter.getStringImage();
-        if(image_string.equals("NULL")){
-            pb_user.bringToFront();
-            pb_user.setVisibility(View.VISIBLE);
-            presenter.uploadUserToServerNoImage(fullname,email);
-        }
-        else{
-            pb_user.bringToFront();
-            pb_user.setVisibility(View.VISIBLE);
-            presenter.uploadUserToServer(fullname,email,image_string);
+
+        //animations
+        YoYo.with(Techniques.Tada)
+                .repeat(Animation.INFINITE)
+                .duration(2300)
+                .playOn(cl_total);
+
+        //ivBackground.bringToFront();
+        if (image_string.equals("NULL")) {
+
+            presenter.uploadUserToServerNoImage(fullname, email);
+        } else {
+            YoYo.with(Techniques.Tada)
+                    .duration(2500)
+                    .playOn(cl_total);
+            ivBackground.bringToFront();
+            presenter.uploadUserToServer(fullname, email, image_string);
         }
     }
 
@@ -429,6 +460,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         ImageButton ivGallery = dialogView.findViewById(R.id.ivGallery);
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
 
         ivCamera.setOnClickListener(new View.OnClickListener() {
@@ -437,12 +469,10 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
                 Dexter.withContext(UpdateUserActivity.this).withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        if(multiplePermissionsReport.areAllPermissionsGranted())
-                        {
+                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
                             presenter.takeImageFromCamera();
-                        }
-                        else{
-                            Snackbar snackbar = Snackbar.make(btnCancel,"All permissions are not granted",Snackbar.LENGTH_SHORT);
+                        } else {
+                            Snackbar snackbar = Snackbar.make(btnCancel, "All permissions are not granted", Snackbar.LENGTH_SHORT);
                             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                             snackbar.show();
                             /*Toast.makeText(AddingCategoryActivity.this, "All permissions are not granted", Toast.LENGTH_SHORT).show();*/
@@ -475,7 +505,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                        Snackbar snackbar = Snackbar.make(btnCancel,"Permission is not granted",Snackbar.LENGTH_SHORT);
+                        Snackbar snackbar = Snackbar.make(btnCancel, "Permission is not granted", Snackbar.LENGTH_SHORT);
                         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                         snackbar.show();
                         /*Toast.makeText(AddingCategoryActivity.this, "Permission is not granted", Toast.LENGTH_SHORT).show();*/
@@ -513,7 +543,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         try {
             photoFile = createImageFile();
         } catch (IOException e) {
-            Snackbar snackbar = Snackbar.make(btnCancel,"Lỗi truy cập hình ảnh",Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(btnCancel, "Lỗi truy cập hình ảnh", Snackbar.LENGTH_SHORT);
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
             snackbar.show();
             /*Toast.makeText(AddingCategoryActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -616,17 +646,15 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
 
     //Điều kiện email là nhập đúng định dạng email và không được để trống
     @Override
-    public Boolean GetNoEmail(String email){
+    public Boolean GetNoEmail(String email) {
         if (email.isEmpty()) {
             til_email.setError("Vui lòng nhập email");
             /*et_email.setError("Vui lòng nhập email");*/
-            pb_user.setVisibility(View.INVISIBLE);
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             til_email.setError("Vui lòng nhập email chính xác");
             /*et_email.setError("Vui lòng nhập email chính xác");*/
-            pb_user.setVisibility(View.INVISIBLE);
-            return  false;
+            return false;
         } else {
             til_email.setError(null);
             /*et_email.setError(null);*/
@@ -636,11 +664,10 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
 
     //Điều kiện fullname là không được để trống
     @Override
-    public Boolean GetNoFullName(String fullname){
+    public Boolean GetNoFullName(String fullname) {
         if (fullname.isEmpty()) {
             til_fullname.setError("Vui lòng nhập họ và tên");
             /*et_salary.setError("Vui lòng nhập họ và tên");*/
-            pb_user.setVisibility(View.INVISIBLE);
             return false;
         } else {
             til_fullname.setError(null);
@@ -658,8 +685,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
                 urlString + "updateUser.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pb_user.setVisibility(View.INVISIBLE);
-                if(response.equals("Update user success")){
+                if (response.equals("Update user success")) {
 
                     settings.setIsUpdateUser(true);
                     setResult(UserAcitvity.RESULT_SUCCESS);
@@ -667,8 +693,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
                     finish();
                     DeleteImage();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_in_left);
-                }
-                else{
+                } else {
                     Log.i("RESPONSEUSER", response);
                     Snackbar snackbar = Snackbar.make(btnCancel, "Cập nhật thông tin thất bại", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
@@ -697,6 +722,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         RequestQueue requestQueue = Volley.newRequestQueue(UpdateUserActivity.this);
         requestQueue.add(request);
     }
+
     //Not Image
     @Override
     public void UploadUserToServerNoImage(String fullname, String email) {
@@ -704,16 +730,14 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
                 urlString + "updateUserNoImage.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pb_user.setVisibility(View.INVISIBLE);
-                if(response.equals("Update user success")){
+                if (response.equals("Update user success")) {
 
                     settings.setIsUpdateUser(true);
                     setResult(UserAcitvity.RESULT_SUCCESS);
 
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_in_left);
-                }
-                else{
+                } else {
                     Log.i("RESPONSEUSER", response);
                     Snackbar snackbar = Snackbar.make(btnCancel, "Cập nhật thông tin thất bại", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);

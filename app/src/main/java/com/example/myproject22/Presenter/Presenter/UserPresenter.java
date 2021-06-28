@@ -19,6 +19,9 @@ public class UserPresenter {
     public void getBundleData() {
         anInterface.GetBundleData();
     }
+    public void LoadAnimations() {
+        anInterface.LoadAnimations();
+    }
 
     //endregion
 
