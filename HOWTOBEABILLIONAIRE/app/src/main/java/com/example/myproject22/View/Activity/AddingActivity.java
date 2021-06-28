@@ -3,12 +3,14 @@ package com.example.myproject22.View.Activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,6 +57,7 @@ import com.example.myproject22.Presenter.AddingMoneyInterface;
 import com.example.myproject22.Presenter.AddingMoneyPresentent;
 import com.example.myproject22.R;
 import com.example.myproject22.Util.CategoryAdapter;
+import com.example.myproject22.View.Service.Network_receiver;
 import com.gauravk.audiovisualizer.visualizer.WaveVisualizer;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
@@ -175,6 +178,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     private SharePreferenceClass settings;
     //endregion
 
+    //Broadcast
+    private Network_receiver network_receiver;
+
     //endregion
 
     @Override
@@ -185,6 +191,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
         //region SharePreference
         settings = new SharePreferenceClass(this);
+        //endregion
+
+        //region Broadcast
+        network_receiver = new Network_receiver();
         //endregion
 
         //region Khởi tạo present và các giá trị ban đầu
@@ -324,10 +334,14 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     protected void onStart() {
         super.onStart();
         blurLayout.startBlur();
+
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(network_receiver, intentFilter);
     }
 
     @Override
     protected void onStop() {
+        unregisterReceiver(network_receiver);
         blurLayout.pauseBlur();
         super.onStop();
     }

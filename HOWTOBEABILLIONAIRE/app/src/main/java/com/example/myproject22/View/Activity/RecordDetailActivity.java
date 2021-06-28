@@ -107,6 +107,10 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_record_detail);
 
+        //region Broadcast
+        network_receiver = new Network_receiver();
+        //endregion
+
         //region Khởi tạo presenter và giá trị ban đầu
         presenter = new RecordDetailPresenter(this);
         presenter.setInit();
