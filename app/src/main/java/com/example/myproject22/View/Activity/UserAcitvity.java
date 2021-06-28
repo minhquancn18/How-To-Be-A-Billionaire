@@ -13,14 +13,17 @@ import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,6 +35,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.SharePreferenceClass;
 import com.example.myproject22.Model.UserClass;
 import com.example.myproject22.Presenter.Interface.UserInterface;
@@ -77,6 +82,10 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     private MaterialButton btnLogout;
     private ProgressBar pb_user;
     private ConstraintLayout cl_total;
+
+    // ANIMATIONS
+    private ImageView ivRainbow;
+
     //endregion
 
     //region Presenter
@@ -108,7 +117,11 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         setContentView(R.layout.activity_user_acitvity);
 
         //region Share Preference
@@ -177,7 +190,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     protected void onResume() {
         super.onResume();
 
-        if(neededToReload){
+        if (neededToReload) {
             neededToReload = false;
             presenter.loadDataToLayout();
         }
@@ -201,13 +214,21 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         cl_total = findViewById(R.id.cl_total);
         pb_user.bringToFront();
         cl_total.setVisibility(View.INVISIBLE);
+
+        // animation
+        ivRainbow = findViewById(R.id.ivRainbow);
+        Glide.with(this)
+                .load(R.drawable.happy_gif).into(ivRainbow);
+
+
     }
 
     @Override
     public void GetBundleData() {
-        Intent intent = getIntent();
+       /* Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        id_user = bundle.getInt("ID_USER");
+        id_user = bundle.getInt("ID_USER");*/
+        id_user = 1;
     }
     //endregion
 
@@ -226,23 +247,20 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
-            case REQUEST_UPDATE_USER:
-            {
-                if(resultCode == RESULT_SUCCESS){
+        switch (requestCode) {
+            case REQUEST_UPDATE_USER: {
+                if (resultCode == RESULT_SUCCESS) {
                     Snackbar.make(btnLogout, "Cập nhật thông tin thành công", Snackbar.LENGTH_SHORT)
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
                             .show();
                     neededToReload = true;
-                }
-                else{
+                } else {
                     neededToReload = false;
                 }
                 break;
             }
-            case REQUEST_UPDATE_PASSWORD:
-            {
-                if(resultCode == RESULT_PASSWORD_SUCCESS){
+            case REQUEST_UPDATE_PASSWORD: {
+                if (resultCode == RESULT_PASSWORD_SUCCESS) {
                     Snackbar.make(btnLogout, "Cập nhật mật khẩu thành công", Snackbar.LENGTH_SHORT)
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
                             .show();
@@ -273,13 +291,13 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        if(multiplePermissionsReport.areAllPermissionsGranted()){
+                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
 
                             //region Xử lí khi mọi permission granted
                             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                                 presenter.showCustomDialog();
-                            }else{
+                            } else {
                                 presenter.showGPSDisabledAlertToUser();
                             }
                             //endregion
@@ -358,12 +376,11 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
                             Double income = object.getDouble("INCOME");
                             Double outcome = object.getDouble("OUTCOME");
 
-                            if(!image_string.equals("null")){
+                            if (!image_string.equals("null")) {
                                 String url_image = urlString + "ImagesUser/" + image_string;
                                 userClass = new UserClass(fullname, date_string, url_image, income, outcome);
-                            }
-                            else{
-                                userClass = new UserClass(fullname,date_string,image_string, income, outcome);
+                            } else {
+                                userClass = new UserClass(fullname, date_string, image_string, income, outcome);
                             }
                         }
                     }
@@ -400,29 +417,28 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         String date_temp = userClass.getDATESTART();
         String[] slipdate = date_temp.split(" ");
         String[] slipday = slipdate[0].split("-");
-        String date_string = "Đã tham gia vào \nngày " + slipday[2] + "/" + slipday[1] + "/" + slipday[0];
+        String date_string = "Sử dụng từ " + slipday[2] + "." + slipday[1] + "." + slipday[0];
         tv_date.setText(date_string);
 
-        if(!userClass.getIMAGE().equals("null")){
+        if (!userClass.getIMAGE().equals("null")) {
             Glide.with(UserAcitvity.this).load(userClass.getIMAGE()).into(iv_profile);
         }
 
         Double total = userClass.getINCOME() - userClass.getOUTCOME();
         long money = total.longValue();
-        if(money < 0){
-            Log.i("MONEY1",String.valueOf(money));
-            String money_string = "Hiện tại đang nợ: " ;
+        if (money < 0) {
+            Log.i("MONEY1", String.valueOf(money));
+            String money_string = "Đang nợ";
             tv_income.setText(money_string);
             String smoney = Formatter.getCurrencyStr(String.valueOf(-money));
-            smoney = smoney + " VND";
+            smoney = "- " + smoney + " VND";
             tv_money.setText(smoney);
-        }
-        else{
-            Log.i("MONEY1",String.valueOf(money));
-            String money_string = "Hiện tại đang có: ";
+        } else {
+            Log.i("MONEY1", String.valueOf(money));
+            String money_string = "Đang có";
             tv_income.setText(money_string);
             String smoney = Formatter.getCurrencyStr(String.valueOf(money));
-            smoney = smoney + " VND";
+            smoney = "+ " + smoney + " VND";
             tv_money.setText(smoney);
         }
 
@@ -438,14 +454,14 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
             public void run() {
                 FetchUserFromServer();
             }
-        },1000);
+        }, 1000);
     }
 
     //endregion
 
     //region Dialog cho Map
     @Override
-    public void ShowCustomDialog(){
+    public void ShowCustomDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(UserAcitvity.this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_map, null);
@@ -462,7 +478,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         et_find.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
@@ -473,7 +489,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
             @Override
             public void onClick(View v) {
                 String locat = et_find.getText().toString().trim();
-                if(!locat.isEmpty()){
+                if (!locat.isEmpty()) {
                     locat = locat + " ";
                 }
                 String find_string = "geo:0,0?z=15&q=" + locat + "bank";
@@ -489,7 +505,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
             @Override
             public void onClick(View v) {
                 String locat = et_find.getText().toString().trim();
-                if(!locat.isEmpty()){
+                if (!locat.isEmpty()) {
                     locat = locat + " ";
                 }
                 String find_string = "geo:0,0?z=15&q=" + locat + "atm";
@@ -509,8 +525,8 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
                 .setTitle("Định vị")
                 .setCancelable(false)
                 .setPositiveButton("Vâng",
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int id){
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
                                 Intent callGPSSettingIntent = new Intent(
                                         android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                                 startActivity(callGPSSettingIntent);
@@ -518,8 +534,8 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
                             }
                         });
         alertDialogBuilder.setNegativeButton("Không",
-                new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
                 });
@@ -534,10 +550,9 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
 
         isUpdate = settings.getIsUpdateUser();
         settings.setIsUpdateUser(false);
-        if(isUpdate == false){
+        if (isUpdate == false) {
             setResult(SavingActivity.RESULT_UPDATE_FAIL);
-        }
-        else{
+        } else {
             setResult(SavingActivity.RESULT_UPDATE_SUCCESS);
         }
 

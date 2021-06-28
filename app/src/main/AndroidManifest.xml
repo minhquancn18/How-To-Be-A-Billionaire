@@ -32,6 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyProject22">
 
+
+        <!--region User -->
         <activity
             android:name=".View.Activity.UpdatePasswordActivity"
             android:parentActivityName=".View.Activity.UserAcitvity" />
@@ -40,7 +42,16 @@
             android:name=".View.Activity.UpdateUserActivity"
             android:parentActivityName=".View.Activity.UserAcitvity" />
 
-        <activity android:name=".View.Activity.UserAcitvity" />
+        <activity android:name=".View.Activity.UserAcitvity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+        <!--endregion-->
+
 
         <activity
             android:name=".View.Activity.ForgotPasswordActivity"
@@ -51,10 +62,7 @@
             android:parentActivityName=".View.Activity.LoginActivity" />
 
         <activity android:name=".View.Activity.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <activity
