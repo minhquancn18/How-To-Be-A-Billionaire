@@ -1,0 +1,58 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MyProject22" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+
+    <style name="tab_text2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">18dp</item>
+        <item name="textAllCaps">false</item>
+
+        <!--        font -->
+        <item name="colorPrimary">@color/teal_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="background">@android:color/transparent</item>
+        <item name="backgroundColor">@android:color/transparent</item>
+    </style>
+
+    <style name="MySeekBar" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">#1a237e</item>
+        <item name="android:colorControlNormal">#00b0ff</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/athiti_light</item>
+    </style>
+
+    <style name="EditTextTheme"  parent="Theme.MaterialComponents">
+
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/colorPrimary</item>
+        <item name="colorOnSecondary">@color/purple_500</item>
+    </style>
+
+</resources>
