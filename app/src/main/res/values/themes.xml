@@ -56,4 +56,18 @@
         <item name="colorOnSecondary">@color/purple_500</item>
     </style>
 
+    <style name="EditTextTheme2"  parent="Theme.MaterialComponents">
+
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/colorPrimary</item>
+        <item name="colorOnSecondary">@color/purple_500</item>
+    </style>
+
+
+
 </resources>

@@ -6,21 +6,20 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
@@ -33,6 +32,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.ConnectionClass;
 import com.example.myproject22.Model.SharePreferenceClass;
 import com.example.myproject22.Presenter.Interface.LoginInterface;
@@ -41,6 +42,7 @@ import com.example.myproject22.R;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.example.myproject22.View.Service.Notification_recevier;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -66,9 +68,12 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     private MaterialButton btnLogin;
     private TextView tvSignUp;
     private TextView tvForget;
-    private ProgressBar pb_signin;
     private CoordinatorLayout mSnackbarLayout;
     private CheckBox cbRemember;
+
+    // animations
+    private MaterialCardView cardLogin;
+
     //endregion
 
     //region Presenter
@@ -98,7 +103,12 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         setContentView(R.layout.activity_login);
 
         //region Khởi tạo presenter và kiểm tra kết nối internet
@@ -252,7 +262,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         cbRemember.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(!isChecked){
+                if (!isChecked) {
                     settings.setUsername("");
                     settings.setPassword("");
                 }
@@ -301,10 +311,18 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         et_password = findViewById(R.id.et_password);
         btnLogin = findViewById(R.id.btnLogin);
         tvSignUp = findViewById(R.id.tvRegister);
-        tvForget = findViewById(R.id.tvForget);
-        pb_signin = findViewById(R.id.pb_signin);
+        tvForget = findViewById(R.id.btnForget);
+        //pb_signin = findViewById(R.id.pb_signin);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
         cbRemember = findViewById(R.id.cb_remember);
+
+
+        //animations
+        cardLogin = findViewById(R.id.cardLogin);
+        YoYo.with(Techniques.Bounce)
+                .duration(2000)
+                .playOn(cardLogin);
+
     }
 
     @Override
@@ -321,7 +339,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         if (username.isEmpty()) {
             til_username.setError("Username không được để trống");
             /*et_username.setError("Username không được để trống");*/
-            pb_signin.setVisibility(View.INVISIBLE);
+            //pb_signin.setVisibility(View.INVISIBLE);
             return false;
         } else {
             til_username.setError(null);
@@ -335,7 +353,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         if (password.isEmpty()) {
             tif_password.setError("Mật khẩu không được để trống");
             /*et_password.setError("Mật khẩu không được để trống");*/
-            pb_signin.setVisibility(View.INVISIBLE);
+            //pb_signin.setVisibility(View.INVISIBLE);
             return false;
         } else {
             tif_password.setError(null);
@@ -348,7 +366,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     //region Xử lí button đăng nhập
     @Override
     public void BtnSignIn() {
-        pb_signin.setVisibility(View.VISIBLE);
+        //pb_signin.setVisibility(View.VISIBLE);
 
         String username = et_username.getText().toString().trim();
         if (presenter.getNoUserName(username) == false) {
@@ -360,18 +378,26 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
             return;
         }
 
+        YoYo.with(Techniques.Tada)
+                .repeat(2)
+                .duration(2000)
+                .playOn(cardLogin);
+
         presenter.loginFromServer(username, password);
     }
 
     //Check dữ liệu từ server
     @Override
     public void LoginFromServer(String username, String password) {
+
+
+
         StringRequest request = new StringRequest(Request.Method.POST,
                 ConnectionClass.urlString + "logIn.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    pb_signin.setVisibility(View.GONE);
+                    //pb_signin.setVisibility(View.GONE);
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -445,7 +471,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
-                pb_signin.setVisibility(View.GONE);
+                //pb_signin.setVisibility(View.GONE);
             }
         }) {
             @Override

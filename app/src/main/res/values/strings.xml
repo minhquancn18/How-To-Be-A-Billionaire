@@ -21,7 +21,7 @@
     <string name="category_income">Tiền thu</string>
     <string name="category_outcome">Tiền chi</string>
 
-    <string name="signup">Bạn muốn tạo tài khoản mới ? <u>Đăng ký</u></string>
+    <string name="signup">Chưa có tài khoản ? <u>Đăng ký</u></string>
     <string name="login">Bạn đã có tài khoản ? <u>Đăng nhập</u></string>
     <string name="channel_name">Channel Notify</string>
     <string name="channel_description">Thông báo thời gian notify</string>
