@@ -45,6 +45,7 @@ import com.example.myproject22.Model.UserClass;
 import com.example.myproject22.Presenter.Interface.UserInterface;
 import com.example.myproject22.Presenter.Presenter.UserPresenter;
 import com.example.myproject22.R;
+import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.Util.Formatter;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.button.MaterialButton;
@@ -476,8 +477,9 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         tv_date.setText(date_string);
 
         if (!userClass.getIMAGE().equals("null")) {
-            Glide.with(UserAcitvity.this).load(userClass.getIMAGE()).into(iv_profile);
-        }
+           // Glide.with(UserAcitvity.this).load(userClass.getIMAGE()).into(iv_profile);
+            FormatImage.LoadImageIntoView(iv_profile, UserAcitvity.this, userClass.getIMAGE());
+        }   
 
         Double total = userClass.getINCOME() - userClass.getOUTCOME();
         long money = total.longValue();
