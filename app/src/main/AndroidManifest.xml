@@ -79,8 +79,6 @@
         <activity android:name=".View.Activity.AddingActivity" />
 
         <activity android:name=".View.Activity.ReportCategoryGraphActivity" />
-        <!-- Giao dien chinh -->
-        <activity android:name=".View.Activity.DashboardActivity"></activity> <!-- Phan cua Tam -->
         <activity android:name=".View.Activity.SavingActivity" />
 
 

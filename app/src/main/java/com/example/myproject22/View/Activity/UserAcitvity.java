@@ -479,7 +479,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         if (!userClass.getIMAGE().equals("null")) {
            // Glide.with(UserAcitvity.this).load(userClass.getIMAGE()).into(iv_profile);
             FormatImage.LoadImageIntoView(iv_profile, UserAcitvity.this, userClass.getIMAGE());
-        }   
+        }
 
         Double total = userClass.getINCOME() - userClass.getOUTCOME();
         long money = total.longValue();

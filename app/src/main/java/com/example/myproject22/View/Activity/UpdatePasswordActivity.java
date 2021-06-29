@@ -1,18 +1,22 @@
 package com.example.myproject22.View.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
@@ -22,10 +26,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.ConnectionClass;
 import com.example.myproject22.Presenter.Interface.UpdatePasswordInterface;
 import com.example.myproject22.Presenter.Presenter.UpdatePasswordPresenter;
 import com.example.myproject22.R;
+import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -55,7 +63,6 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     //endregion
 
     //region Component
-    private ProgressBar pb_password;
     private TextInputLayout til_oldpassword;
     private TextInputLayout til_newpassword;
     private TextInputLayout til_newconfirm;
@@ -64,6 +71,10 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     private TextInputEditText et_newconfirm;
     private MaterialButton btnSave;
     private MaterialButton btnCancel;
+
+    //animations
+     private ConstraintLayout cl_total;
+     private ImageView ivBackground;
     //endregion
 
     //region Presenter
@@ -80,7 +91,12 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
         setContentView(R.layout.activity_update_password);
 
         //region Khởi tạo presenter và gán các giá trị ban đầu
@@ -236,7 +252,16 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
         et_oldpassword = findViewById(R.id.et_password);
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
-        pb_password = findViewById(R.id.pb_password);
+
+
+
+        // animations
+        ivBackground  = findViewById(R.id.ivBackground);
+        cl_total = findViewById(R.id.cl_total);
+
+        Glide.with(this).load(R.drawable.background_gif).into(ivBackground);
+
+
     }
 
     @Override
@@ -257,8 +282,6 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     //region Xử lí các button click
     @Override
     public void BtnSaveClick() {
-        pb_password.bringToFront();
-        pb_password.setVisibility(View.VISIBLE);
 
         String oldpassword = et_oldpassword.getText().toString().trim();
         if(!presenter.getNoOldPassword(oldpassword)){
@@ -292,15 +315,12 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     public Boolean GetNoPassword(String password,String oldpassword) {
         if (password.isEmpty()) {
             til_newpassword.setError("Mật khẩu không được để trống");
-            pb_password.setVisibility(View.INVISIBLE);
             return false;
         } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
             til_newpassword.setError("Mật khẩu quá yếu");
-            pb_password.setVisibility(View.INVISIBLE);
             return false;
         } else if(password.equals(oldpassword)){
             til_newpassword.setError("Mật khẩu mới không được giống mật khẩu cũ");
-            pb_password.setVisibility(View.INVISIBLE);
             return false;
         } else {
             til_newpassword.setError(null);
@@ -313,7 +333,6 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     public Boolean GetNoOldPassword(String password) {
         if (password.isEmpty()) {
             til_oldpassword.setError("Mật khẩu không được để trống");
-            pb_password.setVisibility(View.INVISIBLE);
             return false;
         }
         else {
@@ -327,11 +346,9 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     public Boolean GetNoConfirmPassword(String password, String password_confirm) {
         if (password_confirm.isEmpty()) {
             til_newconfirm.setError("Mật khẩu không được để trống");
-            pb_password.setVisibility(View.INVISIBLE);
             return false;
         } else if (!password_confirm.equals(password)) {
             til_newconfirm.setError("Mật khẩu xác nhận không trùng khớp");
-            pb_password.setVisibility(View.INVISIBLE);
             return false;
         } else {
             til_newpassword.setError(null);
@@ -347,7 +364,6 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
                 ConnectionClass.urlString + "updatePasswordUser.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pb_password.setVisibility(View.GONE);
                 if (response.equals("Update password success")) {
                     setResult(UserAcitvity.RESULT_PASSWORD_SUCCESS);
                     finish();
@@ -369,7 +385,6 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
-                pb_password.setVisibility(View.GONE);
             }
         }) {
             @Override

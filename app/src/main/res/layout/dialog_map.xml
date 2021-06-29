@@ -5,11 +5,10 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusableInTouchMode="true"
-    app:cardBackgroundColor="#3A000000"
+    app:cardBackgroundColor="#51000000"
     app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
-    app:strokeColor="@color/black"
-    app:strokeWidth="2dp">
+    app:cardElevation="10dp"
+   >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -41,9 +40,9 @@
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:hint="Nhập tên ngân hàng, ATM bạn muốn tìm kiếm"
+            android:hint="Nhập tên ngân hàng hoặc ATM"
             android:inputType="textMultiLine"
             android:textColorHint="#E4FFFFFF"
             android:textSize="17sp"
@@ -58,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:paddingTop="20dp"
+            android:layout_marginTop="10dp"
             android:paddingBottom="20dp"
             android:text="Ngân hàng"
             android:textColor="@color/white"
