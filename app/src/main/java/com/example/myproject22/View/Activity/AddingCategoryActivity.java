@@ -135,8 +135,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     presentent.hideKeyboard(v);
-                }
-                else{
+                } else {
                     til_category.setError(null);
                 }
             }
@@ -145,6 +144,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presentent.hideKeyboard(v);
                 presentent.chooseImage();
             }
         });
@@ -161,6 +161,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
         btnSaving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presentent.hideKeyboard(v);
                 progressBar.setVisibility(View.VISIBLE);
                 presentent.savingNewCategory(bmImage);
             }
@@ -238,12 +239,10 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
                 Dexter.withContext(AddingCategoryActivity.this).withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        if(multiplePermissionsReport.areAllPermissionsGranted())
-                        {
+                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
                             presentent.takeImageFromCamera();
-                        }
-                        else{
-                            Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Bạn chưa cấp đủ quyền truy cập.",Snackbar.LENGTH_SHORT);
+                        } else {
+                            Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Bạn chưa cấp đủ quyền truy cập.", Snackbar.LENGTH_SHORT);
                             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                             snackbar.show();
                             /*Toast.makeText(AddingCategoryActivity.this, "All permissions are not granted", Toast.LENGTH_SHORT).show();*/
@@ -276,7 +275,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                        Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Bạn chưa cấp quyền truy cập",Snackbar.LENGTH_SHORT);
+                        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Bạn chưa cấp quyền truy cập", Snackbar.LENGTH_SHORT);
                         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                         snackbar.show();
                         /*Toast.makeText(AddingCategoryActivity.this, "Permission is not granted", Toast.LENGTH_SHORT).show();*/
@@ -313,7 +312,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
         try {
             photoFile = createImageFile();
         } catch (IOException e) {
-            Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi chỉnh sửa hình ảnh",Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi chỉnh sửa hình ảnh", Snackbar.LENGTH_SHORT);
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
             snackbar.show();
             /*Toast.makeText(AddingCategoryActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -394,7 +393,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
 
     @Override
     public void GetNoImage() {
-        Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Vui lòng chọn hình ảnh cho danh mục.",Snackbar.LENGTH_INDEFINITE);
+        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Vui lòng chọn hình ảnh cho danh mục.", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
         snackbar.show();
         /*Toast.makeText(AddingCategoryActivity.this, "Vui lòng chọn hình ảnh cho danh mục.", Toast.LENGTH_SHORT).show();*/
@@ -434,8 +433,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
     public Boolean IsNullName() {
         String name = etCategory.getText().toString().trim();
 
-        if (name.isEmpty())
-        {
+        if (name.isEmpty()) {
             til_category.setError("Vui lòng nhập tên cho danh mục.");
             /*Toast.makeText(AddingCategoryActivity.this, "Vui lòng nhập tên danh mục", Toast.LENGTH_SHORT).show();*/
             progressBar.setVisibility(View.GONE);
@@ -478,7 +476,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingCategoryActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -494,9 +492,10 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingCategoryActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingCategoryActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     public void UploadOutcomeCategoryToServer(String name, int id_user, String image) {
@@ -512,7 +511,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_in_left);
                 } else {
                     Log.i("RESPONSECATEGORY", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Tên danh mục đã tồn tại. Vui lòng chọn tên danh mục khác.",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Tên danh mục đã tồn tại. Vui lòng chọn tên danh mục khác.", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                     /*Toast.makeText(AddingCategoryActivity.this, "Tên danh mục đã tồn tại. Vui lòng chọn tên danh mục khác.", Toast.LENGTH_SHORT).show();*/
@@ -521,7 +520,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingCategoryActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -537,9 +536,10 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingCategoryActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingCategoryActivity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 

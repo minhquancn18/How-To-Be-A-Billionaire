@@ -167,7 +167,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     presenter.hideKeyboard(v);
-                }else{
+                } else {
                     til_username.setError(null);
                 }
             }
@@ -181,9 +181,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() > 15){
+                if (s.length() > 15) {
                     til_username.setError("Username quá dài");
-                }else{
+                } else {
                     til_username.setError(null);
                 }
             }
@@ -199,7 +199,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     presenter.hideKeyboard(v);
-                }else{
+                } else {
                     til_fullname.setError(null);
                 }
             }
@@ -210,7 +210,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     presenter.hideKeyboard(v);
-                }else {
+                } else {
                     til_salary.setError(null);
                 }
             }
@@ -224,9 +224,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() > 15){
+                if (s.length() > 15) {
                     til_salary.setError("Số tiền nhập quá lớn");
-                }else{
+                } else {
                     til_salary.setError(null);
                 }
             }
@@ -242,7 +242,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     presenter.hideKeyboard(v);
-                }else{
+                } else {
                     til_email.setError(null);
                 }
             }
@@ -267,10 +267,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 4){
+                if (s.length() < 4) {
                     til_password.setError("Mật khẩu tối thiểu 4 ký tự");
-                }
-                else{
+                } else {
                     til_password.setError(null);
                 }
             }
@@ -303,7 +302,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
     //region Khởi tạo component và keyboard
     @Override
-    public void SetInit(){
+    public void SetInit() {
         til_email = findViewById(R.id.til_email);
         til_fullname = findViewById(R.id.til_fullname);
         til_salary = findViewById(R.id.til_salary);
@@ -331,7 +330,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
     //region Kiểm tra điều kiện khi nhấn button
     //Điều kiện username là không được để trống, tối đa 15 ký tự, không khoảng trăng
     @Override
-    public Boolean GetNoUserName(String username){
+    public Boolean GetNoUserName(String username) {
         if (username.isEmpty()) {
             til_username.setError("Username không được để trống");
             /*et_username.setError("Username không được để trống");*/
@@ -342,11 +341,11 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
             /*et_username.setError("Username quá dài");*/
             pb_signup.setVisibility(View.INVISIBLE);
             return false;
-        } else if(username.contains(" ")) {
+        } else if (username.contains(" ")) {
             til_username.setError("Username không được nhập khoảng cách");
             pb_signup.setVisibility(View.INVISIBLE);
             return false;
-        }else {
+        } else {
             til_username.setError(null);
             /*et_username.setError(null);*/
             return true;
@@ -355,7 +354,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
     //Điều kiện password là không được để trống, tối thiểu 4 ký tự (1 từ)
     @Override
-    public Boolean GetNoPassword(String password){
+    public Boolean GetNoPassword(String password) {
         if (password.isEmpty()) {
             til_password.setError("Mật khẩu không được để trống");
             /*et_password.setError("Mật khẩu không được để trống");*/
@@ -375,7 +374,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
     //Điều kiện salary tối đa 15 ký tự, không được để trống
     @Override
-    public Boolean GetNoSalary(String salary){
+    public Boolean GetNoSalary(String salary) {
         if (salary.isEmpty()) {
             til_salary.setError("Vui lòng nhập thu nhập ban đầu");
             /*et_salary.setError("Vui lòng nhập thu nhập ban đầu");*/
@@ -395,7 +394,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
     //Điều kiện fullname không được để trống
     @Override
-    public Boolean GetNoFullName(String fullname){
+    public Boolean GetNoFullName(String fullname) {
         if (fullname.isEmpty()) {
             til_fullname.setError("Vui lòng nhập họ và tên");
             /*et_salary.setError("Vui lòng nhập họ và tên");*/
@@ -410,7 +409,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
     //Điều kiện email là phải nhập đúng định dạng email và không được để trống
     @Override
-    public Boolean GetNoEmail(String email){
+    public Boolean GetNoEmail(String email) {
         if (email.isEmpty()) {
             til_email.setError("Vui lòng nhập email");
             /*et_email.setError("Vui lòng nhập email");*/
@@ -420,7 +419,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
             til_email.setError("Vui lòng nhập email chính xác");
             /*et_email.setError("Vui lòng nhập email chính xác");*/
             pb_signup.setVisibility(View.INVISIBLE);
-            return  false;
+            return false;
         } else {
             til_email.setError(null);
             /*et_email.setError(null);*/
@@ -453,11 +452,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
                 Dexter.withContext(SignUpActivity.this).withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        if(multiplePermissionsReport.areAllPermissionsGranted())
-                        {
+                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
                             presenter.takeImageFromCamera();
-                        }
-                        else{
+                        } else {
                             presenter.denyPermission();
                         }
                     }
@@ -510,7 +507,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         try {
             photoFile = presenter.createImageFile();
         } catch (IOException e) {
-            Snackbar snackbar = Snackbar.make(mSnackbarLayout,e.getMessage(),Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(mSnackbarLayout, e.getMessage(), Snackbar.LENGTH_SHORT);
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
             snackbar.show();
             /*Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -613,7 +610,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
     @Override
     public void DenyPermission() {
-        Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Bạn chưa cấp quyền sử dụng.",Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Bạn chưa cấp quyền sử dụng.", Snackbar.LENGTH_SHORT);
         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
         snackbar.show();
         /*Toast.makeText(SignUpActivity.this, "Permission is not granted", Toast.LENGTH_SHORT).show();*/
@@ -628,47 +625,46 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
     //region Xử lí button và textview
     @Override
-    public void BtnSignUp(){
+    public void BtnSignUp() {
         pb_signup.setVisibility(View.VISIBLE);
 
         String username = et_username.getText().toString().trim();
-        if(presenter.getNoUserName(username) == false){
+        if (presenter.getNoUserName(username) == false) {
             return;
         }
 
         String fullname = et_fullname.getText().toString().trim();
-        if(presenter.getNoFullName(fullname) == false){
+        if (presenter.getNoFullName(fullname) == false) {
             return;
         }
 
         String salary_string = et_salary.getText().toString().trim();
-        if(presenter.getNoSalary(salary_string) == false){
+        if (presenter.getNoSalary(salary_string) == false) {
             return;
         }
 
         String email = et_email.getText().toString().trim();
-        if(presenter.getNoEmail(email) == false){
+        if (presenter.getNoEmail(email) == false) {
             return;
         }
 
         String password = et_password.getText().toString().trim();
-        if(presenter.getNoPassword(password) == false){
+        if (presenter.getNoPassword(password) == false) {
             return;
         }
 
         String image = presenter.getStringImage();
-        if(image.equals("")){
-            presenter.uploadUserNoImageToServer(username,password,email,fullname,salary_string);
-        }
-        else{
-            presenter.uploadUserToServer(username,password,email,fullname,salary_string,image);
+        if (image.equals("")) {
+            presenter.uploadUserNoImageToServer(username, password, email, fullname, salary_string);
+        } else {
+            presenter.uploadUserToServer(username, password, email, fullname, salary_string, image);
         }
     }
 
     //region Upload User lên server
     @Override
     public void UploadUserToServer(String username, String password, String email,
-                                   String fullname, String salary, String image){
+                                   String fullname, String salary, String image) {
         String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
         StringRequest request = new StringRequest(Request.Method.POST,
@@ -681,14 +677,12 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
                     setResult(LoginActivity.RESULT_SIGN_UP_SUCCESS);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_in_left);
-                }
-                else if(response.equals("This username or email has already exist.")){
+                } else if (response.equals("This username or email has already exist.")) {
                     til_username.setError("Tài khoản hoặc email đã tồn tại");
                     til_email.setError("Tài khoản hoặc email đã tồn tại");
-                }
-                else{
+                } else {
                     Log.i("RESPONSESIGNUP", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Đăng ký không thành công",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Đăng ký không thành công", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                 }
@@ -696,34 +690,35 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(SignUpActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
                 pb_signup.setVisibility(View.GONE);
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("username",username);
-                params.put("password",password);
-                params.put("email",email);
-                params.put("fullname",fullname);
-                params.put("datestart",currentDateandTime);
-                params.put("salary",salary);
-                params.put("userimage",image);
+                params.put("username", username);
+                params.put("password", password);
+                params.put("email", email);
+                params.put("fullname", fullname);
+                params.put("datestart", currentDateandTime);
+                params.put("salary", salary);
+                params.put("userimage", image);
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(SignUpActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(SignUpActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     @Override
     public void UploadUserNoImageToServer(String username, String password, String email,
-                                   String fullname, String salary){
+                                          String fullname, String salary) {
         String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
         StringRequest request = new StringRequest(Request.Method.POST,
@@ -735,14 +730,12 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
                     Toast.makeText(SignUpActivity.this, "Đăng ký tài khoản thành công", Toast.LENGTH_SHORT).show();
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_in_left);
-                }
-                else if(response.equals("This username or email has already exist.")){
+                } else if (response.equals("This username or email has already exist.")) {
                     til_username.setError("Tài khoản hoặc email đã tồn tại");
                     til_email.setError("Tài khoản hoặc email đã tồn tại");
-                }
-                else{
+                } else {
                     Log.i("RESPONSESIGNUP", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Đăng ký không thành công",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Đăng ký không thành công", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                 }
@@ -750,34 +743,35 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(SignUpActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
                 pb_signup.setVisibility(View.GONE);
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("username",username);
-                params.put("password",password);
-                params.put("email",email);
-                params.put("fullname",fullname);
-                params.put("datestart",currentDateandTime);
-                params.put("salary",salary);
+                params.put("username", username);
+                params.put("password", password);
+                params.put("email", email);
+                params.put("fullname", fullname);
+                params.put("datestart", currentDateandTime);
+                params.put("salary", salary);
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(SignUpActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(SignUpActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     //endregion
 
     @Override
-    public void TextViewClick(){
+    public void TextViewClick() {
         finish();
         DeleteImage();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_in_left);
@@ -792,7 +786,6 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
     }
 
     //endregion
-
 
 
 }

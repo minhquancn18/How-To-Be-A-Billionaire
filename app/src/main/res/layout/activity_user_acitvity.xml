@@ -61,7 +61,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="monospace"
-                        android:text="Dinh Nguyen Tran Hai Trong Nhan"
                         android:textColor="@color/white"
                         android:textSize="18dp"
                         android:textStyle="bold"
@@ -85,8 +84,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
                             android:fontFamily="monospace"
-                            android:text="Joined June 2010"
-
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -111,7 +108,6 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="8dp"
                             android:fontFamily="monospace"
-                            android:text="Lalaland"
                             android:textColor="@color/white"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="parent" />
@@ -162,7 +158,6 @@
                         android:layout_weight="4"
                         android:drawableTint="@color/white"
                         android:fontFamily="@font/roboto_mono"
-                        android:text="xxx VND"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="25dp"

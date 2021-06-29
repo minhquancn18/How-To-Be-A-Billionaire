@@ -186,7 +186,7 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
                                 String url_image_category = imagecategory.equals("null") ? "NULL" : urlImageCategory + imagecategory;
                                 String url_audio = audio.equals("null") ? "NULL" : urlAudio + audio;
 
-                                DetailItem item = new DetailItem(id_detail,money, description, stime, name, 1, url_image, url_image_category, url_audio, dateObj);
+                                DetailItem item = new DetailItem(id_detail, money, description, stime, name, 1, url_image, url_image_category, url_audio, dateObj);
                                 incomedetail.add(item);
 
                             }
@@ -204,7 +204,7 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(ReportCategoryDetailActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -218,8 +218,10 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(ReportCategoryDetailActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(ReportCategoryDetailActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     @Override
@@ -264,7 +266,7 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
                                 String url_image_category = image_category.equals("null") ? "NULL" : urlImageCategory + image_category;
                                 String url_audio = audio.equals("null") ? "NULL" : urlAudio + audio;
 
-                                DetailItem item = new DetailItem(id_detail,money, description, stime, name, -1, url_image,url_image_category, url_audio, dateObj);
+                                DetailItem item = new DetailItem(id_detail, money, description, stime, name, -1, url_image, url_image_category, url_audio, dateObj);
                                 outcomedetail.add(item);
                             }
                         }
@@ -282,7 +284,7 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối từ internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối từ internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(ReportCategoryDetailActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -296,8 +298,10 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(ReportCategoryDetailActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(ReportCategoryDetailActivity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 

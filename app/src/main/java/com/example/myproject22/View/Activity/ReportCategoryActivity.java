@@ -135,7 +135,7 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
     @Override
     public void GetBundleData() {
         Intent intent = getIntent();
-       Bundle bundle = intent.getExtras();
+        Bundle bundle = intent.getExtras();
         if (bundle == null) {
             id_income = 1;
             id_outcome = 1;
@@ -213,7 +213,7 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.i("RESPONSEREPORTCATEGORY",response);
+                    Log.i("RESPONSEREPORTCATEGORY", response);
 
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
@@ -254,7 +254,7 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(ReportCategoryActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -267,8 +267,10 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(ReportCategoryActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(ReportCategoryActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     @Override
@@ -278,7 +280,7 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.i("RESPONSEREPORTCATEGORY",response);
+                    Log.i("RESPONSEREPORTCATEGORY", response);
 
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
@@ -316,7 +318,7 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(ReportCategoryActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -329,8 +331,10 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(ReportCategoryActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(ReportCategoryActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     //endregion

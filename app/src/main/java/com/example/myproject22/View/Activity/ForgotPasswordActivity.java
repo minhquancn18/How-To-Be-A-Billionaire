@@ -99,6 +99,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
         btn_forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.hideKeyboard(v);
                 presenter.btnForgetClick();
             }
         });
@@ -115,7 +116,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
         et_user_forgot.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
+                if (!hasFocus)
                     presenter.hideKeyboard(v);
                 else
                     til_user.setError(null);
@@ -125,7 +126,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
         et_email_forgot.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
+                if (!hasFocus)
                     presenter.hideKeyboard(v);
                 else
                     til_email.setError(null);
@@ -135,7 +136,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
         et_password_forgot.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
+                if (!hasFocus)
                     presenter.hideKeyboard(v);
                 else
                     til_password.setError(null);
@@ -150,10 +151,9 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 4){
+                if (s.length() < 4) {
                     til_password.setError("Mật khẩu phải tối thiểu 4 ký tự");
-                }
-                else{
+                } else {
                     til_password.setError(null);
                 }
             }
@@ -167,7 +167,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
         et_password_confirm_forgot.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
+                if (!hasFocus)
                     presenter.hideKeyboard(v);
                 else
                     til_password_confirm.setError(null);
@@ -182,10 +182,9 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 4){
+                if (s.length() < 4) {
                     til_password_confirm.setError("Mật khẩu phải tối thiểu 4 ký tự");
-                }
-                else{
+                } else {
                     til_password_confirm.setError(null);
                 }
             }
@@ -276,7 +275,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
         } else {
             til_password.setError(null);
             /*et_password_forgot.setError(null);*/
-            return  true;
+            return true;
         }
     }
 
@@ -292,7 +291,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
             til_email.setError("Vui lòng nhập email chính xác");
             /*et_email_forgot.setError("Vui lòng nhập email chính xác");*/
             pb_forgot.setVisibility(View.INVISIBLE);
-            return  false;
+            return false;
         } else {
             til_email.setError(null);
             /*et_email_forgot.setError(null);*/
@@ -327,28 +326,27 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
     @Override
     public void BtnForgetClick() {
         pb_forgot.setVisibility(View.VISIBLE);
-
         String username = et_user_forgot.getText().toString().trim();
-        if(!presenter.getNoUserName(username)){
+        if (!presenter.getNoUserName(username)) {
             return;
         }
 
         String email = et_email_forgot.getText().toString().trim();
-        if(!presenter.getNoEmail(email)){
+        if (!presenter.getNoEmail(email)) {
             return;
         }
 
         String password = et_password_forgot.getText().toString().trim();
-        if(!presenter.getNoPassword(password)){
+        if (!presenter.getNoPassword(password)) {
             return;
         }
 
         String password_confirm = et_password_confirm_forgot.getText().toString().trim();
-        if(!presenter.getNoConfirmPassword(password, password_confirm)){
+        if (!presenter.getNoConfirmPassword(password, password_confirm)) {
             return;
         }
 
-        presenter.uploadNewPassword(username,email,password);
+        presenter.uploadNewPassword(username, email, password);
     }
 
     @Override
@@ -372,18 +370,15 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
                     setResult(LoginActivity.RESULT_FORGOT_SUCCESS);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-                }
-                else if(response.length() == 15){
+                } else if (response.length() == 15) {
                     til_password.setError("Mật khẩu bạn đổi giống với mật khẩu hiện tại.");
                     til_password_confirm.setError("Mật khẩu bạn đổi giống với mật khẩu hiện tại.");
-                }
-                else if(response.length() == 19){
+                } else if (response.length() == 19) {
                     til_email.setError("Không tìm thấy tài khoản này");
                     til_user.setError("Không tìm thấy tài khoản này");
-                }
-                else{
-                    Log.i("RESPONSEFORGOTPASSWORD",response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Thay đổi mật khẩu thất bại",Snackbar.LENGTH_SHORT);
+                } else {
+                    Log.i("RESPONSEFORGOTPASSWORD", response);
+                    Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Thay đổi mật khẩu thất bại", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                 }
@@ -391,7 +386,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -407,9 +402,10 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(ForgotPasswordActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(ForgotPasswordActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     //endregion

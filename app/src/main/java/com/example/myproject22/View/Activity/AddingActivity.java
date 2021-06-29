@@ -203,6 +203,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addingMoneyPresentent.hideKeyBoard(v);
                 addingMoneyPresentent.chooseImage();
             }
         });
@@ -211,6 +212,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             public void onClick(View v) {
                 /*Toast.makeText(AddingActivity.this,"Start", Toast.LENGTH_SHORT).show();*/
+                addingMoneyPresentent.hideKeyBoard(v);
                 addingMoneyPresentent.CaptureRecord();
             }
         });
@@ -218,6 +220,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addingMoneyPresentent.hideKeyBoard(v);
                 addingMoneyPresentent.CaptureAudio();
             }
         });
@@ -225,6 +228,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         btnSaving.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                addingMoneyPresentent.hideKeyBoard(v);
+
                 progressBar3.setVisibility(View.VISIBLE);
                 String money = etMoney.getText().toString().trim();
                 String description = etDescription.getText().toString().trim();
@@ -277,6 +283,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     addingMoneyPresentent.hideKeyBoard(v);
+                }
+                else{
+                    til_money.setError(null);
                 }
             }
         });
@@ -503,8 +512,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        if(getApplicationContext() != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);}
     }
 
     @Override
@@ -567,8 +577,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        if(getApplicationContext() != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);}
     }
 
     @Override
@@ -1188,9 +1199,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-
+        if(getApplicationContext() != null){
         RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        requestQueue.add(request);}
     }
 
     public void UploadIncomeNoAudioToServer(String money, String description, int category_id, String image) {
@@ -1235,9 +1246,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        if(getApplicationContext() != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);}
     }
 
     public void UploadIncomeNoImageToServer(String money, String description, int category_id, String audio) {
@@ -1282,9 +1293,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        if(getApplicationContext() != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);}
     }
 
     public void UploadIncomeNoBothToServer(String money, String description, int category_id) {
@@ -1329,9 +1340,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        if(getApplicationContext() != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);}
     }
     //endregion
 
@@ -1380,9 +1391,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        if(getApplicationContext() != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);}
     }
 
     public void UploadOutcomeNoAudioToServer(String money, String description, int category_id, String image) {
@@ -1426,9 +1437,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        if(getApplicationContext() != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);}
     }
 
     public void UploadOutcomeNoImageToServer(String money, String description, int category_id, String audio) {
@@ -1472,9 +1483,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        if(getApplicationContext() != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);}
     }
 
     public void UploadOutcomeNoBothToServer(String money, String description, int category_id) {
@@ -1518,9 +1529,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);
+        if(getApplicationContext() != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);}
     }
     //endregion
 

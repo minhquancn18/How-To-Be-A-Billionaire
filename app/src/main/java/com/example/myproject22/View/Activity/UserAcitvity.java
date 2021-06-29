@@ -212,6 +212,12 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
             presenter.loadDataToLayout();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FormatImage.StopLoadImage(getApplicationContext());
+    }
     //endregion
 
     //region Set Init, get bundle, Load Animations
@@ -243,7 +249,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
 
     @Override
     public void GetBundleData() {
-       Intent intent = getIntent();
+        Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         id_user = bundle.getInt("ID_USER");
     }
@@ -444,7 +450,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
 
                             if (!image_string.equals("null")) {
                                 String url_image = urlString + "ImagesUser/" + image_string;
-                                userClass = new UserClass(email,fullname, date_string, url_image, income, outcome);
+                                userClass = new UserClass(email, fullname, date_string, url_image, income, outcome);
                             } else {
                                 userClass = new UserClass(email, fullname, date_string, image_string, income, outcome);
                             }
@@ -470,8 +476,10 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(UserAcitvity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(UserAcitvity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 
@@ -487,7 +495,6 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         tv_date.setText(date_string);
 
         if (!userClass.getIMAGE().equals("null")) {
-           // Glide.with(UserAcitvity.this).load(userClass.getIMAGE()).into(iv_profile);
             FormatImage.LoadImageIntoView(iv_profile, UserAcitvity.this, userClass.getIMAGE());
         }
 

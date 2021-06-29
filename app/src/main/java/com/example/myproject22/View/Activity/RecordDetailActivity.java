@@ -28,11 +28,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.example.myproject22.Model.DetailItem;
 import com.example.myproject22.Presenter.Interface.RecordDetailInterface;
 import com.example.myproject22.Presenter.Presenter.RecordDetailPresenter;
 import com.example.myproject22.R;
+import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.Util.Formatter;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -185,6 +185,13 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
 
         unregisterReceiver(network_receiver);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FormatImage.StopLoadImage(getApplicationContext());
+    }
+
     //endregion
 
     //region Xử lí các hàm override từ activity
@@ -197,11 +204,10 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     //Xử lí quay lại
     @Override
     public void onBackPressed() {
-        if(isLoading == false) {
+        if (isLoading == false) {
             super.onBackPressed();
             presenter.setReleaseMedia();
-        }
-        else{
+        } else {
             super.onBackPressed();
         }
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_in_left);
@@ -261,7 +267,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         tvTime.setText(splitdate[1] + " ngày " + splitdate[0]);
 
         if (!item.get_IMAGE().equals("NULL")) {
-            Glide.with(RecordDetailActivity.this).load(item.get_IMAGE()).into(ivImage);
+            FormatImage.LoadImageIntoView(ivImage, RecordDetailActivity.this, item.get_IMAGE());
         }
 
         progressBar.setVisibility(View.GONE);
@@ -283,7 +289,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         tvTime.setText(splitdate[1] + " ngày " + splitdate[0]);
 
         if (!item.get_IMAGE().equals("NULL")) {
-            Glide.with(RecordDetailActivity.this).load(item.get_IMAGE()).into(ivImage);
+            FormatImage.LoadImageIntoView(ivImage, RecordDetailActivity.this, item.get_IMAGE());
         }
 
         progressBar.setVisibility(View.GONE);
@@ -353,10 +359,9 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
                     e.printStackTrace();
                 }
 
-                if(item.get_AUDIO().equals("NULL")){
+                if (item.get_AUDIO().equals("NULL")) {
                     presenter.loadDataToLayoutNoAudio();
-                }
-                else{
+                } else {
                     presenter.loadDataToLayout();
                     presenter.prepareMedia(item.get_AUDIO());
                     isLoading = false;
@@ -365,10 +370,9 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
-                /*Toast.makeText(RecordDetailActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
             }
         }) {
             @Override
@@ -378,8 +382,10 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(RecordDetailActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(RecordDetailActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     @Override
@@ -429,10 +435,9 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
                 }
 
 
-                if(item.get_AUDIO().equals("NULL")){
+                if (item.get_AUDIO().equals("NULL")) {
                     presenter.loadDataToLayoutNoAudio();
-                }
-                else{
+                } else {
                     presenter.loadDataToLayout();
                     presenter.prepareMedia(item.get_AUDIO());
                     isLoading = false;
@@ -442,7 +447,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(RecordDetailActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -455,8 +460,10 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(RecordDetailActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(RecordDetailActivity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 
@@ -471,7 +478,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
             tvEnd.setText(presenter.getTimeMedia(mediaPlayer.getDuration()));
             isLoading = false;
         } catch (IOException e) {
-            Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi không tìm thấy nguồn thu âm",Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi không tìm thấy nguồn thu âm", Snackbar.LENGTH_SHORT);
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
             snackbar.show();
             isLoading = false;

@@ -28,13 +28,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.UserClass;
 import com.example.myproject22.R;
 import com.example.myproject22.Presenter.Interface.SavingInterface;
 import com.example.myproject22.Presenter.Presenter.SavingPresenter;
+import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.Util.Formatter;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.github.mikephil.charting.charts.BarChart;
@@ -225,6 +225,11 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         unregisterReceiver(network_receiver);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FormatImage.StopLoadImage(getApplicationContext());
+    }
     //endregion
 
     //region Set init, get bundle
@@ -367,7 +372,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         tvUserDate.setText(date_string);
 
         if (!userClass.getIMAGE().equals("null")) {
-            Glide.with(SavingActivity.this).load(userClass.getIMAGE()).into(ivProfile);
+            FormatImage.LoadImageIntoView(ivProfile, SavingActivity.this, userClass.getIMAGE());
         }
 
         Double total = userClass.getINCOME() - userClass.getOUTCOME();
@@ -460,8 +465,9 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 return params;
             }
         };
+        if(getApplicationContext() != null){
         RequestQueue requestQueue = Volley.newRequestQueue(SavingActivity.this);
-        requestQueue.add(request);
+        requestQueue.add(request);}
     }
     //endregion
 
@@ -529,8 +535,10 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(SavingActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(SavingActivity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 
@@ -591,8 +599,10 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(SavingActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(SavingActivity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 

@@ -1,5 +1,6 @@
 package com.example.myproject22.Util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,17 +42,20 @@ public class FormatImage {
                 .duration(2000)
                 .playOn(view);
 
-        Glide.with(context)
-                .load(url)
-                .thumbnail(
-                        Glide.with(context)
-                        .load(R.drawable.fish_gif)
-                )
-                .into(view);
-
-
+        if(!((Activity)context).isFinishing()) {
+            Glide.with(context)
+                    .load(url)
+                    .thumbnail(
+                            Glide.with(context)
+                                    .load(R.drawable.fish_gif)
+                    )
+                    .into(view);
+        }
     }
 
+    public static void StopLoadImage(Context context){
+        Glide.with(context).pauseRequests();
+    }
 
     public static String convertByteToString(byte[] bytes) {
         if (bytes == null) {

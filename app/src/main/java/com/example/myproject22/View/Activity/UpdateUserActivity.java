@@ -163,6 +163,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.hideKeyboard(v);
                 presenter.btnSaveClick();
             }
         });
@@ -170,6 +171,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.hideKeyboard(v);
                 presenter.btnCancelClick();
             }
         });
@@ -177,6 +179,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         iv_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.hideKeyboard(v);
                 presenter.chooseImage();
             }
         });
@@ -271,6 +274,11 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         unregisterReceiver(network_receiver);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FormatImage.StopLoadImage(getApplicationContext());
+    }
     //endregion
 
     //region Set Init, get bundle, keyboard
@@ -644,8 +652,10 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(UpdateUserActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(UpdateUserActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     //Not Image
@@ -686,8 +696,10 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(UpdateUserActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(UpdateUserActivity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 

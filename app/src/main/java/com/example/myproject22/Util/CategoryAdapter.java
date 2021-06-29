@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.example.myproject22.Model.CategoryClass;
 import com.example.myproject22.Presenter.Interface.AddingMoneyInterface;
 import com.example.myproject22.R;
@@ -64,7 +62,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         //endregion
 
         //region Gán giá trị
-        Glide.with(cardView.getContext()).load(categoryList.get(position).Get_IMAGE()).into(categoryImage);
+        FormatImage.LoadImageIntoView(categoryImage,cardView.getContext(),categoryList.get(position).Get_IMAGE());
         categoryName.setText(categoryList.get(position).Get_NAME());
         //endregion
 
@@ -123,5 +121,4 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             this.cardView = cardView;
         }
     }
-
 }

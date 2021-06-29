@@ -176,6 +176,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.hideKeyboard(v);
                 presenter.textViewClick();
             }
         });
@@ -183,6 +184,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.hideKeyboard(v);
                 presenter.btnSignIn();
             }
         });
@@ -190,6 +192,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         tvForget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.hideKeyboard(v);
                 presenter.textViewForgetClick();
             }
         });
@@ -391,7 +394,6 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     public void LoginFromServer(String username, String password) {
 
 
-
         StringRequest request = new StringRequest(Request.Method.POST,
                 ConnectionClass.urlString + "logIn.php", new Response.Listener<String>() {
             @Override
@@ -470,8 +472,6 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
                 Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
-                /*Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
-                //pb_signin.setVisibility(View.GONE);
             }
         }) {
             @Override
@@ -482,9 +482,10 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 

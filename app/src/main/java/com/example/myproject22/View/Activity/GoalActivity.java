@@ -120,6 +120,12 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FormatImage.StopLoadImage(getApplicationContext());
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {

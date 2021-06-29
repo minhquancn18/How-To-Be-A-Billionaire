@@ -74,8 +74,8 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     private MaterialButton btnCancel;
 
     //animations
-     private ConstraintLayout cl_total;
-     private ImageView ivBackground;
+    private ConstraintLayout cl_total;
+    private ImageView ivBackground;
     //endregion
 
     //region Presenter
@@ -114,6 +114,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.hideKeyboard(v);
                 presenter.btnSaveClick();
             }
         });
@@ -121,6 +122,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.hideKeyboard(v);
                 presenter.btnCancelClick();
             }
         });
@@ -135,7 +137,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 4)
+                if (s.length() < 4)
                     til_oldpassword.setError("Mật khẩu tối thiểu 4 ký tự");
                 else
                     til_oldpassword.setError(null);
@@ -150,10 +152,9 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
         et_oldpassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     presenter.hideKeyboard(v);
-                }
-                else{
+                } else {
                     til_oldpassword.setError(null);
                 }
             }
@@ -167,7 +168,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 4)
+                if (s.length() < 4)
                     til_newpassword.setError("Mật khẩu tối thiểu 4 ký tự");
                 else
                     til_newpassword.setError(null);
@@ -182,10 +183,9 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
         et_newpassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     presenter.hideKeyboard(v);
-                }
-                else{
+                } else {
                     til_newpassword.setError(null);
                 }
             }
@@ -199,7 +199,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 4)
+                if (s.length() < 4)
                     til_newconfirm.setError("Mật khẩu tối thiểu 4 ký tự");
                 else
                     til_newconfirm.setError(null);
@@ -214,10 +214,9 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
         et_newconfirm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     presenter.hideKeyboard(v);
-                }
-                else{
+                } else {
                     til_newconfirm.setError(null);
                 }
             }
@@ -255,9 +254,8 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
         btnCancel = findViewById(R.id.btnCancel);
 
 
-
         // animations
-        ivBackground  = findViewById(R.id.ivBackground);
+        ivBackground = findViewById(R.id.ivBackground);
         cl_total = findViewById(R.id.cl_total);
 
         Glide.with(this).load(R.drawable.background_gif).into(ivBackground);
@@ -269,7 +267,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     public void GetBundleData() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        id_user =bundle.getInt("ID_USER");
+        id_user = bundle.getInt("ID_USER");
     }
 
     @Override
@@ -285,21 +283,21 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     public void BtnSaveClick() {
 
         String oldpassword = et_oldpassword.getText().toString().trim();
-        if(!presenter.getNoOldPassword(oldpassword)){
+        if (!presenter.getNoOldPassword(oldpassword)) {
             return;
         }
 
         String newpassword = et_newpassword.getText().toString().trim();
-        if(!presenter.getNoPassword(newpassword, oldpassword)){
+        if (!presenter.getNoPassword(newpassword, oldpassword)) {
             return;
         }
 
         String confirmpassword = et_newconfirm.getText().toString().trim();
-        if(!presenter.getNoConfirmPassword(newpassword, confirmpassword)){
+        if (!presenter.getNoConfirmPassword(newpassword, confirmpassword)) {
             return;
         }
 
-        presenter.uploadPasswordToServer(oldpassword,newpassword);
+        presenter.uploadPasswordToServer(oldpassword, newpassword);
     }
 
     @Override
@@ -313,19 +311,19 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
 
     //Điều kiện password mới là phải có tối thiểu 4 ký tự (khác password cũ, có ít nhất 1 chữ)
     @Override
-    public Boolean GetNoPassword(String password,String oldpassword) {
+    public Boolean GetNoPassword(String password, String oldpassword) {
         if (password.isEmpty()) {
             til_newpassword.setError("Mật khẩu không được để trống");
             return false;
         } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
             til_newpassword.setError("Mật khẩu quá yếu");
             return false;
-        } else if(password.equals(oldpassword)){
+        } else if (password.equals(oldpassword)) {
             til_newpassword.setError("Mật khẩu mới không được giống mật khẩu cũ");
             return false;
         } else {
             til_newpassword.setError(null);
-            return  true;
+            return true;
         }
     }
 
@@ -335,10 +333,9 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
         if (password.isEmpty()) {
             til_oldpassword.setError("Mật khẩu không được để trống");
             return false;
-        }
-        else {
+        } else {
             til_oldpassword.setError(null);
-            return  true;
+            return true;
         }
     }
 
@@ -375,12 +372,11 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
                     setResult(UserAcitvity.RESULT_PASSWORD_SUCCESS);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-                } else if(response.equals("Password wrong")){
+                } else if (response.equals("Password wrong")) {
                     til_oldpassword.setError("Mật khẩu cũ không đúng");
-                }
-                else{
+                } else {
                     Log.i("RESPONSEUPDATEPASSWORD", response);
-                    Snackbar snackbar = Snackbar.make(btnCancel,"Có lỗi trong lúc đổi mật khẩu. Vui lòng thử lại sau.",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(btnCancel, "Có lỗi trong lúc đổi mật khẩu. Vui lòng thử lại sau.", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                 }
@@ -388,7 +384,7 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(btnCancel,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(btnCancel, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -403,9 +399,10 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
                 return params;
             }
         };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(UpdatePasswordActivity.this);
-        requestQueue.add(request);
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(UpdatePasswordActivity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 

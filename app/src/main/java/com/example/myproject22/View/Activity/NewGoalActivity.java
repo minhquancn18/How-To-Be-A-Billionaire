@@ -138,6 +138,12 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
             ivGoal.setImageURI(image_uri);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FormatImage.StopLoadImage(getApplicationContext());
+    }
     //endregion
 
 

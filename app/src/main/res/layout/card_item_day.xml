@@ -69,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/athiti"
-                android:text="TextView"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
         </io.alterac.blurkit.BlurLayout>

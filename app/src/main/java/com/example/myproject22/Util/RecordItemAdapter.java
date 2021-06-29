@@ -25,8 +25,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.example.myproject22.Model.DetailItem;
 import com.example.myproject22.R;
 import com.example.myproject22.View.Activity.RecordDetailActivity;
@@ -102,13 +100,13 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
         if (image_url.equals("NULL")) {
             btnImage.setImageResource(R.drawable.backgroundflower);
         } else {
-            Glide.with(cardView).load(image_url).into(btnImage);
+            FormatImage.LoadImageIntoView(btnImage, cardView.getContext(), image_url);
         }
 
         String image_category_url = item.get_IMAGECATEGORY();
         if (image_category_url.equals("NULL")) {
         } else {
-            Glide.with(cardView).load(image_category_url).into(btnImageCategory);
+            FormatImage.LoadImageIntoView(btnImageCategory, cardView.getContext(), image_category_url);
         }
         //endregion
 
