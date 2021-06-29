@@ -604,6 +604,8 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
     //Include Image
     @Override
     public void UploadUserToServer(String fullname, String email, String image) {
+
+
         StringRequest request = new StringRequest(Request.Method.POST,
                 urlString + "updateUser.php", new Response.Listener<String>() {
             @Override

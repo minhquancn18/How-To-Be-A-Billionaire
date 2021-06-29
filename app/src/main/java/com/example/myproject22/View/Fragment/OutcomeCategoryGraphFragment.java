@@ -371,8 +371,11 @@ public class OutcomeCategoryGraphFragment extends Fragment implements WeekOutcom
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        requestQueue.add(request);
+
+        if(getActivity() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            requestQueue.add(request);
+        }
     }
     //endregion
 

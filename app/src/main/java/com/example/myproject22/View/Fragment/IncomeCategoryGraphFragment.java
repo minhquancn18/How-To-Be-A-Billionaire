@@ -511,8 +511,10 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(IncomeCategoryGraphFragment.this.getActivity());
-        requestQueue.add(request);
+        if(IncomeCategoryGraphFragment.this.getActivity() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(IncomeCategoryGraphFragment.this.getActivity());
+            requestQueue.add(request);
+        }
     }
     //endregion
 

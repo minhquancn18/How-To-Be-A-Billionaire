@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,14 +35,17 @@ import com.example.myproject22.Model.UserClass;
 import com.example.myproject22.R;
 import com.example.myproject22.Presenter.Interface.SavingInterface;
 import com.example.myproject22.Presenter.Presenter.SavingPresenter;
+import com.example.myproject22.Util.Formatter;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -322,6 +326,9 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         weekchart.setHighlightFullBarEnabled(true);
         weekchart.getAxisLeft().setTextColor(Color.WHITE);
         weekchart.getAxisRight().setTextSize(0f);
+        weekchart.getAxisLeft().setValueFormatter(new IndexAxisValueFormatter() {
+
+        });
         Legend l = weekchart.getLegend();
         l.setTextColor(Color.WHITE);
         //endregion
@@ -337,6 +344,8 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         xAxis.setDrawGridLines(true);
         xAxis.setGranularity(1f);
         xAxis.setDrawLabels(true);
+        xAxis.setTextSize(13f);
+        xAxis.setTypeface(Typeface.MONOSPACE);
         xAxis.setLabelCount(ngayTrongTuan.size());
         //endregion
 

@@ -34,6 +34,9 @@ public class FormatImage {
     // compress image so that it becomes lighter ?
     public static void LoadImageIntoView(ImageView view, Context context, String url) {
 
+        if(context == null){
+            return;
+        }
         YoYo.with(Techniques.FadeIn)
                 .duration(2000)
                 .playOn(view);
