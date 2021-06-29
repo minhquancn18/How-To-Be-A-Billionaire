@@ -35,8 +35,9 @@ public class Network_receiver extends BroadcastReceiver {
             public void onClick(View v) {
                 if(ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())){
                     if(isNetworkAvailable(v.getContext())){
-                        dialog.dismiss();
                         isOpen = false;
+                        context.startActivity(((Activity) context).getIntent());
+                        ((Activity) context).finish();
                         ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
                     }
                 }

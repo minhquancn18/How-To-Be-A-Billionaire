@@ -308,7 +308,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
                     presenter.fetchOutcomeDataFromServer();
                 }
             }
-        }, 3000);
+        }, 500);
     }
     //endregion
 
@@ -476,6 +476,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepare();
             tvEnd.setText(presenter.getTimeMedia(mediaPlayer.getDuration()));
+            seekBar.setProgress(0);
             isLoading = false;
         } catch (IOException e) {
             Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi không tìm thấy nguồn thu âm", Snackbar.LENGTH_SHORT);
@@ -563,10 +564,8 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     @Override
     public void SetCompleteMedia() {
         flag = false;
-        seekBar.setProgress(0);
         btnPause.setImageResource(R.drawable.icon_play_red);
-        tvStart.setText("00:00");
-        tvEnd.setText("00:00");
+        tvStart.setText("0:00");
         mediaPlayer.reset();
         presenter.prepareMedia(item.get_AUDIO());
     }

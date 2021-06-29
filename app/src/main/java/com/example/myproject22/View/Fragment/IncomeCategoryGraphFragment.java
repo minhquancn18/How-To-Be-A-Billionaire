@@ -160,7 +160,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             public void run() {
                 FetchDateFromServer();
             }
-        }, 1000);
+        }, 200);
     }
     //endregion
 

@@ -118,7 +118,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     public static final int RESULT_PASSWORD_SUCCESS = 1002;
     public static final int RESULT_SUCCESS = 1002;
     public static final int RESULT_FAIL = 1003;
-    private Boolean neededToReload = true;
+    private Boolean neededToReload = false;
     private Boolean isUpdate = false;
     //endregion
 
@@ -152,7 +152,6 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         presenter = new UserPresenter(this);
         presenter.setInit();
         presenter.getBundleData();
-        presenter.LoadAnimations();
         //endregion
 
         //region Xử lí button click
@@ -252,6 +251,16 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         id_user = bundle.getInt("ID_USER");
+
+        String fullname = bundle.getString("FULLNAME");
+        String email = bundle.getString("EMAIL");
+        String image = bundle.getString("IMAGE");
+        String datestart = bundle.getString("DATE_START");
+        Double income = bundle.getDouble("INCOME");
+        Double outcome = bundle.getDouble("OUTCOME");
+        userClass = new UserClass(email,fullname,datestart,image,income,outcome);
+
+        presenter.loadUser(userClass);
     }
 
     @Override
@@ -497,6 +506,9 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         if (!userClass.getIMAGE().equals("null")) {
             FormatImage.LoadImageIntoView(iv_profile, UserAcitvity.this, userClass.getIMAGE());
         }
+        else{
+            FormatImage.LoadImageIntoView(iv_profile, UserAcitvity.this, R.drawable.avatar);
+        }
 
         Double total = userClass.getINCOME() - userClass.getOUTCOME();
         long money = total.longValue();
@@ -525,6 +537,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         //endregion
 
         cl_total.setVisibility(View.VISIBLE);
+        LoadAnimations();
       /*  YoYo.with(Techniques.SlideInUp)
                 .duration(2000)
                 .playOn(btnMap);*/

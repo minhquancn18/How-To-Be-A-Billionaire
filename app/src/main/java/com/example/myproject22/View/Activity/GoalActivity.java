@@ -3,9 +3,11 @@ package com.example.myproject22.View.Activity;
 import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,6 +46,7 @@ import com.example.myproject22.Presenter.Presenter.GoalPresenter;
 import com.example.myproject22.R;
 import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.Util.Formatter;
+import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.karumi.dexter.Dexter;
@@ -98,6 +101,9 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
 
     // presenter
     GoalPresenter mGoalPresenter;
+
+    //Broadcast
+    private Network_receiver network_receiver;
     //endregion
 
 
@@ -107,6 +113,8 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
+
+        network_receiver = new Network_receiver();
 
         mGoalPresenter = new GoalPresenter(this);
         mGoalPresenter.SetUp();
@@ -123,6 +131,21 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
     protected void onDestroy() {
         super.onDestroy();
         FormatImage.StopLoadImage(getApplicationContext());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(network_receiver, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        unregisterReceiver(network_receiver);
     }
 
     @Override

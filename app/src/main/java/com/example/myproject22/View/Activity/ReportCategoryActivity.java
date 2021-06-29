@@ -199,7 +199,7 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
                 presenter.fetchIncomeInServer();
                 presenter.fetchOutcomeInServer();
             }
-        }, 1000);
+        }, 500);
     }
 
     //endregion

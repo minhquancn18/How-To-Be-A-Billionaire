@@ -315,7 +315,7 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
                 presenter.fetchIncomeFromServer();
                 presenter.fetchOutcomeFromServer();
             }
-        }, 1000);
+        }, 500);
     }
 
     @Override

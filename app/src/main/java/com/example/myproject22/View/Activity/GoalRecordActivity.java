@@ -1,5 +1,7 @@
 package com.example.myproject22.View.Activity;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,7 @@ import com.example.myproject22.Presenter.Interface.GoalRecordInterface;
 import com.example.myproject22.Presenter.Presenter.GoalRecordPresenter;
 import com.example.myproject22.R;
 import com.example.myproject22.Util.GoalItemAdapter;
+import com.example.myproject22.View.Service.Network_receiver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,12 +50,17 @@ public class GoalRecordActivity extends AppCompatActivity implements GoalRecordI
     GoalRecordPresenter mGoalRecordPresenter;
     //endregion
 
+    //region Broadcast Receiver network
+    private Network_receiver network_receiver;
+    //endregion
 
     //region DEFAULT FUNCTION
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_record);
+
+        network_receiver = new Network_receiver();
 
         mGoalRecordPresenter = new GoalRecordPresenter(this);
         mGoalRecordPresenter.LoadData();
@@ -62,6 +70,21 @@ public class GoalRecordActivity extends AppCompatActivity implements GoalRecordI
     @Override
     public void onBackPressed() {
         OnBackPress();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(network_receiver, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        unregisterReceiver(network_receiver);
     }
 
     //endregion

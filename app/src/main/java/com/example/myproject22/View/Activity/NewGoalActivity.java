@@ -2,8 +2,10 @@ package com.example.myproject22.View.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ import com.example.myproject22.Presenter.Interface.NewGoalInterface;
 import com.example.myproject22.Presenter.Presenter.NewGoalPresenter;
 import com.example.myproject22.R;
 import com.example.myproject22.Util.FormatImage;
+import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -61,6 +64,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
     private static final int id_user = 1;
     private static final int GALLERY_REQUEST = 11;
     private NewGoalPresenter mNewGoalPresenter;
+    private Network_receiver network_receiver;
     //endregion
 
 
@@ -112,6 +116,8 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_new_goal);
 
+        network_receiver = new Network_receiver();
+
         mNewGoalPresenter = new NewGoalPresenter(this);
         mNewGoalPresenter.SetUp();
     }
@@ -143,6 +149,21 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
     protected void onDestroy() {
         super.onDestroy();
         FormatImage.StopLoadImage(getApplicationContext());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(network_receiver, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        unregisterReceiver(network_receiver);
     }
     //endregion
 

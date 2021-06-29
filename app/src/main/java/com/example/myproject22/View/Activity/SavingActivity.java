@@ -258,6 +258,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         cardUser = findViewById(R.id.cardUser);
         cardChart = findViewById(R.id.cardChart);
         cardNavigation = findViewById(R.id.cardNavigation);
+
         setAllInvisible();
 
     }
@@ -373,6 +374,9 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         if (!userClass.getIMAGE().equals("null")) {
             FormatImage.LoadImageIntoView(ivProfile, SavingActivity.this, userClass.getIMAGE());
+        }
+        else{
+            FormatImage.LoadImageIntoView(ivProfile, SavingActivity.this, R.drawable.avatar);
         }
 
         Double total = userClass.getINCOME() - userClass.getOUTCOME();
@@ -566,15 +570,15 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                             String fullname = object.getString("FULLNAME");
                             String date_string = object.getString("DATESTART");
                             String image_string = object.getString("USERIMAGE");
-
+                            String email = object.getString("EMAIL");
                             Double income = object.getDouble("INCOME");
                             Double outcome = object.getDouble("OUTCOME");
 
                             if (!image_string.equals("null")) {
                                 String url_image = urlString + "ImagesUser/" + image_string;
-                                userClass = new UserClass(fullname, date_string, url_image, income, outcome);
+                                userClass = new UserClass(email,fullname, date_string, url_image, income, outcome);
                             } else {
-                                userClass = new UserClass(fullname, date_string, image_string, income, outcome);
+                                userClass = new UserClass(email,fullname, date_string, image_string, income, outcome);
                             }
                         }
                     }
@@ -611,10 +615,20 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     //region Handle Material Cardview Click
     @Override
     public void BtnUserClick() {
-        Intent intent = new Intent(SavingActivity.this, UserAcitvity.class);
-        intent.putExtra("ID_USER", id_user);
-        startActivityForResult(intent, REQUEST_UPDATE_USER);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+        if(userClass != null) {
+            Intent intent = new Intent(SavingActivity.this, UserAcitvity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("ID_USER", id_user);
+            bundle.putString("FULLNAME", userClass.getFULLNAME());
+            bundle.putString("DATE_START", userClass.getDATESTART());
+            bundle.putString("EMAIL", userClass.getEMAIL());
+            bundle.putString("IMAGE", userClass.getIMAGE());
+            bundle.putDouble("INCOME", userClass.getINCOME());
+            bundle.putDouble("OUTCOME", userClass.getOUTCOME());
+            intent.putExtras(bundle);
+            startActivityForResult(intent, REQUEST_UPDATE_USER);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+        }
     }
 
     public void GoalClicked(View view) {
@@ -718,6 +732,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         cl_savingmoney.setVisibility(View.INVISIBLE);
         cl_savingdate.setVisibility(View.INVISIBLE);
         weekchart.setVisibility(View.INVISIBLE);
+
     }
 
     public void setAllVisible() {
