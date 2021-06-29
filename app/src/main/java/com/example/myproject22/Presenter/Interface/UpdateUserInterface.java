@@ -17,15 +17,6 @@ public interface UpdateUserInterface {
     public void HideKeyboard(View view);
     //endregion
 
-    //region Fetch User
-    public void FetchUserFromServer();
-    //endregion
-
-    //region Loading
-    public void LoadUser(UserClass userClass);
-    public void LoadDataToLayout();
-    //endregion
-
     //region Handle Button Click
     public void BtnSaveClick();
     public void BtnCancelClick();

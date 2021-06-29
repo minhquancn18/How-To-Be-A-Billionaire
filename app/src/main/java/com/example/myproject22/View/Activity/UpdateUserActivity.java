@@ -107,7 +107,6 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
     //region presenter
     private UpdateUserPresenter presenter;
     private int id_user = 0;
-    private UserClass userClass;
     //endregion
 
     //region Share Preference
@@ -126,6 +125,12 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
     //Const mặc định để xét permission
     private static final int PERMISSION_IMAGE = 1000;
     private static final int PERMISSION_EXTERNAL_STORAGE = 1001;
+    //endregion
+
+    //region Bundle data
+    private String username;
+    private String userimage;
+    private String useremail;
     //endregion
 
     //endregion
@@ -152,7 +157,6 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         presenter = new UpdateUserPresenter(this);
         presenter.setInit();
         presenter.getBundleData();
-        presenter.loadDataToLayout();
         //endregion
 
         //region Xử lí button
@@ -295,6 +299,21 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         id_user = bundle.getInt("ID_USER");
+        username = bundle.getString("FULLNAME");
+        userimage = bundle.getString("IMAGE");
+        useremail = bundle.getString("EMAIL");
+
+        et_fullname.setText(username);
+        et_email.setText(useremail);
+
+        if (!userimage.equals("null")) {
+            FormatImage.LoadImageIntoView(iv_profile, UpdateUserActivity.this, userimage);
+        }
+
+        cl_total.setVisibility(View.VISIBLE);
+        YoYo.with(Techniques.SlideInRight)
+                .duration(2000)
+                .playOn(cl_total);
     }
 
     @Override
@@ -303,97 +322,6 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    //endregion
-
-    //region Fetch User
-    @Override
-    public void FetchUserFromServer() {
-
-        cl_total.setVisibility(View.VISIBLE);
-        YoYo.with(Techniques.SlideInRight)
-                .duration(2000)
-                .playOn(cl_total);
-
-        StringRequest request = new StringRequest(Request.Method.POST,
-                urlString + "getUser.php", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    Log.i("RESPONSEUPDATEUSER", response);
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-
-                    JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-                    if (success.equals("1")) {
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject object = jsonArray.getJSONObject(i);
-
-                            String fullname = object.getString("FULLNAME");
-                            String email = object.getString("EMAIL");
-                            String date_string = object.getString("DATESTART");
-                            String image_string = object.getString("USERIMAGE");
-
-
-                            if (!image_string.equals("null")) {
-                                String url_image = urlString + "ImagesUser/" + image_string;
-                                userClass = new UserClass(email, fullname, date_string, url_image);
-                            } else {
-                                userClass = new UserClass(email, fullname, date_string, image_string);
-                            }
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                presenter.loadUser(userClass);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(btnCancel, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
-                snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                snackbar.show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("id_user", String.valueOf(id_user));
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(UpdateUserActivity.this);
-        requestQueue.add(request);
-    }
-    //endregion
-
-    //region Load data từ server vào layout
-    @Override
-    public void LoadUser(UserClass userClass) {
-
-
-        et_fullname.setText(userClass.getFULLNAME());
-        et_email.setText(userClass.getEMAIL());
-
-        if (!userClass.getIMAGE().equals("null")) {
-            FormatImage.LoadImageIntoView(iv_profile, UpdateUserActivity.this, userClass.getIMAGE());
-        }
-
-        //cl_total.setVisibility(View.VISIBLE);
-
-
-    }
-
-    @Override
-    public void LoadDataToLayout() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FetchUserFromServer();
-            }
-        }, 1000);
-    }
     //endregion
 
     //region Xử lí các button click

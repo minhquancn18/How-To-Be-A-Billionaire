@@ -29,26 +29,6 @@ public class UpdateUserPresenter {
 
     //endregion
 
-    //region Fetch User
-
-    public void fetchUserFromServer(){
-        anInterface.FetchUserFromServer();
-    }
-
-    //endregion
-
-    //region Loading
-
-    public void loadUser(UserClass userClass){
-        anInterface.LoadUser(userClass);
-    }
-
-    public void loadDataToLayout(){
-        anInterface.LoadDataToLayout();
-    }
-
-    //endregion
-
     //region Handle Button Click
 
     public void btnSaveClick(){

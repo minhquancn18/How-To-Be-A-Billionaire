@@ -122,6 +122,12 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     private Boolean isUpdate = false;
     //endregion
 
+    //region Bundle data
+    private String username;
+    private String userimage;
+    private String useremail;
+    //endregion
+
     //endregion
 
     @Override
@@ -237,10 +243,9 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
 
     @Override
     public void GetBundleData() {
-       /* Intent intent = getIntent();
+       Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        id_user = bundle.getInt("ID_USER");*/
-        id_user = 1;
+        id_user = bundle.getInt("ID_USER");
     }
 
     @Override
@@ -274,7 +279,6 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
 
     }
 
-
     //endregion
 
 
@@ -284,7 +288,12 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     @Override
     public void BtnUpdateUser() {
         Intent intent = new Intent(UserAcitvity.this, UpdateUserActivity.class);
-        intent.putExtra("ID_USER", id_user);
+        Bundle bundle = new Bundle();
+        bundle.putInt("ID_USER", id_user);
+        bundle.putString("FULLNAME", username);
+        bundle.putString("EMAIL", useremail);
+        bundle.putString("IMAGE", userimage);
+        intent.putExtras(bundle);
         startActivityForResult(intent, REQUEST_UPDATE_USER);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
@@ -374,7 +383,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         settings.setIsLogOut(true);
-
+                        settings.setFirstTime(false);
                         Intent i = new Intent(UserAcitvity.this, LoginActivity.class);
                         // set the new task and clear flags
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -427,6 +436,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
                             JSONObject object = jsonArray.getJSONObject(i);
 
                             String fullname = object.getString("FULLNAME");
+                            String email = object.getString("EMAIL");
                             String date_string = object.getString("DATESTART");
                             String image_string = object.getString("USERIMAGE");
                             Double income = object.getDouble("INCOME");
@@ -434,9 +444,9 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
 
                             if (!image_string.equals("null")) {
                                 String url_image = urlString + "ImagesUser/" + image_string;
-                                userClass = new UserClass(fullname, date_string, url_image, income, outcome);
+                                userClass = new UserClass(email,fullname, date_string, url_image, income, outcome);
                             } else {
-                                userClass = new UserClass(fullname, date_string, image_string, income, outcome);
+                                userClass = new UserClass(email, fullname, date_string, image_string, income, outcome);
                             }
                         }
                     }
@@ -500,6 +510,12 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
             ivSign.setImageDrawable(getDrawable(R.drawable.ic_money_add));
             tv_money.setText(smoney);
         }
+
+        //region Load Bundle Data
+        username = userClass.getFULLNAME();
+        userimage = userClass.getIMAGE();
+        useremail = userClass.getEMAIL();
+        //endregion
 
         cl_total.setVisibility(View.VISIBLE);
       /*  YoYo.with(Techniques.SlideInUp)

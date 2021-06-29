@@ -21,6 +21,15 @@ public class UserClass {
         this.IMAGE = IMAGE;
     }
 
+    public UserClass(String EMAIL ,String FULLNAME, String DATESTART, String IMAGE, double INCOME, double OUTCOME) {
+        this.EMAIL = EMAIL;
+        this.FULLNAME = FULLNAME;
+        this.DATESTART = DATESTART;
+        this.IMAGE = IMAGE;
+        this.INCOME = INCOME;
+        this.OUTCOME = OUTCOME;
+    }
+
     public UserClass(String FULLNAME, String DATESTART, String IMAGE, double INCOME, double OUTCOME) {
         this.FULLNAME = FULLNAME;
         this.DATESTART = DATESTART;
@@ -29,12 +38,6 @@ public class UserClass {
         this.OUTCOME = OUTCOME;
     }
 
-    public UserClass(String EMAIL, String FULLNAME, String DATESTART, String IMAGE) {
-        this.EMAIL = EMAIL;
-        this.FULLNAME = FULLNAME;
-        this.DATESTART = DATESTART;
-        this.IMAGE = IMAGE;
-    }
     //endregion
 
     //region Get and Set

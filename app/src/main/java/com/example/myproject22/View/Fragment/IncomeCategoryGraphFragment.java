@@ -215,8 +215,8 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
                 weekRecycler.setLayoutManager(layoutManager1);
 
 
-                String datestart = weeks.get(weeks.size() -1).getDatestart();
-                String dateend = weeks.get(weeks.size() -1).getDateend();
+                String datestart = weeks.get(0).getDatestart();
+                String dateend = weeks.get(0).getDateend();
                 FetchIncomeFromServer(datestart,dateend);
 
             }

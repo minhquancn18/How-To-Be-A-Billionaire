@@ -13,11 +13,6 @@ public interface LoginInterface {
     public void HideKeyboard(View view);
     //endregion
 
-    //region Check Internet
-    public Boolean IsConnect(LoginActivity loginActivity);
-    public void ShowCustomDialog();
-    //endregion
-
     //region Condition
     public Boolean GetNoUserName(String username);
     public Boolean GetNoPassword(String password);

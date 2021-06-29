@@ -126,41 +126,40 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         }
         //Nếu đã sử dụng rồi thì kiểm tra đã đăng xuất chưa
         else {
-            if(/*presenter.isConnect(this)*/ true) {
-                //Nếu đăng xuất thì kiểm tra có ghi nhớ mật khẩu không
-                if (settings.isLogOut()) {
-                    if (settings.isRemember()) {
-                        isRememeber = true;
-                        username = settings.getUsername();
-                        password = settings.getPassword();
-                        Log.i("TEST1", username + " " + password);
+            //Nếu đăng xuất thì kiểm tra có ghi nhớ mật khẩu không
+            if (settings.isLogOut()) {
+                if (settings.isRemember()) {
+                    isRememeber = true;
+                    username = settings.getUsername();
+                    password = settings.getPassword();
+                    Log.i("TEST1", username + " " + password);
 
-                    }
-                }
-                //Nếu chưa đăng xuất thì tự động đăng nhập
-                else {
-                    int id_user = settings.getIdUser();
-                    int id_income = settings.getIdIncome();
-                    int id_outcome = settings.getIdOutcome();
-                    int id_saving = settings.getIdSaving();
-
-                    Intent intent = new Intent(LoginActivity.this, SavingActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("ID_USER", id_user);
-                    bundle.putInt("ID_INCOME", id_income);
-                    bundle.putInt("ID_OUTCOME", id_outcome);
-                    bundle.putInt("ID_SAVING", id_saving);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
                 }
             }
-            else{
-                /*presenter.showCustomDialog();*/
+            //Nếu chưa đăng xuất thì tự động đăng nhập
+            else {
+                int id_user = settings.getIdUser();
+                int id_income = settings.getIdIncome();
+                int id_outcome = settings.getIdOutcome();
+                int id_saving = settings.getIdSaving();
+
+                Intent intent = new Intent(LoginActivity.this, SavingActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("ID_USER", id_user);
+                bundle.putInt("ID_INCOME", id_income);
+                bundle.putInt("ID_OUTCOME", id_outcome);
+                bundle.putInt("ID_SAVING", id_saving);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
             }
         }
 
+        //endregion
+
+        //region Xử lí notification
+        SetNotification();
         //endregion
 
         //region Xử lí các textview sự kiện và button đăng nhập
@@ -253,6 +252,10 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         cbRemember.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(!isChecked){
+                    settings.setUsername("");
+                    settings.setPassword("");
+                }
                 settings.setRemember(isChecked);
             }
         });
@@ -285,44 +288,6 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         unregisterReceiver(network_receiver);
     }
 
-    //endregion
-
-    //region Kiểm tra kết nối internet
-    @Override
-    public Boolean IsConnect(LoginActivity loginActivity) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) loginActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo wifiinfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo mobieinfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-        if ((wifiinfo != null && wifiinfo.isConnected()) || (mobieinfo != null && mobieinfo.isConnected())) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void ShowCustomDialog() {
-        Context context = LoginActivity.this;
-
-        Dialog dialog = new Dialog(context, android.R.style.Theme_Light_NoTitleBar_Fullscreen);
-        dialog.setContentView(R.layout.dialog_inconnect_network);
-
-        Button btn_retry = dialog.findViewById(R.id.btn_retry);
-        btn_retry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent1 = new Intent(context, LoginActivity.class);
-                /*intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
-                context.startActivity(intent1);
-                ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-            }
-        });
-
-            dialog.show();
-    }
     //endregion
 
     //endregion
@@ -442,10 +407,6 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
 
                                 //endregion
 
-                                //region Xử lí notification
-                                SetNotification();
-                                //endregion
-
                                 //region Intent
                                 Intent intent = new Intent(LoginActivity.this, SavingActivity.class);
                                 Bundle bundle = new Bundle();
@@ -520,19 +481,17 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
-            case REQUEST_SIGN_UP:
-            {
-                if(resultCode == RESULT_SIGN_UP_SUCCESS){
+        switch (requestCode) {
+            case REQUEST_SIGN_UP: {
+                if (resultCode == RESULT_SIGN_UP_SUCCESS) {
                     Snackbar.make(tvSignUp, "Đăng ký tài khoản thành công", Snackbar.LENGTH_SHORT)
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
                             .show();
                 }
                 break;
             }
-            case REQUEST_FORGOT:
-            {
-                if(resultCode == RESULT_FORGOT_SUCCESS){
+            case REQUEST_FORGOT: {
+                if (resultCode == RESULT_FORGOT_SUCCESS) {
                     Snackbar.make(tvSignUp, "Thay đổi mật khẩu mới thành công", Snackbar.LENGTH_SHORT)
                             .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
                             .show();
@@ -548,9 +507,13 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     public void SetNotification() {
         Calendar calendar = Calendar.getInstance();
         Log.i("TEST1", calendar.toString());
-        calendar.set(Calendar.HOUR_OF_DAY, 8);
-        calendar.set(Calendar.MINUTE, 15);
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
+
+        if (Calendar.getInstance().after(calendar)) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
 
         Intent intent = new Intent(getApplicationContext(), Notification_recevier.class);
 

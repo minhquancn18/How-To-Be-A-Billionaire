@@ -24,18 +24,6 @@ public class LoginPresenter {
 
     //endregion
 
-    //region Check Internet
-
-    public Boolean isConnect(LoginActivity loginActivity) {
-        return anInterface.IsConnect(loginActivity);
-    }
-
-    public void showCustomDialog() {
-        anInterface.ShowCustomDialog();
-    }
-
-    //endregion
-
     //region Condition
 
     public Boolean getNoUserName(String username){

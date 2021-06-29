@@ -43,10 +43,6 @@
             android:parentActivityName=".View.Activity.UserAcitvity" />
 
         <activity android:name=".View.Activity.UserAcitvity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
 
@@ -62,7 +58,10 @@
             android:parentActivityName=".View.Activity.LoginActivity" />
 
         <activity android:name=".View.Activity.LoginActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
