@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -360,6 +361,12 @@ public class UpdatePasswordActivity extends AppCompatActivity implements UpdateP
     //region Upload password lên server
     @Override
     public void UploadPasswordToServer(String oldpassword, String newpassword) {
+
+        YoYo.with(Techniques.Shake)
+                .duration(2000)
+                .repeat(Animation.INFINITE)
+                .playOn(cl_total);
+
         StringRequest request = new StringRequest(Request.Method.POST,
                 ConnectionClass.urlString + "updatePasswordUser.php", new Response.Listener<String>() {
             @Override
