@@ -37,7 +37,6 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.example.myproject22.BuildConfig;
 import com.example.myproject22.Model.ConnectionClass;
 import com.example.myproject22.Model.GoalRecord;
 import com.example.myproject22.Presenter.Interface.GoalInterface;
@@ -417,7 +416,7 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
         //Using sub-class of Content provider
         Uri uri = FileProvider.getUriForFile(
                 this,
-                BuildConfig.APPLICATION_ID + "." + getLocalClassName() + ".provider",
+                "com.example.myproject22.provider",
                 file);
 
         //Explicit intent

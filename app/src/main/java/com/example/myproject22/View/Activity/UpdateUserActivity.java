@@ -152,6 +152,7 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
         presenter = new UpdateUserPresenter(this);
         presenter.setInit();
         presenter.getBundleData();
+        presenter.loadDataToLayout();
         //endregion
 
         //region Xử lí button
@@ -243,12 +244,6 @@ public class UpdateUserActivity extends AppCompatActivity implements UpdateUserI
     }
 
     //region Xử lí override Activity
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.loadDataToLayout();
-    }
-
     @Override
     public void onBackPressed() {
         setResult(UserAcitvity.RESULT_FAIL);

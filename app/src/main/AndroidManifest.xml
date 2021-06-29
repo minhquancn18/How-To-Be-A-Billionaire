@@ -92,18 +92,6 @@
         </activity>
         <!-- END GOAL -->
 
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.myproject22.View.Activity.GoalActivity.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path" />
-        </provider>
-
-
         <receiver
             android:name=".View.Service.Notification_recevier"
             android:enabled="true"
