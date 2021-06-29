@@ -66,6 +66,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.alterac.blurkit.BlurLayout;
 
 import static com.example.myproject22.Model.ConnectionClass.urlString;
 
@@ -89,11 +90,11 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     private ImageView ivLoad;
     private ImageView ivSign;
 
-    private MaterialCardView cardInfor;
-    private MaterialCardView cardUser;
-    private MaterialCardView cardPassword;
-    private MaterialCardView cardBank;
-    private MaterialCardView cardLogOut;
+    private BlurLayout cardInfor;
+    private BlurLayout cardUser;
+    private BlurLayout cardPassword;
+    private BlurLayout cardBank;
+    private BlurLayout cardLogOut;
     //endregion
 
     //region Presenter
@@ -230,7 +231,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         cardPassword = findViewById(R.id.cardPassword);
         cardLogOut = findViewById(R.id.cardLogOut);
         Glide.with(this)
-                .load(R.drawable.move_gif).into(ivLoad);
+                .load(R.drawable.background_gif).into(ivLoad);
     }
 
     @Override
@@ -471,7 +472,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         String date_temp = userClass.getDATESTART();
         String[] slipdate = date_temp.split(" ");
         String[] slipday = slipdate[0].split("-");
-        String date_string = "Sử dụng từ " + slipday[2] + "." + slipday[1] + "." + slipday[0];
+        String date_string = "Từ " + slipday[2] + "." + slipday[1] + "." + slipday[0];
         tv_date.setText(date_string);
 
         if (!userClass.getIMAGE().equals("null")) {
