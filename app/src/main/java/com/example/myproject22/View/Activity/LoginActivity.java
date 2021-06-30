@@ -276,6 +276,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
 
     }
 
+
     //region Xử lí override từ activity
     //region Xử lí override
     @Override
@@ -304,6 +305,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     //endregion
 
     //endregion
+
 
     //region Xử lí khởi tạo component to layout và keyboard
     @Override
@@ -335,6 +337,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     }
 
     //endregion
+
 
     //region Kiểm tra điều kiện trước khi nhấn button đăng nhập
     @Override
@@ -489,6 +492,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     }
     //endregion
 
+
     //region Xử lí các textview click
     @Override
     public void TextViewClick() {
@@ -529,6 +533,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
     }
 
     //endregion
+
 
     //region Set Notification
     public void SetNotification() {

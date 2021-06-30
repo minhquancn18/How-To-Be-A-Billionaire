@@ -8,7 +8,6 @@
     android:focusableInTouchMode="true"
     tools:context=".View.Activity.LoginActivity">
 
-
     <ImageView
         android:id="@+id/imageView13"
         android:layout_width="match_parent"
@@ -26,7 +25,6 @@
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView13"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.648"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.49"
@@ -34,7 +32,7 @@
         app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:theme="@style/Theme.MaterialComponents">
@@ -93,8 +91,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:hint="Mật khẩu"
                 android:layout_marginTop="5dp"
+                android:hint="Mật khẩu"
                 android:textColorHint="@color/white"
                 android:theme="@style/EditTextTheme"
                 app:boxBackgroundColor="@android:color/transparent"
@@ -121,8 +119,8 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogin"
                 android:layout_width="0dp"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/white"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -136,9 +134,9 @@
                 android:id="@+id/tvRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:fontFamily="monospace"
                 android:text="@string/signup"
-                android:layout_marginTop="20dp"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="@+id/btnLogin"

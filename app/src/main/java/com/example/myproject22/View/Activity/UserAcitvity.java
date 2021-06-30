@@ -29,6 +29,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,6 +39,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.SharePreferenceClass;
@@ -202,10 +204,17 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         unregisterReceiver(network_receiver);
     }
 
+
+
     @Override
     protected void onResume() {
+
+
+
         super.onResume();
 
+
+        Toast.makeText(this, "AAA", Toast.LENGTH_SHORT).show();
         if (neededToReload) {
             neededToReload = false;
             presenter.loadDataToLayout();
@@ -242,6 +251,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
         cardInfor = findViewById(R.id.cardInfor);
         cardPassword = findViewById(R.id.cardPassword);
         cardLogOut = findViewById(R.id.cardLogOut);
+
         Glide.with(this)
                 .load(R.drawable.background_gif).into(ivLoad);
     }

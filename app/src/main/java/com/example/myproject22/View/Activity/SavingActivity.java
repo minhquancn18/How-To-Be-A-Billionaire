@@ -360,11 +360,10 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
 
         weekchart.getAxisLeft().setValueFormatter(a);
-        weekchart.getAxisLeft().setTextSize(12f);
-        weekchart.getAxisLeft().setMinWidth(75f);
+        weekchart.getAxisLeft().setTextSize(13f);
+        weekchart.getAxisLeft().setMinWidth(80f);
 
         weekchart.getAxisLeft().setTypeface(Typeface.MONOSPACE);
-
 
         Legend l = weekchart.getLegend();
         l.setTextColor(Color.WHITE);
@@ -380,7 +379,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         xAxis.setTextColor(Color.WHITE);
         xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
         xAxis.setTypeface(Typeface.MONOSPACE);
-        xAxis.setTextSize(14f);
+        xAxis.setTextSize(15f);
         xAxis.setDrawAxisLine(false);
 
         xAxis.setLabelCount(ngayTrongTuan.size());
@@ -416,6 +415,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         cl_savingmoney.setVisibility(View.VISIBLE);
         cl_user.setVisibility(View.VISIBLE);
+
     }
     //endregion
 

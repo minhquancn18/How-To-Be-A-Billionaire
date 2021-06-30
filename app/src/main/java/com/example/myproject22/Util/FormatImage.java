@@ -48,6 +48,7 @@ public class FormatImage {
                     .thumbnail(
                             Glide.with(context)
                                     .load(R.drawable.fish_gif)
+
                     )
                     .into(view);
         }

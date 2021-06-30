@@ -42,22 +42,27 @@
             android:name=".View.Activity.UpdateUserActivity"
             android:parentActivityName=".View.Activity.UserAcitvity" />
 
-        <activity android:name=".View.Activity.UserAcitvity" >
-        </activity>
+        <activity android:name=".View.Activity.UserAcitvity"></activity>
 
 
         <!--endregion-->
 
 
+        <!-- region ACCOUNT-->
         <activity
             android:name=".View.Activity.ForgotPasswordActivity"
             android:parentActivityName=".View.Activity.LoginActivity" />
 
         <activity
             android:name=".View.Activity.SignUpActivity"
-            android:parentActivityName=".View.Activity.LoginActivity" />
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".View.Activity.LoginActivity">
 
-        <activity android:name=".View.Activity.LoginActivity">
+        </activity>
+
+        <activity
+            android:name=".View.Activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -67,6 +72,7 @@
         <activity
             android:name=".View.Activity.RecordDetailActivity"
             android:parentActivityName=".View.Activity.ReportCategoryDetailActivity" />
+        <!--endregion-->
 
         <activity android:name=".View.Activity.ReportCategoryDetailActivity" /> <!-- Phan report cua Quan -->
         <activity android:name=".View.Activity.ReportCategoryActivity" />
@@ -81,7 +87,7 @@
         <activity android:name=".View.Activity.SavingActivity" />
 
 
-        <!-- GOAL -->
+        <!--region GOAL -->
         <activity android:name=".View.Activity.GoalRecordActivity"></activity>
         <activity
             android:name=".View.Activity.NewGoalActivity"
@@ -89,7 +95,7 @@
         <activity android:name=".View.Activity.GoalActivity">
 
         </activity>
-        <!-- END GOAL -->
+        <!--endregion GOAL -->
 
         <receiver
             android:name=".View.Service.Notification_recevier"

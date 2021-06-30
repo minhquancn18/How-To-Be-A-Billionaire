@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,9 +25,12 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -99,10 +103,14 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
     private TextInputEditText et_email;
     private TextInputEditText et_password;
     private MaterialButton btn_signup;
-    private ImageButton ibtn_user;
+    private Button ibtn_user;
     private TextView tv_login;
     private ProgressBar pb_signup;
     private CoordinatorLayout mSnackbarLayout;
+
+    //
+    ImageView ivUserImage;
+
     //endregion
 
     //region Image
@@ -127,7 +135,12 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         setContentView(R.layout.activity_sign_up);
 
         //region Khởi tạo presenter
@@ -327,6 +340,11 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         pb_signup = findViewById(R.id.pb_signup);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
         et_salary.setDecimals(false);
+
+
+        //
+        ivUserImage = findViewById(R.id.ivUserImage);
+
     }
 
     @Override
@@ -561,7 +579,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(selectedImage);
                         bmImage = BitmapFactory.decodeStream(inputStream);
-                        ibtn_user.setImageBitmap(bmImage);
+
+                        //set bitmap for background
+                        ivUserImage.setImageBitmap(bmImage);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -575,7 +595,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
                     ibtn_user.setScaleX(1.0f);
                     ibtn_user.setScaleY(1.0f);
                     bmImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                    ibtn_user.setImageBitmap(bmImage);
+
+                    // set bitmap
+                    ivUserImage.setImageBitmap(bmImage);
                 }
             }
         }
