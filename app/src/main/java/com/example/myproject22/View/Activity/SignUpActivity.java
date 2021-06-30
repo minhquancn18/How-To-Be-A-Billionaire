@@ -67,6 +67,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import me.abhinay.input.CurrencyEditText;
+
 import static com.example.myproject22.Presenter.Presenter.AddingCategoryPresenter.encodeTobase64;
 import static com.example.myproject22.Presenter.Presenter.AddingMoneyPresentent.convertByteToString;
 
@@ -93,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
     private TextInputLayout til_password;
     private TextInputEditText et_username;
     private TextInputEditText et_fullname;
-    private TextInputEditText et_salary;
+    private CurrencyEditText et_salary;
     private TextInputEditText et_email;
     private TextInputEditText et_password;
     private MaterialButton btn_signup;
@@ -209,6 +211,12 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
+                    Double double_money = et_salary.getCleanDoubleValue();
+                    Long money = double_money.longValue();
+                    if(money >= 1000 && money <= 1000000000){
+                        money = money / 1000 * 1000;
+                        et_salary.setText(String.valueOf(money));
+                    }
                     presenter.hideKeyboard(v);
                 } else {
                     til_salary.setError(null);
@@ -318,6 +326,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         tv_login = findViewById(R.id.tvRegister);
         pb_signup = findViewById(R.id.pb_signup);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
+        et_salary.setDecimals(false);
     }
 
     @Override

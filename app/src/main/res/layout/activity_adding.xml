@@ -113,7 +113,7 @@
                 app:suffixTextColor="@color/white">
 
 
-                <EditText
+                <me.abhinay.input.CurrencyEditText
                     android:id="@+id/editTextNumber2"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"

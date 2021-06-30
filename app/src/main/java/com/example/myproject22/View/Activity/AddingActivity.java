@@ -89,6 +89,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import io.alterac.blurkit.BlurLayout;
+import me.abhinay.input.CurrencyEditText;
 
 import static com.example.myproject22.Model.ConnectionClass.urlString;
 import static com.example.myproject22.Presenter.Presenter.AddingMoneyPresentent.convertByteToString;
@@ -136,7 +137,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     //endregion
 
     //region Component về tiền
-    private EditText etMoney;
+    private CurrencyEditText etMoney;
     private SeekBar seekBar;
     private EditText etDescription;
     private TextInputLayout til_money;
@@ -282,6 +283,12 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
+                    Double double_money = etMoney.getCleanDoubleValue();
+                    Long money = double_money.longValue();
+                    if(money >= 1000 && money <= 1000000000){
+                        money = money / 1000 * 1000;
+                        etMoney.setText(String.valueOf(money));
+                    }
                     addingMoneyPresentent.hideKeyBoard(v);
                 }
                 else{
@@ -384,6 +391,8 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
         seekBar = findViewById(R.id.seekBar);
         seekBar.setMax(5000000);
+
+        etMoney.setDecimals(false);
 
         bottomSheetBehavior = BottomSheetBehavior.from(playerSheet);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -606,12 +615,12 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     public void IsValidNumber(CharSequence s) {
         if (s.length() > 15) {
             til_money.setError("Số tiền quá lớn.");
-            /*Toast.makeText(AddingActivity.this, "Số tiền quá lớn.", Toast.LENGTH_SHORT).show();*/
             isMax = false;
             seekBar.setProgress(0);
-        } else if (s.length() > 0) {
+        } else if (s.length() > 0 && s.length() < 12) {
             til_money.setError(null);
             etMoney.setSelection(s.length());
+            s = String.valueOf(etMoney.getCleanIntValue());
             if (isNumeric(s.toString())) {
                 til_money.setError(null);
                 long progress = Long.parseLong(s.toString());
@@ -628,8 +637,11 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 }
             } else {
                 til_money.setError("Vui lòng nhập chính xác tiền");
-                etMoney.setText("");
             }
+        }
+        else if(s.length() > 11){
+            til_money.setError(null);
+            etMoney.setSelection(s.length());
         }
     }
 

@@ -89,13 +89,14 @@
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_fullname">
+            app:layout_constraintTop_toBottomOf="@id/til_fullname"
+            app:suffixText="VND">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <me.abhinay.input.CurrencyEditText
                 android:id="@+id/et_salary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
