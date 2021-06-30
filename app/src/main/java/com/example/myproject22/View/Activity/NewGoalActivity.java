@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,7 +62,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
 
     //region GLOBAL VARIABLES
     public static final String REQUEST_ADD_NEW = "add";
-    private static final int id_user = 1;
+    private int id_user = 0;
     private static final int GALLERY_REQUEST = 11;
     private NewGoalPresenter mNewGoalPresenter;
     private Network_receiver network_receiver;
@@ -92,7 +93,8 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
 
     @Override
     public void GetBundle() {
-
+        Intent intent = getIntent();
+        id_user = intent.getIntExtra("ID_USER", 0);
     }
 
     @Override

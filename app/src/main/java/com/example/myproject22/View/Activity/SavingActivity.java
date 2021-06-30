@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -36,6 +37,7 @@ import com.example.myproject22.Presenter.Interface.SavingInterface;
 import com.example.myproject22.Presenter.Presenter.SavingPresenter;
 import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.Util.Formatter;
+import com.example.myproject22.Util.MyAxisValueFormatter;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -44,9 +46,16 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.BubbleEntry;
+import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -172,10 +181,6 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         mSavingPresenter.createDataBarChart();
         //endregion
 
-      /*  View overlay = findViewById(R.id.mylayout);
-        overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_FULLSCREEN);*/
 
         //region Xử lí cardview click
         cardUser.setOnClickListener(new View.OnClickListener() {
@@ -332,11 +337,39 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         weekchart.setHighlightFullBarEnabled(true);
         weekchart.getAxisLeft().setTextColor(Color.WHITE);
         weekchart.getAxisRight().setTextSize(0f);
-        weekchart.getAxisLeft().setValueFormatter(new IndexAxisValueFormatter() {
+        weekchart.getAxisLeft().setCenterAxisLabels(true);
 
-        });
+
+
+        ValueFormatter a = new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                if(Math.abs(value ) >= 1000000){
+                    value = value /10000000;
+                    return value  + " triệu";
+                }
+
+                if(Math.abs(value ) >= 1000){
+                    value = value /1000;
+                    return value  + " ngàn";
+                }
+                return value + "VND";
+            }
+
+        };
+
+
+        weekchart.getAxisLeft().setValueFormatter(a);
+        weekchart.getAxisLeft().setTextSize(12f);
+        weekchart.getAxisLeft().setMinWidth(75f);
+
+        weekchart.getAxisLeft().setTypeface(Typeface.MONOSPACE);
+
+
         Legend l = weekchart.getLegend();
         l.setTextColor(Color.WHITE);
+        l.setTypeface(Typeface.MONOSPACE);
+        l.setTextSize(13);
         //endregion
 
 
@@ -350,7 +383,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         xAxis.setDrawGridLines(true);
         xAxis.setGranularity(1f);
         xAxis.setDrawLabels(true);
-        xAxis.setTextSize(13f);
+        //xAxis.setTextSize(13f);
         xAxis.setTypeface(Typeface.MONOSPACE);
         xAxis.setLabelCount(ngayTrongTuan.size());
         //endregion
@@ -374,8 +407,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         if (!userClass.getIMAGE().equals("null")) {
             FormatImage.LoadImageIntoView(ivProfile, SavingActivity.this, userClass.getIMAGE());
-        }
-        else{
+        } else {
             FormatImage.LoadImageIntoView(ivProfile, SavingActivity.this, R.drawable.avatar);
         }
 
@@ -469,9 +501,10 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 return params;
             }
         };
-        if(getApplicationContext() != null){
-        RequestQueue requestQueue = Volley.newRequestQueue(SavingActivity.this);
-        requestQueue.add(request);}
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(SavingActivity.this);
+            requestQueue.add(request);
+        }
     }
     //endregion
 
@@ -576,9 +609,9 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
                             if (!image_string.equals("null")) {
                                 String url_image = urlString + "ImagesUser/" + image_string;
-                                userClass = new UserClass(email,fullname, date_string, url_image, income, outcome);
+                                userClass = new UserClass(email, fullname, date_string, url_image, income, outcome);
                             } else {
-                                userClass = new UserClass(email,fullname, date_string, image_string, income, outcome);
+                                userClass = new UserClass(email, fullname, date_string, image_string, income, outcome);
                             }
                         }
                     }
@@ -615,7 +648,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     //region Handle Material Cardview Click
     @Override
     public void BtnUserClick() {
-        if(userClass != null) {
+        if (userClass != null) {
             Intent intent = new Intent(SavingActivity.this, UserAcitvity.class);
             Bundle bundle = new Bundle();
             bundle.putInt("ID_USER", id_user);
@@ -774,6 +807,8 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
                 .duration(slide_time + 300)
                 .playOn(cardNavigation);
     }
+
+    //endregion
 
 
 }

@@ -206,8 +206,7 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
     public boolean GetBundleData() {
         Intent intent = getIntent();
         id_user = intent.getIntExtra("ID_USER", 0);
-        //return (id_user != 0);
-        return true;
+        return (id_user != 0);
     }
 
     @Override
@@ -395,7 +394,7 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id_user", String.valueOf(1));
+                params.put("id_user", String.valueOf(id_user));
                 return params;
             }
         };
@@ -487,6 +486,7 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
     @Override
     public void NewGoalClick() {
         Intent intent = new Intent(this, NewGoalActivity.class);
+        intent.putExtra("ID_USER", id_user);
         startActivityForResult(intent, REQUEST_NEW_GOAL);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
