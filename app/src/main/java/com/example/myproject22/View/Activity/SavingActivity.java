@@ -284,13 +284,13 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     public void CreateDataBarChart() {
 
         //region Load bar chart cột x
-        ngayTrongTuan.add("Thứ 2");
-        ngayTrongTuan.add("Thứ 3");
-        ngayTrongTuan.add("Thứ 4");
-        ngayTrongTuan.add("Thứ 5");
-        ngayTrongTuan.add("Thứ 6");
-        ngayTrongTuan.add("Thứ 7");
-        ngayTrongTuan.add("Chủ Nhật");
+        ngayTrongTuan.add("T2");
+        ngayTrongTuan.add("T3");
+        ngayTrongTuan.add("T4");
+        ngayTrongTuan.add("T5");
+        ngayTrongTuan.add("T6");
+        ngayTrongTuan.add("T7");
+        ngayTrongTuan.add("CN");
         //endregion
 
         //region Khởi tạo bar chart cho cột y tương ứng với từng cột x
@@ -378,13 +378,11 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         XAxis xAxis = weekchart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(ngayTrongTuan));
         xAxis.setTextColor(Color.WHITE);
-        xAxis.setPosition(XAxis.XAxisPosition.TOP);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawGridLines(true);
-        xAxis.setGranularity(1f);
-        xAxis.setDrawLabels(true);
-        //xAxis.setTextSize(13f);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
         xAxis.setTypeface(Typeface.MONOSPACE);
+        xAxis.setTextSize(14f);
+        xAxis.setDrawAxisLine(false);
+
         xAxis.setLabelCount(ngayTrongTuan.size());
         //endregion
 
