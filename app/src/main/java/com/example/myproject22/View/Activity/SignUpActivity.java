@@ -669,7 +669,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
             return;
         }
 
-        String salary_string = et_salary.getText().toString().trim();
+        Double money_double = et_salary.getCleanDoubleValue();
+        Long money_long = money_double.longValue();
+        String salary_string = String.valueOf(money_long);
         if (presenter.getNoSalary(salary_string) == false) {
             return;
         }

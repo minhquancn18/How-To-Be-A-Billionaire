@@ -233,7 +233,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 addingMoneyPresentent.hideKeyBoard(v);
 
                 progressBar3.setVisibility(View.VISIBLE);
-                String money = etMoney.getText().toString().trim();
+                Double money_double = etMoney.getCleanDoubleValue();
+                Long money_long = money_double.longValue();
+                String money = String.valueOf(money_long);
                 String description = etDescription.getText().toString().trim();
 
                 String category = tvChooseImage.getText().toString().trim();

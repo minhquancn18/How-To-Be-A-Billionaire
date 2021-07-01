@@ -208,9 +208,6 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
 
     @Override
     protected void onResume() {
-
-
-
         super.onResume();
 
 

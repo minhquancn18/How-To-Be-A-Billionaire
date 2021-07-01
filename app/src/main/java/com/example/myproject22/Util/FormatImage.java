@@ -76,7 +76,7 @@ public class FormatImage {
     }
 
     public static void StopLoadImage(Context context){
-        Glide.with(context).pauseRequests();
+        /*Glide.with(context).pauseRequests();*/
     }
 
     public static String convertByteToString(byte[] bytes) {
