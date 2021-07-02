@@ -15,14 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.example.myproject22.Model.IncomeClass;
 import com.example.myproject22.Model.WeekItem;
 import com.example.myproject22.R;
+import com.example.myproject22.Util.FormatterForChart;
+import com.example.myproject22.Util.MyColorPalettes;
 import com.example.myproject22.Util.WeekIncomeAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -38,7 +38,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -120,8 +119,8 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
     //region Khởi tạo component
 
     //region Component
-    private ProgressBar pb1;
-    private ProgressBar pb2;
+   /* private ProgressBar pb1;
+    private ProgressBar pb2;*/
     private ArrayList<WeekItem> weeks = new ArrayList<>();
     private RecyclerView weekRecycler;
     private WeekIncomeAdapter adapter;
@@ -165,11 +164,11 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
     //endregion
 
     //region Set init
-    public void SetInit(View view){
-        pb1 = view.findViewById(R.id.pb1);
+    public void SetInit(View view) {
+  /*      pb1 = view.findViewById(R.id.pb1);
         pb2 = view.findViewById(R.id.pb2);
         pb1.bringToFront();
-        pb2.bringToFront();
+        pb2.bringToFront();*/
 
         pieChart = view.findViewById(R.id.pie_chart);
         pieChart.setVisibility(View.INVISIBLE);
@@ -188,7 +187,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.i("RESPONSEGRAPH",response);
+                    Log.i("RESPONSEGRAPH", response);
 
                     JSONObject jsonObject = new JSONObject(response);
                     String success = jsonObject.getString("success");
@@ -217,7 +216,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
 
                 String datestart = weeks.get(0).getDatestart();
                 String dateend = weeks.get(0).getDateend();
-                FetchIncomeFromServer(datestart,dateend);
+                FetchIncomeFromServer(datestart, dateend);
 
             }
         }, new Response.ErrorListener() {
@@ -235,7 +234,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
                 return params;
             }
         };
-        if(IncomeCategoryGraphFragment.this.getActivity() != null) {
+        if (IncomeCategoryGraphFragment.this.getActivity() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(IncomeCategoryGraphFragment.this.getActivity());
             requestQueue.add(request);
         }
@@ -264,7 +263,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
         try {
             Date datefrom = curFormater.parse(sDate); // Chuyển đổi kiểu dữ liệu sang Date
             int i = 1;  //Đếm số tuần
-            do{
+            do {
 
                 //Kiểu dữ liệu để lưu String trong WeekItem
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -275,7 +274,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
                 //Format String trong WeekItem
                 String date_from = formattest.format(datefrom);
                 String date_string = simpleDateFormat.format(datefrom);
-                String s ="Tuần " + i + " " + date_string;
+                String s = "Tuần " + i + " " + date_string;
 
                 //Tìm tuần tiếp theo để so sánh
                 Calendar c = Calendar.getInstance();
@@ -292,7 +291,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
                 Log.i("GetData", s + "\n" + date_string + "\n" + date_to);
                 i++;
 
-            }while(CalculateDateUse(datefrom, now) > 0);
+            } while (CalculateDateUse(datefrom, now) > 0);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -302,11 +301,11 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
         Collections.sort(weeks, new Comparator<WeekItem>() {
             @Override
             public int compare(WeekItem o1, WeekItem o2) {
-                if(o1.getNum() < o2.getNum()){
-                    return  1;
+                if (o1.getNum() < o2.getNum()) {
+                    return 1;
                 } else {
-                    if(o1.getNum() == o2.getNum())
-                        return  0;
+                    if (o1.getNum() == o2.getNum())
+                        return 0;
                     else
                         return -1;
                 }
@@ -333,39 +332,44 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
 
             //region Xử lí PieDataSet
             PieDataSet dataSet = new PieDataSet(Entries, "Danh mục");
-            dataSet.setColors(ColorTemplate.LIBERTY_COLORS); // lib is best until now
+            dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+            dataSet.setYValuePosition(PieDataSet.ValuePosition.INSIDE_SLICE);
+            dataSet.setValueLinePart1OffsetPercentage(100f); /** When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size */
+            dataSet.setValueLinePart1Length(0.4f); /** When valuePosition is OutsideSlice, indicates length of first half of the line */
+            dataSet.setValueLineColor(Color.WHITE); /** When valuePosition is OutsideSlice, indicates length of second half of the line */
+
+
+            dataSet.setColors(MyColorPalettes.chartColor1);
             //endregion
 
             //region Xử lí PieData
             PieData data = new PieData(dataSet);
-            data.setDrawValues(false); // no text
-            data.setValueTextSize(16f);
+
+            // percent
+            data.setDrawValues(true); // no text
+            data.setValueTextSize(14f);
             data.setValueTextColor(Color.WHITE);
-            data.setValueTypeface(Typeface.MONOSPACE);
+            data.setValueTypeface(Typeface.DEFAULT_BOLD);
             data.setValueFormatter(new PercentFormatter(pieChart));
             //endregion
 
             //region Xử lí PieChart
-            pieChart.setDrawHoleEnabled(true);
+            pieChart.setHoleRadius(50f);
+            pieChart.setHoleColor(Color.parseColor("#84000000"));
+
+
             pieChart.setData(data);
             pieChart.setUsePercentValues(true); // set precent
-            pieChart.setEntryLabelColor(Color.BLACK);
-            pieChart.setCenterText("Tiền thu");
+            pieChart.setEntryLabelColor(Color.WHITE);
+            pieChart.setEntryLabelTextSize(12f);
+            pieChart.setCenterText("TIỀN THU");
+            pieChart.setCenterTextColor(Color.WHITE);
             pieChart.setCenterTextSize(14f);
             pieChart.setCenterTextTypeface(Typeface.MONOSPACE);
             pieChart.getDescription().setEnabled(false);
+            pieChart.getLegend().setEnabled(false);
             //endregion
 
-            //region Xử lý Lengend
-            Legend l = pieChart.getLegend();
-            l.setTextColor(Color.WHITE);
-            l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-            l.setOrientation(Legend.LegendOrientation.VERTICAL);
-            l.setWordWrapEnabled(true);
-            l.setDrawInside(true);
-            l.setEnabled(true);
-            //endregion
 
             //region Xử lí animate PieChart
             pieChart.animateY(1200, Easing.EaseInBack);
@@ -374,7 +378,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
 
             //region Hiện piechart khi đã loadxong
             pieChart.invalidate();
-            pb1.setVisibility(View.GONE);
+            /*  pb1.setVisibility(View.GONE);*/
             pieChart.setVisibility(View.VISIBLE);
             //endregion
         }
@@ -402,8 +406,10 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             //endregion
 
             //region Xử lí BarDataSet
-            BarDataSet barDataSet = new BarDataSet(dataList, "Tiền theo tháng");
-            barDataSet.setColors(ColorTemplate.LIBERTY_COLORS);
+
+
+            BarDataSet barDataSet = new BarDataSet(dataList, "Danh mục");
+            barDataSet.setColors(MyColorPalettes.chartColor1);
             barDataSet.setValueTextColor(Color.WHITE);
             barDataSet.setValueTextSize(20f);
             barDataSet.setValueTypeface(Typeface.MONOSPACE);
@@ -412,10 +418,11 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             //region Xử lí BarData
             BarData barData = new BarData(barDataSet);
             barData.setBarWidth(0.2f);
+
             //endregion
 
             //region Xử lí weekchart
-            weekchart.setFitBars(true);
+           // weekchart.setFitBars(true);
             weekchart.setData(barData);
             weekchart.getDescription().setText("");
             weekchart.setHighlightFullBarEnabled(true);
@@ -424,20 +431,23 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             //region Xử lí YAxis (Cột Y)
             YAxis yAxis = weekchart.getAxisLeft();
             yAxis.setTextColor(Color.WHITE);
-            yAxis.setTextSize(10);
+            yAxis.setTextSize(13f);
+            yAxis.setTypeface(Typeface.DEFAULT_BOLD);
+            yAxis.setValueFormatter(FormatterForChart.valueFormatter);
+            weekchart.getAxisRight().setEnabled(false);
             //endregion
 
             //region Xử lí XAxis (Hàng X)
             // set XAxis value formater
             XAxis xAxis = weekchart.getXAxis();
             xAxis.setValueFormatter(new IndexAxisValueFormatter(danhMucList));
-
             xAxis.setTextColor(Color.WHITE);
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
             xAxis.setTextSize(12f);
             xAxis.setDrawAxisLine(false);
             xAxis.setDrawGridLines(true);
             xAxis.setGranularity(1f);
+            xAxis.setTypeface(Typeface.DEFAULT_BOLD);
             xAxis.setDrawLabels(true);
             xAxis.setLabelCount(danhMucList.size());
             //endregion
@@ -449,8 +459,8 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             //endregion
 
             //region Hiện BarChart khi đã load xong
-            weekchart.invalidate();
-            pb2.setVisibility(View.GONE);
+            //weekchart.invalidate();
+            //pb2.setVisibility(View.GONE);
             weekchart.setVisibility(View.VISIBLE);
             //endregion
 
@@ -487,12 +497,10 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(income.size() > 0) {
+                if (income.size() > 0) {
                     dataPiechart();
                     dataBarchart();
-                }
-                else
-                {
+                } else {
                     InvisibleChart();
                 }
             }
@@ -513,7 +521,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
                 return params;
             }
         };
-        if(IncomeCategoryGraphFragment.this.getActivity() != null) {
+        if (IncomeCategoryGraphFragment.this.getActivity() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(IncomeCategoryGraphFragment.this.getActivity());
             requestQueue.add(request);
         }
@@ -521,9 +529,9 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
     //endregion
 
     //region Ẩn chart khi không có dữ liệu
-    public void InvisibleChart(){
-        pb1.setVisibility(View.GONE);
-        pb2.setVisibility(View.GONE);
+    public void InvisibleChart() {
+       /* pb1.setVisibility(View.GONE);
+        pb2.setVisibility(View.GONE);*/
         pieChart.setVisibility(View.INVISIBLE);
         weekchart.setVisibility(View.INVISIBLE);
     }

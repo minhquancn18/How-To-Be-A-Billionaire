@@ -81,7 +81,7 @@ public class  WeekIncomeAdapter extends  RecyclerView.Adapter<WeekIncomeAdapter.
         //region Change Color
         if(row_index == position){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                cardView.setCardBackgroundColor(context.getColor(R.color.teal_200));
+                cardView.setCardBackgroundColor(context.getColor(R.color.colorAccent));
             }
         }
         else{

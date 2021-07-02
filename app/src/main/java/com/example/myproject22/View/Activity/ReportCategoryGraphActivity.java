@@ -6,7 +6,9 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.myproject22.R;
@@ -29,7 +31,13 @@ public class ReportCategoryGraphActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
+
         setContentView(R.layout.activity_report_graph);
 
         GetBundleData();
@@ -39,7 +47,7 @@ public class ReportCategoryGraphActivity extends AppCompatActivity  {
         //endregion
 
         //region Xử lí ViewPager
-        CategoryGraphPagerAdapter categoryGraphPagerAdapter = new CategoryGraphPagerAdapter(getSupportFragmentManager(), id_user, id_income, id_outcome);
+        CategoryGraphPagerAdapter categoryGraphPagerAdapter = new CategoryGraphPagerAdapter(getSupportFragmentManager(), id_user, id_outcome, id_income);
         ViewPager viewPager = findViewById(R.id.category_graph_pager);
         viewPager.setAdapter(categoryGraphPagerAdapter);
         //endregion

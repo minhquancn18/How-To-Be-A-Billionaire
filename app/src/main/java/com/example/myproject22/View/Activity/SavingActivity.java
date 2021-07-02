@@ -4,7 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -20,7 +19,6 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -36,26 +34,16 @@ import com.example.myproject22.R;
 import com.example.myproject22.Presenter.Interface.SavingInterface;
 import com.example.myproject22.Presenter.Presenter.SavingPresenter;
 import com.example.myproject22.Util.FormatImage;
-import com.example.myproject22.Util.Formatter;
-import com.example.myproject22.Util.MyAxisValueFormatter;
+import com.example.myproject22.Util.FormatterForChart;
+import com.example.myproject22.Util.MyColorPalettes;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.BubbleEntry;
-import com.github.mikephil.charting.data.CandleEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.data.RadarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -314,7 +302,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         //region Xử lí BarDataSet
         BarDataSet barDataSet = new BarDataSet(recordTietKiem, "Ngày trong tuần");
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setColors(MyColorPalettes.chartColor);
         barDataSet.setValueTextColor(Color.WHITE);
         barDataSet.setValueTextSize(0f);
         barDataSet.setValueTypeface(Typeface.MONOSPACE);
@@ -327,8 +315,6 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         BarData barData = new BarData(barDataSet);
         barData.setBarWidth(0.5f);
 
-        barData.setValueTextColor(Color.WHITE);
-
         //endregion
 
         //region Xử lí weekchart
@@ -340,28 +326,9 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         weekchart.getAxisLeft().setCenterAxisLabels(true);
 
 
-
-        ValueFormatter a = new ValueFormatter() {
-            @Override
-            public String getAxisLabel(float value, AxisBase axis) {
-                if(Math.abs(value ) >= 1000000){
-                    value = value /10000000;
-                    return value  + " triệu";
-                }
-
-                if(Math.abs(value ) >= 1000){
-                    value = value /1000;
-                    return value  + " ngàn";
-                }
-                return value + "VND";
-            }
-
-        };
-
-
-        weekchart.getAxisLeft().setValueFormatter(a);
+        weekchart.getAxisLeft().setValueFormatter(FormatterForChart.valueFormatter);
         weekchart.getAxisLeft().setTextSize(13f);
-        weekchart.getAxisLeft().setMinWidth(80f);
+        weekchart.getAxisLeft().setMinWidth(70f);
 
         weekchart.getAxisLeft().setTypeface(Typeface.MONOSPACE);
 
@@ -370,6 +337,10 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         l.setTypeface(Typeface.MONOSPACE);
         l.setTextSize(13);
         //endregion
+
+
+
+
 
 
         //region Xử lí XAxis (Hàng X)
@@ -381,6 +352,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         xAxis.setTypeface(Typeface.MONOSPACE);
         xAxis.setTextSize(15f);
         xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
 
         xAxis.setLabelCount(ngayTrongTuan.size());
         //endregion

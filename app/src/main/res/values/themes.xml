@@ -28,7 +28,7 @@
         <item name="textAllCaps">false</item>
 
         <!--        font -->
-        <item name="colorPrimary">@color/teal_200</item>
+        <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="background">@android:color/transparent</item>
