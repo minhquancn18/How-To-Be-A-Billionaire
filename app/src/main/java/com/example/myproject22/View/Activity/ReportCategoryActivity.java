@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
@@ -85,7 +87,14 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
         setContentView(R.layout.activity_report);
 
         //region Broadcast
@@ -127,9 +136,9 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
         toolbar = findViewById(R.id.toolbar2);
         progressBar = findViewById(R.id.pbReportCategory);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
-        setSupportActionBar(toolbar);
+        /*setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("     Nhật ký thu chi");
-        getSupportActionBar().setIcon(R.drawable.yoyoyo);
+        getSupportActionBar().setIcon(R.drawable.yoyoyo);*/
     }
 
     @Override
@@ -154,7 +163,7 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
         int i = 0, j = 0;
         int m = incomeDate.size();
         int n = outcomeDate.size();
-        while (i < m && j < n) {
+        while (i > m && j > n) {
             if (incomeDate.get(i).getDate().getTime() < outcomeDate.get(j).getDate().getTime()) {
                 categoryDate.add(incomeDate.get(i));
                 i++;
@@ -185,7 +194,8 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
         recyclerView.setAdapter(dayItemAdapter);
 
 
-        gridLayoutManager = new GridLayoutManager(this, 3);
+        gridLayoutManager = new GridLayoutManager(this, 2);
+        //gridLayoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(gridLayoutManager);
 
     }

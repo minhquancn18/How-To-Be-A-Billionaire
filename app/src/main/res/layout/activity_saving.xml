@@ -319,7 +319,7 @@
     <LinearLayout
         android:id="@+id/cardNavigation"
         android:layout_width="match_parent"
-        android:layout_height="95dp"
+        android:layout_height="100dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/round_background"
@@ -337,16 +337,15 @@
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
                 android:onClick="GoalClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
                 android:src="@drawable/icon_goal"
                 android:tint="@color/icon_click_selector" />
 
@@ -369,16 +368,15 @@
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
                 android:onClick="OldRecordClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
                 android:src="@drawable/icon_record"
                 android:tint="@color/icon_click_selector" />
 
@@ -403,16 +401,15 @@
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
                 android:onClick="AddRecordClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
                 android:src="@drawable/icon_add"
                 android:tint="@color/icon_click_selector" />
 
@@ -436,16 +433,15 @@
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
                 android:onClick="GraphClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
                 android:src="@drawable/icon_piechart"
                 android:tint="@color/icon_click_selector" />
 
@@ -460,6 +456,7 @@
                 android:textColor="@color/white" />
 
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -85,7 +85,7 @@ public class DayItemAdapter extends RecyclerView.Adapter<DayItemAdapter.ViewHold
             }
         } else if(DayItem.CalculateDateUse(date,currentdate) == 0){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                cardView.setCardBackgroundColor(context.getColor(R.color.teal_200));
+                cardView.setCardBackgroundColor(context.getColor(R.color.lightPink));
             }
         }
         //endregion

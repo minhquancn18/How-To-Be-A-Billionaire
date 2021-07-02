@@ -367,7 +367,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
                 .duration(2000)
                 .repeat(Animation.INFINITE)
                 .playOn(cardForgetPass);
-        
+
         presenter.uploadNewPassword(username, email, password);
     }
 

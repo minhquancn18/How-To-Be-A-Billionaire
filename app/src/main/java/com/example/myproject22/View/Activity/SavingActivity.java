@@ -150,7 +150,6 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_saving);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
