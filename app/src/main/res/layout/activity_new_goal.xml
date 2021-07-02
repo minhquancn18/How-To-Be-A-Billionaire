@@ -23,7 +23,7 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardLogin"
+        android:id="@+id/cardForgetPass"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#4A000000"
@@ -182,6 +182,6 @@
         android:scaleY="5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/cardForgetPass" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,7 +17,7 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardLogin"
+        android:id="@+id/cardForgetPass"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/transForBackground"

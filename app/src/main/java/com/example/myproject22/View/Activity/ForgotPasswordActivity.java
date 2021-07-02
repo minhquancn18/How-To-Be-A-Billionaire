@@ -7,13 +7,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,12 +28,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.ConnectionClass;
 import com.example.myproject22.Presenter.Interface.ForgotPasswordInterface;
 import com.example.myproject22.Presenter.Presenter.ForgotPasswordPresenter;
 import com.example.myproject22.R;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -70,6 +76,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
     private TextView tv_signup_forgot;
     private ProgressBar pb_forgot;
     private CoordinatorLayout mSnackbarLayout;
+
+    MaterialCardView cardForgetPass;
     //endregion
 
     //Presenter
@@ -83,7 +91,14 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         setContentView(R.layout.activity_forgot_password);
 
         //region Broadcast
@@ -231,6 +246,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
         pb_forgot = findViewById(R.id.pb_password_forgot);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
 
+
+        cardForgetPass  =findViewById(R.id.cardForgetPass);
         /*tv_signup_forgot = findViewById(R.id.tvRegister_forgot);*/
     }
 
@@ -346,6 +363,11 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
             return;
         }
 
+        YoYo.with(Techniques.Tada)
+                .duration(2000)
+                .repeat(Animation.INFINITE)
+                .playOn(cardForgetPass);
+        
         presenter.uploadNewPassword(username, email, password);
     }
 

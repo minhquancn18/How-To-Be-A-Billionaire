@@ -18,11 +18,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -323,7 +321,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
 
 
         //animations
-        cardLogin = findViewById(R.id.cardLogin);
+        cardLogin = findViewById(R.id.cardForgetPass);
         YoYo.with(Techniques.Bounce)
                 .duration(2000)
                 .playOn(cardLogin);

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
     <ProgressBar
         android:id="@+id/pb1"
@@ -23,7 +24,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView8"
         app:layout_constraintTop_toTopOf="@+id/weekChart1" />
-
 
 
     <ImageView

@@ -422,7 +422,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             //endregion
 
             //region Xử lí weekchart
-           // weekchart.setFitBars(true);
+            // weekchart.setFitBars(true);
             weekchart.setData(barData);
             weekchart.getDescription().setText("");
             weekchart.setHighlightFullBarEnabled(true);
@@ -531,7 +531,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
 
     //region Ẩn chart khi không có dữ liệu
     public void InvisibleChart() {
-       pb1.setVisibility(View.GONE);
+        pb1.setVisibility(View.GONE);
         pb2.setVisibility(View.GONE);
         pieChart.setVisibility(View.INVISIBLE);
         weekchart.setVisibility(View.INVISIBLE);

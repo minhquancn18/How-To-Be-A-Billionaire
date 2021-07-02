@@ -16,7 +16,7 @@
         android:src="@drawable/background30" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardLogin"
+        android:id="@+id/cardForgetPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"

@@ -25,4 +25,24 @@ public class MyColorPalettes {
 
     };
 
+    public static int chartColor2[]  = {
+            Color.parseColor("#cb997e"),
+            Color.parseColor("#ddbea9"),
+            Color.parseColor("#ffe8d6"),
+            Color.parseColor("#b7b7a4"),
+            Color.parseColor("#a5a58d"),
+            Color.parseColor("#cb997e"),
+            Color.parseColor("#6b705c")
+    };
+
+
+
+    public static int chartColor3[]  = {
+            Color.parseColor("#ffcdb2"),
+            Color.parseColor("#ffb4a2"),
+            Color.parseColor("#e5989b"),
+            Color.parseColor("#b5838d"),
+            Color.parseColor("#6d6875")
+    };
+
 }
