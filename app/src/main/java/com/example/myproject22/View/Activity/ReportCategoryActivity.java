@@ -163,11 +163,11 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
         int i = 0, j = 0;
         int m = incomeDate.size();
         int n = outcomeDate.size();
-        while (i > m && j > n) {
-            if (incomeDate.get(i).getDate().getTime() < outcomeDate.get(j).getDate().getTime()) {
+        while (i < m && j < n) {
+            if (incomeDate.get(i).getDate().getTime() > outcomeDate.get(j).getDate().getTime()) {
                 categoryDate.add(incomeDate.get(i));
                 i++;
-            } else if (incomeDate.get(i).getDate().getTime() > outcomeDate.get(j).getDate().getTime()) {
+            } else if (incomeDate.get(i).getDate().getTime() < outcomeDate.get(j).getDate().getTime()) {
                 categoryDate.add(outcomeDate.get(j));
                 j++;
             } else {
