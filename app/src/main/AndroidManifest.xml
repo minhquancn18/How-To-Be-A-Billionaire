@@ -9,7 +9,8 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -25,7 +26,8 @@
 
     <application
         android:name=".View.Service.HTBABApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -42,7 +44,7 @@
             android:name=".View.Activity.UpdateUserActivity"
             android:parentActivityName=".View.Activity.UserAcitvity" />
 
-        <activity android:name=".View.Activity.UserAcitvity"></activity>
+        <activity android:name=".View.Activity.UserAcitvity"/>
 
 
         <!--endregion-->
@@ -88,10 +90,12 @@
 
 
         <!--region GOAL -->
-        <activity android:name=".View.Activity.GoalRecordActivity"></activity>
+        <activity android:name=".View.Activity.GoalRecordActivity"/>
+
         <activity
             android:name=".View.Activity.NewGoalActivity"
             android:parentActivityName=".View.Activity.GoalActivity" />
+
         <activity android:name=".View.Activity.GoalActivity">
 
         </activity>
@@ -100,7 +104,8 @@
         <receiver
             android:name=".View.Service.Notification_recevier"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            tools:ignore="ExportedReceiver" />
 
         <meta-data
             android:name="preloaded_fonts"

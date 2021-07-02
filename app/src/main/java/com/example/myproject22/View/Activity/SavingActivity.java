@@ -302,7 +302,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         //region Xử lí BarDataSet
         BarDataSet barDataSet = new BarDataSet(recordTietKiem, "Ngày trong tuần");
-        barDataSet.setColors(MyColorPalettes.chartColor);
+        barDataSet.setColors(MyColorPalettes.chartColor1);
         barDataSet.setValueTextColor(Color.WHITE);
         barDataSet.setValueTextSize(0f);
         barDataSet.setValueTypeface(Typeface.MONOSPACE);

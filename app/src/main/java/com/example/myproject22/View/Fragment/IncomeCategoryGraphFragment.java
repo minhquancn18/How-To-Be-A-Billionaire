@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -119,13 +120,15 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
     //region Khởi tạo component
 
     //region Component
-   /* private ProgressBar pb1;
-    private ProgressBar pb2;*/
+
     private ArrayList<WeekItem> weeks = new ArrayList<>();
     private RecyclerView weekRecycler;
     private WeekIncomeAdapter adapter;
     private PieChart pieChart;
     private HorizontalBarChart weekchart;
+
+    ProgressBar pb1;
+    ProgressBar pb2;
     //endregion
 
     //region parameter
@@ -165,10 +168,10 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
 
     //region Set init
     public void SetInit(View view) {
-  /*      pb1 = view.findViewById(R.id.pb1);
+        pb1 = view.findViewById(R.id.pb1);
         pb2 = view.findViewById(R.id.pb2);
         pb1.bringToFront();
-        pb2.bringToFront();*/
+        pb2.bringToFront();
 
         pieChart = view.findViewById(R.id.pie_chart);
         pieChart.setVisibility(View.INVISIBLE);
@@ -378,7 +381,7 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
 
             //region Hiện piechart khi đã loadxong
             pieChart.invalidate();
-            /*  pb1.setVisibility(View.GONE);*/
+            pb1.setVisibility(View.GONE);
             pieChart.setVisibility(View.VISIBLE);
             //endregion
         }
@@ -406,8 +409,6 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             //endregion
 
             //region Xử lí BarDataSet
-
-
             BarDataSet barDataSet = new BarDataSet(dataList, "Danh mục");
             barDataSet.setColors(MyColorPalettes.chartColor1);
             barDataSet.setValueTextColor(Color.WHITE);
@@ -459,9 +460,10 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             //endregion
 
             //region Hiện BarChart khi đã load xong
-            //weekchart.invalidate();
-            //pb2.setVisibility(View.GONE);
+            weekchart.invalidate();
+            pb2.setVisibility(View.GONE);
             weekchart.setVisibility(View.VISIBLE);
+            weekchart.animateY(1000, Easing.EaseInBounce);
             //endregion
 
         }
@@ -530,8 +532,8 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
 
     //region Ẩn chart khi không có dữ liệu
     public void InvisibleChart() {
-       /* pb1.setVisibility(View.GONE);
-        pb2.setVisibility(View.GONE);*/
+       pb1.setVisibility(View.GONE);
+        pb2.setVisibility(View.GONE);
         pieChart.setVisibility(View.INVISIBLE);
         weekchart.setVisibility(View.INVISIBLE);
     }

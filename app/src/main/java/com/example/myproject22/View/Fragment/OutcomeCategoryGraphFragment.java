@@ -28,6 +28,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.myproject22.Model.OutcomeClass;
 import com.example.myproject22.Model.WeekItem;
 import com.example.myproject22.R;
+import com.example.myproject22.Util.FormatterForChart;
+import com.example.myproject22.Util.MyColorPalettes;
 import com.example.myproject22.Util.WeekOutcomeAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -400,38 +402,42 @@ public class OutcomeCategoryGraphFragment extends Fragment implements WeekOutcom
 
             //region Xử lí PieDataSet
             PieDataSet dataSet = new PieDataSet(Entries, "Danh mục");
-            dataSet.setColors(ColorTemplate.LIBERTY_COLORS); // lib is best until now
+            dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+            dataSet.setYValuePosition(PieDataSet.ValuePosition.INSIDE_SLICE);
+            dataSet.setValueLinePart1OffsetPercentage(100f); /** When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size */
+            dataSet.setValueLinePart1Length(0.4f); /** When valuePosition is OutsideSlice, indicates length of first half of the line */
+            dataSet.setValueLineColor(Color.WHITE); /** When valuePosition is OutsideSlice, indicates length of second half of the line */
+
+
+            dataSet.setColors(MyColorPalettes.chartColor1);
             //endregion
 
             //region Xử lí PieData
             PieData data = new PieData(dataSet);
-            data.setDrawValues(false); // no text
-            data.setValueTextSize(16f);
+
+            // percent
+            data.setDrawValues(true); // no text
+            data.setValueTextSize(14f);
             data.setValueTextColor(Color.WHITE);
-            data.setValueTypeface(Typeface.MONOSPACE);
+            data.setValueTypeface(Typeface.DEFAULT_BOLD);
             data.setValueFormatter(new PercentFormatter(pieChart));
             //endregion
 
-            //region Xử lí Pie Chart
-            pieChart.setDrawHoleEnabled(true);
+            //region Xử lí PieChart
+            pieChart.setHoleRadius(50f);
+            pieChart.setHoleColor(Color.parseColor("#84000000"));
+
+
             pieChart.setData(data);
             pieChart.setUsePercentValues(true); // set precent
-            pieChart.setEntryLabelColor(Color.BLACK);
-            pieChart.setCenterText("Tiền thu");
+            pieChart.setEntryLabelColor(Color.WHITE);
+            pieChart.setEntryLabelTextSize(12f);
+            pieChart.setCenterText("TIỀN CHI");
+            pieChart.setCenterTextColor(Color.WHITE);
             pieChart.setCenterTextSize(14f);
             pieChart.setCenterTextTypeface(Typeface.MONOSPACE);
             pieChart.getDescription().setEnabled(false);
-            //endregion
-
-            //region Xử lí Legend
-            Legend l = pieChart.getLegend();
-            l.setTextColor(Color.WHITE);
-            l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-            l.setOrientation(Legend.LegendOrientation.VERTICAL);
-            l.setWordWrapEnabled(true);
-            l.setDrawInside(true);
-            l.setEnabled(true);
+            pieChart.getLegend().setEnabled(false);
             //endregion
 
             //region Xử lí animate PieChart
@@ -470,8 +476,8 @@ public class OutcomeCategoryGraphFragment extends Fragment implements WeekOutcom
             //endregion
 
             //region Xử lí BarDataSet
-            BarDataSet barDataSet = new BarDataSet(dataList, "Tiền theo tháng");
-            barDataSet.setColors(ColorTemplate.LIBERTY_COLORS);
+            BarDataSet barDataSet = new BarDataSet(dataList, "Danh mục");
+            barDataSet.setColors(MyColorPalettes.chartColor1);
             barDataSet.setValueTextColor(Color.WHITE);
             barDataSet.setValueTextSize(20f);
             barDataSet.setValueTypeface(Typeface.MONOSPACE);
@@ -480,46 +486,51 @@ public class OutcomeCategoryGraphFragment extends Fragment implements WeekOutcom
             //region Xử lí BarData
             BarData barData = new BarData(barDataSet);
             barData.setBarWidth(0.2f);
+
             //endregion
 
-            //region Xử lý WeekChart (biểu đồ cột ngang)
-            weekchart.setFitBars(true);
+            //region Xử lí weekchart
+            // weekchart.setFitBars(true);
             weekchart.setData(barData);
             weekchart.getDescription().setText("");
             weekchart.setHighlightFullBarEnabled(true);
             //endregion
 
-            //region Xử lí YAxis (côt Y)
+            //region Xử lí YAxis (Cột Y)
             YAxis yAxis = weekchart.getAxisLeft();
             yAxis.setTextColor(Color.WHITE);
-            yAxis.setTextSize(10);
+            yAxis.setTextSize(13f);
+            yAxis.setTypeface(Typeface.DEFAULT_BOLD);
+            yAxis.setValueFormatter(FormatterForChart.valueFormatter);
+            weekchart.getAxisRight().setEnabled(false);
             //endregion
 
             //region Xử lí XAxis (Hàng X)
             // set XAxis value formater
             XAxis xAxis = weekchart.getXAxis();
             xAxis.setValueFormatter(new IndexAxisValueFormatter(danhMucList));
-
             xAxis.setTextColor(Color.WHITE);
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
             xAxis.setTextSize(12f);
             xAxis.setDrawAxisLine(false);
             xAxis.setDrawGridLines(true);
             xAxis.setGranularity(1f);
+            xAxis.setTypeface(Typeface.DEFAULT_BOLD);
             xAxis.setDrawLabels(true);
             xAxis.setLabelCount(danhMucList.size());
             //endregion
 
-            //region Xử lí Legend
+            //region Xử lý Lengend
             Legend l2 = weekchart.getLegend();
             l2.setTextColor(Color.WHITE);
             l2.setTextSize(15);
             //endregion
 
-            //region Hiện weekchart khi đã load xong
+            //region Hiện BarChart khi đã load xong
             weekchart.invalidate();
             pb4.setVisibility(View.GONE);
             weekchart.setVisibility(View.VISIBLE);
+            weekchart.animateY(1000, Easing.EaseInBounce);
             //endregion
 
         }

@@ -55,7 +55,7 @@ public class WeekOutcomeAdapter extends  RecyclerView.Adapter<WeekOutcomeAdapter
         week.setText(weeks.get(position).getName());
         if(position == weeks.size() - 1){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                cardView.setCardBackgroundColor(context.getColor(R.color.teal_200));
+                cardView.setCardBackgroundColor(context.getColor(R.color.lightPink));
             }
         }
         //endregion
@@ -82,7 +82,7 @@ public class WeekOutcomeAdapter extends  RecyclerView.Adapter<WeekOutcomeAdapter
         //region Change Color
         if(row_index == position){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                cardView.setCardBackgroundColor(context.getColor(R.color.teal_200));
+                cardView.setCardBackgroundColor(context.getColor(R.color.lightPink));
             }
         }
         else{

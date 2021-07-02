@@ -18,11 +18,12 @@ public class FormatterForChart {
 
             if(Math.abs(value ) >= 1000000){
                 value = value /10000000;
-                return df.format(value)  + " triệu";
+                return df.format(value)  + " M";
             }
             if(Math.abs(value ) >= 1000){
                 value = value /1000;
-                return df.format(value)  + " ngàn";
+                df = new DecimalFormat("#");
+                return df.format(value)  + " K";
             }
             return df.format(value) + " VND";
         }

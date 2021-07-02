@@ -23,7 +23,7 @@
 
     <color name="transForBackground">#62000000</color>
 
-
+    <color name="lightPink">#a2d2ff</color>
 
     <color name="textForRoundProgressBar">#828282</color>
     <color name="card_item_goal_bg">#6D000000</color>
