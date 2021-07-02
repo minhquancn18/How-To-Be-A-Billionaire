@@ -28,7 +28,7 @@
         <item name="textAllCaps">false</item>
 
         <!--        font -->
-        <item name="colorPrimary">@color/lightPink</item>
+        <item name="colorPrimary">@color/nearlyRed</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="background">@android:color/transparent</item>
@@ -38,6 +38,8 @@
     <style name="MySeekBar" parent="Theme.AppCompat.Light">
         <item name="android:colorControlActivated">#1a237e</item>
         <item name="android:colorControlNormal">#00b0ff</item>
+
+
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
@@ -69,5 +71,11 @@
     </style>
 
 
+
+    <style name="MySeekBar2" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">#f4511e</item>
+        <item name="android:progressTint">@color/colorAccent</item>
+        <item name="android:thumbTint">#c51162</item>
+    </style>
 
 </resources>

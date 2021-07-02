@@ -1,5 +1,7 @@
 package com.example.myproject22.View.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -9,11 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -33,6 +38,7 @@ import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,6 +94,12 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
         setContentView(R.layout.activity_report_category_detail);
 
         //region Broadcast
@@ -359,6 +371,46 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         linearLayout.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayout);
+
+
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                boolean check_ScrollingUp = false;
+
+                @Override
+                public void onScrollStateChanged(@NonNull @NotNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+
+
+                }
+
+                @Override
+                public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    if (dy > 0) {
+                        // Scrolling up
+                        if(!check_ScrollingUp)
+                        {
+                            toolbar.startAnimation(AnimationUtils.loadAnimation(ReportCategoryDetailActivity.this,R.anim.trans_downwards));
+                            check_ScrollingUp = true;
+                        }
+
+                    } else {
+                        // User scrolls down
+                        if(check_ScrollingUp )
+                        {
+                            toolbar.startAnimation(AnimationUtils
+                                            .loadAnimation(ReportCategoryDetailActivity.this,R.anim.trans_upwards));
+                            check_ScrollingUp = false;
+
+                        }
+                    }
+                }
+            });
+        }
 
     }
 

@@ -62,7 +62,7 @@ public class DayItemAdapter extends RecyclerView.Adapter<DayItemAdapter.ViewHold
 
         //region Xử lí ngày
         DateFormat formater = new SimpleDateFormat("EEEE");
-        tvDay.setText(formater.format(days.get(position).date));
+        //tvDay.setText(formater.format(days.get(position).date));
 
         formater = new SimpleDateFormat("dd.MM.yyyy");
         tvDayDetail.setText(formater.format(days.get(position).date));
@@ -77,6 +77,32 @@ public class DayItemAdapter extends RecyclerView.Adapter<DayItemAdapter.ViewHold
         Calendar total_cal = Calendar.getInstance();
         Date currentdate = total_cal.getTime();
         Date date = days.get(position).getDate();
+
+        //region Xử lí Thứ
+        switch (dow){
+            case 1:
+                tvDay.setText("Chủ Nhật");
+                break;
+            case 2:
+                tvDay.setText("Thứ Hai");
+                break;
+            case 3:
+                tvDay.setText("Thứ Ba");
+                break;
+            case 4:
+                tvDay.setText("Thứ Tư");
+                break;
+            case 5:
+                tvDay.setText("Thứ Năm");
+                break;
+            case 6:
+                tvDay.setText("Thứ Sáu");
+                break;
+            default:
+                tvDay.setText("Thứ Bảy");
+                break;
+        }
+        //endregion
 
         if(dow == Calendar.MONDAY)
         {

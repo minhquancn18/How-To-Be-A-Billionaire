@@ -82,7 +82,7 @@ public class WeekOutcomeAdapter extends  RecyclerView.Adapter<WeekOutcomeAdapter
         //region Change Color
         if(row_index == position){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                cardView.setCardBackgroundColor(context.getColor(R.color.lightPink));
+                cardView.setCardBackgroundColor(context.getColor(R.color.nearlyRed));
             }
         }
         else{

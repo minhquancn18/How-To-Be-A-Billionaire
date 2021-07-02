@@ -3,16 +3,19 @@ package com.example.myproject22.View.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -35,6 +39,7 @@ import com.example.myproject22.R;
 import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.Util.Formatter;
 import com.example.myproject22.View.Service.Network_receiver;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -76,11 +81,13 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     private TextView tvEnd;
     private ImageView ivImage;
     private SeekBar seekBar;
-    private ImageButton btnDescrease;
-    private ImageButton btnIncrease;
+    /*  private ImageButton btnDescrease;
+      private ImageButton btnIncrease;*/
+
+
     private ImageButton btnPause;
-    private BlurLayout blurLayout_1;
-    private BlurLayout blurLayout_2;
+    private MaterialCardView blurLayout_1;
+    //private BlurLayout blurLayout_2;
     private LinearLayout linearLayout;
     private ProgressBar progressBar;
     private CoordinatorLayout mSnackbarLayout;
@@ -104,6 +111,13 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
         setContentView(R.layout.activity_record_detail);
 
         //region Broadcast
@@ -151,7 +165,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
             }
         });
 
-        btnIncrease.setOnClickListener(new View.OnClickListener() {
+       /* btnIncrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.setNext5Second();
@@ -163,7 +177,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
             public void onClick(View v) {
                 presenter.setBack5Second();
             }
-        });
+        });*/
         //endregion
 
         //endregion
@@ -226,22 +240,27 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         tvStart = findViewById(R.id.tvStart);
         tvEnd = findViewById(R.id.tvEnd);
         seekBar = findViewById(R.id.seekBar2);
-        btnDescrease = findViewById(R.id.imageButton5);
-        btnIncrease = findViewById(R.id.imageButton3);
+      /*  btnDescrease = findViewById(R.id.imageButton5);
+        btnIncrease = findViewById(R.id.imageButton3);*/
         btnPause = findViewById(R.id.imageButton4);
+
+
         linearLayout = findViewById(R.id.linearLayout2);
         blurLayout_1 = findViewById(R.id.blurLayoutRecord2);
-        blurLayout_2 = findViewById(R.id.blurLayoutRecord);
+
+        btnPause.setVisibility(View.INVISIBLE);
         progressBar = findViewById(R.id.pbRecord);
         progressBar.bringToFront();
         mediaPlayer = new MediaPlayer();
         seekBar.setMax(100);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
 
+
+
         progressBar.setVisibility(View.VISIBLE);
         tvTime.setVisibility(View.INVISIBLE);
         linearLayout.setVisibility(View.INVISIBLE);
-        blurLayout_2.setVisibility(View.INVISIBLE);
+        //blurLayout_2.setVisibility(View.INVISIBLE);
         blurLayout_1.setVisibility(View.INVISIBLE);
     }
 
@@ -272,7 +291,9 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
 
         progressBar.setVisibility(View.GONE);
         blurLayout_1.setVisibility(View.VISIBLE);
-        blurLayout_2.setVisibility(View.VISIBLE);
+        //blurLayout_2.setVisibility(View.VISIBLE);
+
+        btnPause.setVisibility(View.VISIBLE);
         linearLayout.setVisibility(View.VISIBLE);
         tvTime.setVisibility(View.VISIBLE);
     }
@@ -352,6 +373,8 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
 
                                 item = new DetailItem(money, description, sdate, name, url_image, url_image_category, url_audio, dateObj);
 
+
+
                             }
                         }
                     }
@@ -426,6 +449,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
                                 String url_audio = audio.equals("null") ? "NULL" : urlAudio + audio;
 
                                 item = new DetailItem(money, description, sdate, name, url_image, url_image_category, url_audio, dateObj);
+
 
                             }
                         }
@@ -536,15 +560,19 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     }
 
     //Xử lí button pause
+    @SuppressLint("ResourceAsColor")
     @Override
     public void GetPauseClick() {
         if (mediaPlayer.isPlaying()) {
             handler.removeCallbacks(updater);
             mediaPlayer.pause();
+            btnPause.setBackgroundColor(R.color.backgroundTransForText);
             btnPause.setImageResource(R.drawable.icon_play_red);
+
         } else {
             flag = true;
             mediaPlayer.start();
+            btnPause.setBackgroundColor(android.R.color.transparent);
             btnPause.setImageResource(R.drawable.icon_pause_red);
             presenter.updateSeekbar();
         }
@@ -575,7 +603,6 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     public void SetNext5Second() {
         if (flag == true) {
             int ADD_SECOND = 5000;
-
             int curPosition = mediaPlayer.getCurrentPosition();
             int duration = mediaPlayer.getDuration();
 
@@ -584,6 +611,15 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
                 presenter.updateSeekbar();
             }
         }
+
+        else{
+
+
+        }
+
+
+
+
     }
 
     //Xử lý button back 5s
@@ -593,7 +629,6 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
             int BACK_SECOND = 5000;
 
             int curPosition = mediaPlayer.getCurrentPosition();
-
             if (curPosition - BACK_SECOND > 0) {
                 mediaPlayer.seekTo(curPosition - BACK_SECOND);
                 presenter.updateSeekbar();

@@ -1,6 +1,7 @@
 package com.example.myproject22.Util;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -55,6 +56,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
         return new RecordItemAdapter.ViewHolder(cardView);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -86,12 +88,12 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
         //region Gán dữ liệu cho loại thu chi
         int IsCategory = item.get_TYPE();
         if(IsCategory == 1){
-            ivCategory.setImageResource(R.drawable.round_background_income);
-            ivSetAudio.setImageResource(R.drawable.round_background_income);
+            ivCategory.setImageResource(R.drawable.ic_money_add);
+            //ivSetAudio.setBackgroundColor(R.color.black);
         }
         else if(IsCategory == -1){
-            ivCategory.setImageResource(R.drawable.round_background_outcome);
-            ivSetAudio.setImageResource(R.drawable.round_background_outcome);
+            ivCategory.setImageResource(R.drawable.ic_money_minus);
+            //ivSetAudio.setBackgroundColor(R.color.white);
         }
         //endregion
 
