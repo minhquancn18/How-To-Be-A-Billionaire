@@ -479,7 +479,7 @@ public class OutcomeCategoryGraphFragment extends Fragment implements WeekOutcom
             BarDataSet barDataSet = new BarDataSet(dataList, "Danh mục");
             barDataSet.setColors(MyColorPalettes.chartColor1);
             barDataSet.setValueTextColor(Color.WHITE);
-            barDataSet.setValueTextSize(20f);
+            barDataSet.setValueTextSize(0f);
             barDataSet.setValueTypeface(Typeface.MONOSPACE);
             //endregion
 

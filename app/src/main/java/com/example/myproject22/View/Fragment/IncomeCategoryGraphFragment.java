@@ -412,7 +412,6 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
             BarDataSet barDataSet = new BarDataSet(dataList, "Danh mục");
             barDataSet.setColors(MyColorPalettes.chartColor1);
             barDataSet.setValueTextColor(Color.WHITE);
-            barDataSet.setValueTextSize(20f);
             barDataSet.setValueTypeface(Typeface.MONOSPACE);
             //endregion
 

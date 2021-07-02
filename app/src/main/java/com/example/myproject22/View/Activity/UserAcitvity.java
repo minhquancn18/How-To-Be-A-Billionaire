@@ -209,9 +209,6 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
     @Override
     protected void onResume() {
         super.onResume();
-
-
-        Toast.makeText(this, "AAA", Toast.LENGTH_SHORT).show();
         if (neededToReload) {
             neededToReload = false;
             presenter.loadDataToLayout();

@@ -17,7 +17,7 @@ public class FormatterForChart {
             df.setRoundingMode(RoundingMode.CEILING);
 
             if(Math.abs(value ) >= 1000000){
-                value = value /10000000;
+                value = value /1000000;
                 return df.format(value)  + " M";
             }
             if(Math.abs(value ) >= 1000){
