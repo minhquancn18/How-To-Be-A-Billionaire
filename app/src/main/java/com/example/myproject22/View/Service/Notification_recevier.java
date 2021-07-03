@@ -26,7 +26,7 @@ public class Notification_recevier extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, HTBABApp.CHANNEL_ID)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.activity)
-                .setContentTitle("How To Be A Billionaire")
+                .setContentTitle("Thông báo")
                 .setContentText("Đã cuối ngày rồi. Bạn hãy kiểm tra thống kê ngày hôm nay nào.")
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setDefaults(Notification.DEFAULT_SOUND)

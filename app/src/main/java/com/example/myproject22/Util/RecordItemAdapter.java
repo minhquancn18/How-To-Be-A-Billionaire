@@ -33,6 +33,7 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -116,6 +117,8 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
 
         //region Handle Click (âm thanh và không có âm thanh)
         String audio_url = item.get_AUDIO();
+        SimpleDateFormat curFormater = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String date_string = curFormater.format(item.get_DATEFULL());
         if(audio_url.equals("NULL")){
             ivSetAudio.setVisibility(View.INVISIBLE);
             cardView.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +128,14 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
                     Bundle bundle = new Bundle();
                     bundle.putInt("IS_CATEGORY", item.get_TYPE());
                     bundle.putInt("ID_DETAIL", item.get_ID_DETAIL());
+                    bundle.putString("NAME", item.get_NAME());
+                    bundle.putString("DESCRIPTION", item.get_DESCRIPTION());
+                    bundle.putDouble("MONEY", item.get_MONEY());
+                    bundle.putString("IMAGE", image_url);
+                    bundle.putString("IMAGECATEGORY", image_category_url);
+                    bundle.putString("DATE", date_string);
+                    bundle.putString("AUDIO", audio_url);
+                    bundle.putBoolean("ISAUDIO", false);
                     intent.putExtras(bundle);
                     v.getContext().startActivity(intent);
                     ((Activity)v.getContext()).overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
@@ -139,6 +150,14 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
                     Bundle bundle = new Bundle();
                     bundle.putInt("IS_CATEGORY", item.get_TYPE());
                     bundle.putInt("ID_DETAIL", item.get_ID_DETAIL());
+                    bundle.putString("NAME", item.get_NAME());
+                    bundle.putString("DESCRIPTION", item.get_DESCRIPTION());
+                    bundle.putDouble("MONEY", item.get_MONEY());
+                    bundle.putString("IMAGE", image_url);
+                    bundle.putString("IMAGECATEGORY", image_category_url);
+                    bundle.putString("DATE", date_string);
+                    bundle.putString("AUDIO", audio_url);
+                    bundle.putBoolean("ISAUDIO", true);
                     intent.putExtras(bundle);
                     v.getContext().startActivity(intent);
                     ((Activity)v.getContext()).overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);

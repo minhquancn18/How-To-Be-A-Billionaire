@@ -98,6 +98,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     private Handler handler = new Handler();
     private Boolean flag = false;
     private Boolean isLoading = true;
+    private Boolean isaudio = false;
     //endregion
 
     //region Broadcast
@@ -212,7 +213,10 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadDataFromServer();
+        if(isaudio){
+            presenter.prepareMedia(item.get_AUDIO());
+        }
+        /*presenter.loadDataFromServer();*/
     }
 
     //Xử lí quay lại
@@ -224,7 +228,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         } else {
             super.onBackPressed();
         }
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_in_left);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 
     //endregion
@@ -270,6 +274,26 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         Bundle bundle = intent.getExtras();
         id_detail = bundle.getInt("ID_DETAIL");
         isCategory = bundle.getInt("IS_CATEGORY");
+
+        Double money = bundle.getDouble("MONEY");
+        String description = bundle.getString("DESCRIPTION");
+        String sdate = bundle.getString("DATE");
+        String name = bundle.getString("NAME");
+        String image = bundle.getString("IMAGE");
+        String imagecategory = bundle.getString("IMAGECATEGORY");
+        String audio = bundle.getString("AUDIO");
+        isaudio = bundle.getBoolean("ISAUDIO");
+
+        SimpleDateFormat curFormater = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Date dateObj = null;
+        try {
+            dateObj = curFormater.parse(sdate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
     //endregion
 
@@ -289,7 +313,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
             FormatImage.LoadImageIntoView(ivImage, RecordDetailActivity.this, item.get_IMAGE());
         }
 
-        progressBar.setVisibility(View.GONE);
+
         blurLayout_1.setVisibility(View.VISIBLE);
         //blurLayout_2.setVisibility(View.VISIBLE);
 
@@ -384,10 +408,11 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
 
                 if (item.get_AUDIO().equals("NULL")) {
                     presenter.loadDataToLayoutNoAudio();
+                    isLoading = false;
                 } else {
                     presenter.loadDataToLayout();
                     presenter.prepareMedia(item.get_AUDIO());
-                    isLoading = false;
+
                 }
             }
         }, new Response.ErrorListener() {
@@ -502,11 +527,13 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
             tvEnd.setText(presenter.getTimeMedia(mediaPlayer.getDuration()));
             seekBar.setProgress(0);
             isLoading = false;
+            progressBar.setVisibility(View.GONE);
         } catch (IOException e) {
             Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi không tìm thấy nguồn thu âm", Snackbar.LENGTH_SHORT);
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
             snackbar.show();
             isLoading = false;
+            progressBar.setVisibility(View.GONE);
             /*Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();*/
         }
     }
