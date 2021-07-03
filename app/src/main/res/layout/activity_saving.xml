@@ -16,14 +16,17 @@
         android:scaleType="centerCrop"
         android:src="@drawable/bg_saving" />
 
-    <ProgressBar
+    <ImageView
         android:id="@+id/pb_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:indeterminateDrawable="@drawable/progress_draw"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="350dp"
+        android:scaleType="centerCrop"
+        android:scaleX="4.5"
+        android:scaleY="4.5"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView12"
+        app:layout_constraintEnd_toEndOf="@+id/imageView12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

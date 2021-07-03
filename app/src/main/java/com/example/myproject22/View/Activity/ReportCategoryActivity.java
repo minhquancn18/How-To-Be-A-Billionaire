@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
@@ -25,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.myproject22.Model.DayItem;
 import com.example.myproject22.Presenter.Interface.ReportCategoryInterface;
 import com.example.myproject22.Presenter.Presenter.ReportCategoryPresenter;
@@ -55,7 +57,7 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
     private Toolbar toolbar;
-    private ProgressBar progressBar;
+    private ImageView progressBar;
     private CoordinatorLayout mSnackbarLayout;
     //endregion
 
@@ -136,9 +138,13 @@ public class ReportCategoryActivity extends AppCompatActivity implements ReportC
         toolbar = findViewById(R.id.toolbar2);
         progressBar = findViewById(R.id.pbReportCategory);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
-        /*setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("     Nhật ký thu chi");
-        getSupportActionBar().setIcon(R.drawable.yoyoyo);*/
+
+
+        progressBar.setVisibility(View.VISIBLE);
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(progressBar);
+
     }
 
     @Override

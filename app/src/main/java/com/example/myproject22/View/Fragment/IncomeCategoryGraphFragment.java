@@ -15,10 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.bumptech.glide.Glide;
 import com.example.myproject22.Model.IncomeClass;
 import com.example.myproject22.Model.WeekItem;
 import com.example.myproject22.R;
@@ -127,8 +129,8 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
     private PieChart pieChart;
     private HorizontalBarChart weekchart;
 
-    ProgressBar pb1;
-    ProgressBar pb2;
+    ImageView pb1;
+    ImageView pb2;
     //endregion
 
     //region parameter
@@ -170,6 +172,17 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
     public void SetInit(View view) {
         pb1 = view.findViewById(R.id.pb1);
         pb2 = view.findViewById(R.id.pb2);
+
+
+        ///load gif
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(pb1);
+
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(pb2);
+
         pb1.bringToFront();
         pb2.bringToFront();
 

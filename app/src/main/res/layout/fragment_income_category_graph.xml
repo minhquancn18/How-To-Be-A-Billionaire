@@ -6,22 +6,27 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <ProgressBar
+    <ImageView
         android:id="@+id/pb1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateDrawable="@drawable/progress_draw"
+        android:layout_width="60dp"
+        android:scaleType="centerCrop"
+        android:scaleX="4.5"
+        android:scaleY="4.5"
+        android:layout_height="60dp"
+
         app:layout_constraintBottom_toBottomOf="@+id/pie_chart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView8"
         app:layout_constraintTop_toTopOf="@+id/imageView8" />
 
 
-    <ProgressBar
+    <ImageView
         android:id="@+id/pb2"
-        android:layout_width="wrap_content"
-        android:indeterminateDrawable="@drawable/progress_draw"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:scaleType="centerCrop"
+        android:scaleX="4.5"
+        android:scaleY="4.5"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="@+id/weekChart1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView8"

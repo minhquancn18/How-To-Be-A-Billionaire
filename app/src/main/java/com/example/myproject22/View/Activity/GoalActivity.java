@@ -296,13 +296,13 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_finish_goal, null);
         builder.setView(dialogView);
+        builder.setCancelable(false);
 
 
         //init  view
         ImageView ivAnimation = dialogView.findViewById(R.id.ivAnimation);
         Button btnAddGoal = dialogView.findViewById(R.id.btnAddNewGoal);
         Button btnGoBack = dialogView.findViewById(R.id.btnGoBack);
-
 
 
         // gain value

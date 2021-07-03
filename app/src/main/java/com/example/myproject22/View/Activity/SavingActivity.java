@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.UserClass;
@@ -80,7 +82,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
     private ConstraintLayout cl_savingmoney;
     private ConstraintLayout cl_user;
     private BarChart weekchart;
-    private ProgressBar pb_total;
+    private ImageView pb_total;
     //endregion
 
 
@@ -241,6 +243,10 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         cl_user = findViewById(R.id.cl_user);
         pb_total = findViewById(R.id.pb_total);
         pb_total.bringToFront();
+
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(pb_total);
         //endregion
 
 
@@ -318,6 +324,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
 
         //region Xử lí weekchart
         weekchart.setFitBars(true);
+        weekchart.getDescription().setText("");
         weekchart.setData(barData);
         weekchart.setHighlightFullBarEnabled(true);
         weekchart.getAxisLeft().setTextColor(Color.WHITE);

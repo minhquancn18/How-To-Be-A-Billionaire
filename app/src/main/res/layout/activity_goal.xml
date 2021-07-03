@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/ln_record_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -61,8 +61,8 @@
         android:text="XX.XX PM ngày X.X.20XX"
         android:textColor="@color/white"
         android:textSize="14dp"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintStart_toStartOf="@+id/ln_record_detail"
+        app:layout_constraintTop_toBottomOf="@+id/ln_record_detail" />
 
     <TextView
         android:id="@+id/tvGoalDayCount"
@@ -78,7 +78,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/rprogress"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@+id/ln_record_detail"
         app:layout_constraintTop_toTopOf="@+id/rprogress" />
 
     <com.akexorcist.roundcornerprogressbar.TextRoundCornerProgressBar

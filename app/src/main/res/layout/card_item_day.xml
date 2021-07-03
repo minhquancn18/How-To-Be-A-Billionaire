@@ -27,7 +27,7 @@
             android:fontFamily="monospace"
             android:text="TextView"
             android:textColor="@color/white"
-            android:textSize="17dp"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
             android:fontFamily="monospace"
             android:text="TextView"
             android:textColor="@color/white"
-            android:textSize="11dp"
+            android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDay" />

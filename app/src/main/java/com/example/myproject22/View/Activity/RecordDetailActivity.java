@@ -54,8 +54,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.alterac.blurkit.BlurLayout;
-
 import static com.example.myproject22.Model.ConnectionClass.urlAudio;
 import static com.example.myproject22.Model.ConnectionClass.urlImage;
 import static com.example.myproject22.Model.ConnectionClass.urlImageCategory;
@@ -86,9 +84,9 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
 
 
     private ImageButton btnPause;
-    private MaterialCardView blurLayout_1;
+    private MaterialCardView lb_audio_tray;
     //private BlurLayout blurLayout_2;
-    private LinearLayout linearLayout;
+    private LinearLayout ln_record_detail;
     private ProgressBar progressBar;
     private CoordinatorLayout mSnackbarLayout;
     //endregion
@@ -246,8 +244,8 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         btnPause = findViewById(R.id.imageButton4);
 
 
-        linearLayout = findViewById(R.id.linearLayout2);
-        blurLayout_1 = findViewById(R.id.blurLayoutRecord2);
+        ln_record_detail = findViewById(R.id.ln_record_detail);
+        lb_audio_tray = findViewById(R.id.lb_audio_tray);
 
         btnPause.setVisibility(View.INVISIBLE);
         progressBar = findViewById(R.id.pbRecord);
@@ -260,9 +258,9 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
 
         progressBar.setVisibility(View.VISIBLE);
         tvTime.setVisibility(View.INVISIBLE);
-        linearLayout.setVisibility(View.INVISIBLE);
+        ln_record_detail.setVisibility(View.INVISIBLE);
         //blurLayout_2.setVisibility(View.INVISIBLE);
-        blurLayout_1.setVisibility(View.INVISIBLE);
+        lb_audio_tray.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -291,14 +289,28 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
 
         item = new DetailItem(money, description, sdate, name, image, imagecategory, audio, dateObj);
 
-        if(isaudio){
+
+        // TAM
+       /* if(isaudio){
             LoadDataToLayout();
             presenter.prepareMedia(item.get_AUDIO());
         }
         else{
             LoadDataToLayoutNoAudio();
             isLoading = false;
-        }
+        }*/
+
+        LoadDataToLayoutNoAudio();
+
+
+        new Handler().post(() -> {
+            if(isaudio){
+                LoadDataToLayout();
+                presenter.prepareMedia(item.get_AUDIO());
+                isLoading = false;
+            }
+        });
+
 
     }
     //endregion
@@ -306,29 +318,8 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     //region Load data from server to layout
     @Override
     public void LoadDataToLayout() {
-
-        String isPlus = isCategory == 1 ? "+ " : "- ";
-        String sMoney = Formatter.getCurrencyStr(String.valueOf(item.get_MONEY())) + " VND";
-        tvMoney.setText(isPlus + " " + sMoney);
-        tvDescription.setText(item.get_DESCRIPTION());
-        tvNameCategory.setText(item.get_NAME());
-
-        String[] splitdate = item.get_DATE().split(" ");
-        String[] splitday = splitdate[0].split("-");
-        String date_string = splitdate[1] + " ngày " + splitday[2] + "-" + splitday[1] + "-" + splitday[0];
-        tvTime.setText(date_string);
-
-        if (!item.get_IMAGE().equals("NULL")) {
-            FormatImage.LoadImageIntoView(ivImage, RecordDetailActivity.this, item.get_IMAGE());
-        }
-
-
-        blurLayout_1.setVisibility(View.VISIBLE);
-        //blurLayout_2.setVisibility(View.VISIBLE);
-
+        lb_audio_tray.setVisibility(View.VISIBLE);
         btnPause.setVisibility(View.VISIBLE);
-        linearLayout.setVisibility(View.VISIBLE);
-        tvTime.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -349,7 +340,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         }
 
         progressBar.setVisibility(View.GONE);
-        linearLayout.setVisibility(View.VISIBLE);
+        ln_record_detail.setVisibility(View.VISIBLE);
         tvTime.setVisibility(View.VISIBLE);
     }
 

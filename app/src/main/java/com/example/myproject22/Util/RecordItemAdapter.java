@@ -104,7 +104,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
         //region Gán hình ảnh
         String image_url = item.get_IMAGE();
         if (image_url.equals("NULL")) {
-            btnImage.setImageResource(R.drawable.backgroundflower);
+            btnImage.setImageResource(R.drawable.background9);
         } else {
             FormatImage.LoadImageIntoView(btnImage, cardView.getContext(), image_url);
         }

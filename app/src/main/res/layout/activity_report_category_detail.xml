@@ -19,10 +19,13 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/background18" />
 
-    <ProgressBar
+    <ImageView
         android:id="@+id/pbDetailReport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:scaleType="centerCrop"
+        android:scaleX="4.5"
+        android:scaleY="4.5"
+        android:layout_height="60dp"
         android:indeterminateDrawable="@drawable/progress_draw"
         app:layout_constraintBottom_toBottomOf="@+id/imageView9"
         app:layout_constraintEnd_toEndOf="parent"

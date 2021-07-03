@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.myproject22.Model.DetailItem;
 import com.example.myproject22.Presenter.Interface.ReportCategoryDetailInterface;
 import com.example.myproject22.Presenter.Presenter.ReportCategoryDetailPresenter;
@@ -62,7 +64,7 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
     //region Component
     private RecyclerView recyclerView;
     private Toolbar toolbar;
-    private ProgressBar progressBar;
+    private ImageView progressBar;
     private TextView tvDate;
     private CoordinatorLayout mSnackbarLayout;
     //endregion
@@ -142,6 +144,10 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
         toolbar.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
+
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(progressBar);
     }
 
     @Override
