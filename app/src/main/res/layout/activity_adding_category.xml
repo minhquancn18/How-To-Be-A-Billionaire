@@ -229,6 +229,7 @@
         android:layout_marginStart="180dp"
         android:layout_marginTop="310dp"
         android:visibility="invisible"
+        android:indeterminateDrawable="@drawable/progress_draw"
         app:layout_constraintStart_toStartOf="@id/imageView10"
         app:layout_constraintTop_toTopOf="@id/imageView10" />
 
