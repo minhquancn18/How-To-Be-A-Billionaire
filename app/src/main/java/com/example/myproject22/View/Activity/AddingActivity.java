@@ -1173,21 +1173,43 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     public void UploadIncomeToServer(String money, String description, int category_id, String image, String audio) {
         String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         StringRequest request = new StringRequest(Request.Method.POST,
-                urlString + "insertIncomeDetail.php", new Response.Listener<String>() {
+                urlString + "insertIncomeDetail_2.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressBar3.setVisibility(View.GONE);
-                if (response.equals("Add new income detailed success")) {
-                    ResetSound();
-                    setResult(SavingActivity.RESULT_ADD_INCOME);
-                    finish();
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if (success.equals("Add new income detailed success")) {
+                        if (jsonArray.length() > 0) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+
+
+
+
+                                int count = object.getInt("COUNT");
+                                Log.i("RESPONSEMONEY", String.valueOf(count));
+                            }
+                        }
+
+
+                        ResetSound();
+                        setResult(SavingActivity.RESULT_ADD_INCOME);
+                        finish();
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                    } else {
+                        Log.i("RESPONEMONEY", response);
+                        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Thêm thu nhập thất bại", Snackbar.LENGTH_SHORT);
+                        snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                        snackbar.show();
+                    }
                 }
-                else{
-                    Log.i("RESPONEMONEY", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Thêm thu nhập thất bại",Snackbar.LENGTH_SHORT);
-                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                    snackbar.show();
+                catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
@@ -1203,6 +1225,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("iduser", String.valueOf(id_user));
                 params.put("idmoney", String.valueOf(id_income));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
@@ -1221,21 +1244,43 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     public void UploadIncomeNoAudioToServer(String money, String description, int category_id, String image) {
         String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         StringRequest request = new StringRequest(Request.Method.POST,
-                urlString + "insertIncomeDetailNoAudio.php", new Response.Listener<String>() {
+                urlString + "insertIncomeDetailNoAudio_2.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressBar3.setVisibility(View.GONE);
-                if (response.equals("Add new income detailed success")) {
-                    ResetSound();
-                    setResult(SavingActivity.RESULT_ADD_INCOME);
-                    finish();
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if (success.equals("Add new income detailed success")) {
+                        if (jsonArray.length() > 0) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+
+
+
+
+                                int count = object.getInt("COUNT");
+                                Log.i("RESPONSEMONEY", String.valueOf(count));
+                            }
+                        }
+
+
+                        ResetSound();
+                        setResult(SavingActivity.RESULT_ADD_INCOME);
+                        finish();
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                    } else {
+                        Log.i("RESPONEMONEY", response);
+                        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Thêm thu nhập thất bại", Snackbar.LENGTH_SHORT);
+                        snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                        snackbar.show();
+                    }
                 }
-                else{
-                    Log.i("RESPONEMONEY", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Thêm thu nhập thất bại",Snackbar.LENGTH_SHORT);
-                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                    snackbar.show();
+                catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
@@ -1251,6 +1296,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("iduser", String.valueOf(id_user));
                 params.put("idmoney", String.valueOf(id_income));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
@@ -1268,21 +1314,43 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     public void UploadIncomeNoImageToServer(String money, String description, int category_id, String audio) {
         String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         StringRequest request = new StringRequest(Request.Method.POST,
-                urlString + "insertIncomeDetailNoImage.php", new Response.Listener<String>() {
+                urlString + "insertIncomeDetailNoImage_2.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressBar3.setVisibility(View.GONE);
-                if (response.equals("Add new income detailed success")) {
-                    ResetSound();
-                    setResult(SavingActivity.RESULT_ADD_INCOME);
-                    finish();
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if (success.equals("Add new income detailed success")) {
+                        if (jsonArray.length() > 0) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+
+
+
+
+                                int count = object.getInt("COUNT");
+                                Log.i("RESPONSEMONEY", String.valueOf(count));
+                            }
+                        }
+
+
+                        ResetSound();
+                        setResult(SavingActivity.RESULT_ADD_INCOME);
+                        finish();
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                    } else {
+                        Log.i("RESPONEMONEY", response);
+                        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Thêm thu nhập thất bại", Snackbar.LENGTH_SHORT);
+                        snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                        snackbar.show();
+                    }
                 }
-                else{
-                    Log.i("RESPONEMONEY", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Thêm thu nhập thất bại",Snackbar.LENGTH_SHORT);
-                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                    snackbar.show();
+                catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
@@ -1298,6 +1366,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("iduser", String.valueOf(id_user));
                 params.put("idmoney", String.valueOf(id_income));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
@@ -1315,22 +1384,45 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     public void UploadIncomeNoBothToServer(String money, String description, int category_id) {
         String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         StringRequest request = new StringRequest(Request.Method.POST,
-                urlString + "insertIncomeDetailNoBoth.php", new Response.Listener<String>() {
+                urlString + "insertIncomeDetailNoBoth_2.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 /*Toast.makeText(AddingActivity.this, response, Toast.LENGTH_SHORT).show();*/
                 progressBar3.setVisibility(View.GONE);
-                if (response.equals("Add new income detailed success")) {
-                    ResetSound();
-                    setResult(SavingActivity.RESULT_ADD_INCOME);
-                    finish();
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                Log.i("RESPONEMONEY", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    if (success.equals("Add new income detailed success")) {
+                        if (jsonArray.length() > 0) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+
+
+
+                                
+                                int count = object.getInt("COUNT");
+                                Log.i("RESPONSEMONEY", String.valueOf(count));
+                            }
+                        }
+
+
+                        ResetSound();
+                        setResult(SavingActivity.RESULT_ADD_INCOME);
+                        finish();
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
+                    } else {
+                        Log.i("RESPONEMONEY", response);
+                        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Thêm thu nhập thất bại", Snackbar.LENGTH_SHORT);
+                        snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                        snackbar.show();
+                    }
                 }
-                else{
-                    Log.i("RESPONEMONEY", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Thêm thu nhập thất bại",Snackbar.LENGTH_SHORT);
-                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                    snackbar.show();
+                catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
@@ -1346,6 +1438,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                params.put("iduser", String.valueOf(id_user));
                 params.put("idmoney", String.valueOf(id_income));
                 params.put("money", money);
                 params.put("idcategory", String.valueOf(category_id));
