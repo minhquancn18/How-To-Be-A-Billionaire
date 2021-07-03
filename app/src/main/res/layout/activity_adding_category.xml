@@ -85,6 +85,7 @@
                 android:singleLine="false"
                 android:textAlignment="center"
                 android:textColor="@color/white"
+                android:theme="@style/EditTextTheme"
                 android:textSize="24sp" />
             </com.google.android.material.textfield.TextInputLayout>
 

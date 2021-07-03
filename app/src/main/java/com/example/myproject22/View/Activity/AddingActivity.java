@@ -649,8 +649,8 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
     @Override
     public Boolean GetNoMoneyData(String money) {
-        if(money.isEmpty()){
-            til_money.setError("Nhập thông tin tiền");
+        if(money.isEmpty() || money.equals("0")){
+            til_money.setError("Nhập số tiền");
             progressBar3.setVisibility(View.GONE);
             return false;
         }

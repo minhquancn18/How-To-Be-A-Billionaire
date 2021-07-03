@@ -18,7 +18,7 @@ public interface SignUpInterface {
     //region Condition
     public Boolean GetNoUserName(String username);
     public Boolean GetNoPassword(String password);
-    public Boolean GetNoSalary(String salary);
+    public Boolean GetNoSalary(String salary, String money_string);
     public Boolean GetNoFullName(String fullname);
     public Boolean GetNoEmail(String email);
     //endregion

@@ -213,14 +213,6 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     @Override
     protected void onResume() {
         super.onResume();
-        if(isaudio){
-            LoadDataToLayout();
-            presenter.prepareMedia(item.get_AUDIO());
-        }
-        else{
-            LoadDataToLayoutNoAudio();
-            isLoading = false;
-        }
         /*presenter.loadDataFromServer();*/
     }
 
@@ -299,7 +291,14 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
 
         item = new DetailItem(money, description, sdate, name, image, imagecategory, audio, dateObj);
 
-
+        if(isaudio){
+            LoadDataToLayout();
+            presenter.prepareMedia(item.get_AUDIO());
+        }
+        else{
+            LoadDataToLayoutNoAudio();
+            isLoading = false;
+        }
 
     }
     //endregion
@@ -307,6 +306,7 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     //region Load data from server to layout
     @Override
     public void LoadDataToLayout() {
+
         String isPlus = isCategory == 1 ? "+ " : "- ";
         String sMoney = Formatter.getCurrencyStr(String.valueOf(item.get_MONEY())) + " VND";
         tvMoney.setText(isPlus + " " + sMoney);

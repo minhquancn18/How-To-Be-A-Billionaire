@@ -37,8 +37,8 @@ public class SignUpPresenter {
         return anInterface.GetNoPassword(password);
     }
 
-    public Boolean getNoSalary(String salary){
-        return anInterface.GetNoSalary(salary);
+    public Boolean getNoSalary(String salary, String money_string){
+        return anInterface.GetNoSalary(salary,money_string);
     }
 
     public Boolean getNoFullName(String fullname){

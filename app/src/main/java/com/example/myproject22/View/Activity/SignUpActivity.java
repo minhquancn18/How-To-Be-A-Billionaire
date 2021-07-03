@@ -401,8 +401,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
     //Điều kiện salary tối đa 15 ký tự, không được để trống
     @Override
-    public Boolean GetNoSalary(String salary) {
-        if (salary.isEmpty()) {
+    public Boolean GetNoSalary(String salary, String money_string) {
+        if (money_string.isEmpty()) {
             til_salary.setError("Vui lòng nhập thu nhập ban đầu");
             /*et_salary.setError("Vui lòng nhập thu nhập ban đầu");*/
             pb_signup.setVisibility(View.INVISIBLE);
@@ -672,7 +672,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         Double money_double = et_salary.getCleanDoubleValue();
         Long money_long = money_double.longValue();
         String salary_string = String.valueOf(money_long);
-        if (presenter.getNoSalary(salary_string) == false) {
+        String money_string = et_salary.getText().toString().trim();
+        if (presenter.getNoSalary(salary_string, money_string) == false) {
             return;
         }
 

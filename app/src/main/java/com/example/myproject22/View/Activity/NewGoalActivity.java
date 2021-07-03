@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ import com.example.myproject22.Util.FormatImage;
 import com.example.myproject22.View.Service.Network_receiver;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -57,6 +59,8 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
     Uri image_uri;
     Button btnGoalDone;
     ImageView ivGifLoading;
+    TextInputLayout til_money;
+    TextInputLayout til_name;
     //endregion
 
 
@@ -86,6 +90,8 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
         ivGoal = findViewById(R.id.ivGoal);
         btnGoalDone = findViewById(R.id.btnGoalDone);
         ivGifLoading = findViewById(R.id.ivGifLoading);
+        til_money = findViewById(R.id.til_money);
+        til_name = findViewById(R.id.til_name);
         etGoalMoney.setDecimals(false);
 
         Glide.with(this).load(R.drawable.audio_play_git).into(ivGifLoading);
@@ -110,6 +116,31 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
 
     //endregion
 
+    //region Check Condition
+    //Điều kiện tiền không được để trống
+    public Boolean GetNoMoney(String money) {
+        if (money.isEmpty() || money.equals("0.0")) {
+            til_money.setError("Vui lòng nhập số tiền mục tiêu");
+            return false;
+        }
+        else {
+            til_money.setError(null);
+            return true;
+        }
+    }
+
+    public Boolean GetNoName(String name) {
+        if (name.isEmpty()) {
+            til_name.setError("Vui lòng nhập tên mục tiêu");
+            return false;
+        }
+        else {
+            til_name.setError(null);
+            return true;
+        }
+    }
+    //endregion
+
 
     //region DEFAULT FUNCTION
     @Override
@@ -122,6 +153,41 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
 
         mNewGoalPresenter = new NewGoalPresenter(this);
         mNewGoalPresenter.SetUp();
+
+        //region Xử lí textinputlayout
+        etGoalName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    HideKeyboard(v);
+                }
+                else{
+                    til_name.setError(null);
+                }
+            }
+        });
+
+        etGoalMoney.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    HideKeyboard(v);
+                }
+                else{
+                    til_money.setError(null);
+                }
+            }
+        });
+
+        etGoalDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    HideKeyboard(v);
+                }
+            }
+        });
+        //endregion
     }
 
     @Override
@@ -216,7 +282,12 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
 
 
     public void btnGoalDoneClicked(View view) {
-        mNewGoalPresenter.AddGoalToServer(this, view);
+        String money = String.valueOf(etGoalMoney.getCleanDoubleValue());
+        Log.i("TESTGOAL",money);
+        String name = etGoalName.getText().toString().trim();
+        if(GetNoMoney(money) && GetNoName(name)) {
+            mNewGoalPresenter.AddGoalToServer(this, view);
+        }
     }
     //endregion
 
@@ -281,6 +352,13 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
+    }
+    //endregion
+
+    //region Hide KeyBoard
+    public void HideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
     //endregion
 }
