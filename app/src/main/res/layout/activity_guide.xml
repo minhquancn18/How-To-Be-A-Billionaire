@@ -4,19 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".View.Activity.GuideActivity">
 
     <ImageView
         android:id="@+id/ivBGImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/guide_image"
@@ -25,73 +29,81 @@
             android:layout_marginStart="95dp"
             android:layout_marginTop="80dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/guide_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/guide_image"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/guide_title"
-            android:textSize="24sp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="80dp"
-            android:textColor="@color/white"/>
+            android:background="@color/backgroundTransForText"
+            android:fontFamily="monospace"
+            android:text="@string/guide_title"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guide_image" />
 
         <TextView
             android:id="@+id/guide_text_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guide_title"
-            android:text="@string/guide_text_1"
-            android:textSize="20sp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
-            android:textColor="@color/white"/>
+            android:layout_marginEnd="20dp"
+            android:background="@color/backgroundTransForText"
+            android:fontFamily="monospace"
+            android:text="@string/guide_text_1"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guide_title" />
 
         <TextView
             android:id="@+id/guide_text_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guide_text_1"
-            android:text="@string/guide_text_2"
-            android:textSize="20sp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
-            android:textColor="@color/white"/>
+            android:layout_marginEnd="20dp"
+            android:background="@color/backgroundTransForText"
+            android:fontFamily="monospace"
+            android:text="@string/guide_text_2"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guide_text_1" />
 
         <TextView
             android:id="@+id/guide_greet"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/guide_text_2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="80dp"
+            android:fontFamily="monospace"
             android:text="@string/guide_greet"
-            android:textSize="18sp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginStart="60dp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="monospace"
             android:text="@string/skip_guide"
-            android:textSize="32sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
