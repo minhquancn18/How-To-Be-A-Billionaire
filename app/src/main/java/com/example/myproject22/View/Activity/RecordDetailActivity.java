@@ -214,7 +214,12 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
     protected void onResume() {
         super.onResume();
         if(isaudio){
+            LoadDataToLayout();
             presenter.prepareMedia(item.get_AUDIO());
+        }
+        else{
+            LoadDataToLayoutNoAudio();
+            isLoading = false;
         }
         /*presenter.loadDataFromServer();*/
     }
@@ -292,6 +297,8 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
             e.printStackTrace();
         }
 
+        item = new DetailItem(money, description, sdate, name, image, imagecategory, audio, dateObj);
+
 
 
     }
@@ -307,7 +314,9 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         tvNameCategory.setText(item.get_NAME());
 
         String[] splitdate = item.get_DATE().split(" ");
-        tvTime.setText(splitdate[1] + " ngày " + splitdate[0]);
+        String[] splitday = splitdate[0].split("-");
+        String date_string = splitdate[1] + " ngày " + splitday[2] + "-" + splitday[1] + "-" + splitday[0];
+        tvTime.setText(date_string);
 
         if (!item.get_IMAGE().equals("NULL")) {
             FormatImage.LoadImageIntoView(ivImage, RecordDetailActivity.this, item.get_IMAGE());
@@ -331,7 +340,9 @@ public class RecordDetailActivity extends AppCompatActivity implements RecordDet
         tvNameCategory.setText(item.get_NAME());
 
         String[] splitdate = item.get_DATE().split(" ");
-        tvTime.setText(splitdate[1] + " ngày " + splitdate[0]);
+        String[] splitday = splitdate[0].split("-");
+        String date_string = splitdate[1] + " ngày " + splitday[2] + "-" + splitday[1] + "-" + splitday[0];
+        tvTime.setText(date_string);
 
         if (!item.get_IMAGE().equals("NULL")) {
             FormatImage.LoadImageIntoView(ivImage, RecordDetailActivity.this, item.get_IMAGE());

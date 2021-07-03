@@ -198,7 +198,7 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
                                 String url_image_category = imagecategory.equals("null") ? "NULL" : urlImageCategory + imagecategory;
                                 String url_audio = audio.equals("null") ? "NULL" : urlAudio + audio;
 
-                                DetailItem item = new DetailItem(id_detail, money, description, stime, name, 1, url_image, url_image_category, url_audio, dateObj);
+                                DetailItem item = new DetailItem(id_detail, money, description, sdate, name, 1, url_image, url_image_category, url_audio, dateObj);
                                 incomedetail.add(item);
 
                             }
@@ -271,14 +271,14 @@ public class ReportCategoryDetailActivity extends AppCompatActivity implements R
                                 int id_detail = Integer.parseInt(sid);
 
                                 Double money = Double.parseDouble(smoney);
-                                String[] splitdate = sdate.split(" ");
-                                String stime = splitdate[1];
+                                /*String[] splitdate = sdate.split(" ");
+                                String stime = splitdate[1];*/
 
                                 String url_image = image.equals("null") ? "NULL" : urlImage + image;
                                 String url_image_category = image_category.equals("null") ? "NULL" : urlImageCategory + image_category;
                                 String url_audio = audio.equals("null") ? "NULL" : urlAudio + audio;
 
-                                DetailItem item = new DetailItem(id_detail, money, description, stime, name, -1, url_image, url_image_category, url_audio, dateObj);
+                                DetailItem item = new DetailItem(id_detail, money, description, sdate, name, -1, url_image, url_image_category, url_audio, dateObj);
                                 outcomedetail.add(item);
                             }
                         }

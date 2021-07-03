@@ -83,7 +83,10 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
         tvMoney.setText(money);
         tvDescription.setText(item.get_DESCRIPTION());
         tvName.setText(item.get_NAME());
-        tvTime.setText(item.get_DATE());
+
+        String[] splitdate = item.get_DATE().split(" ");
+        String stime = splitdate[1];
+        tvTime.setText(stime);
         //endregion
 
         //region Gán dữ liệu cho loại thu chi
@@ -117,8 +120,6 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
 
         //region Handle Click (âm thanh và không có âm thanh)
         String audio_url = item.get_AUDIO();
-        SimpleDateFormat curFormater = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        String date_string = curFormater.format(item.get_DATEFULL());
         if(audio_url.equals("NULL")){
             ivSetAudio.setVisibility(View.INVISIBLE);
             cardView.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +134,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
                     bundle.putDouble("MONEY", item.get_MONEY());
                     bundle.putString("IMAGE", image_url);
                     bundle.putString("IMAGECATEGORY", image_category_url);
-                    bundle.putString("DATE", date_string);
+                    bundle.putString("DATE", item.get_DATE());
                     bundle.putString("AUDIO", audio_url);
                     bundle.putBoolean("ISAUDIO", false);
                     intent.putExtras(bundle);
@@ -155,7 +156,7 @@ public class RecordItemAdapter extends RecyclerView.Adapter<RecordItemAdapter.Vi
                     bundle.putDouble("MONEY", item.get_MONEY());
                     bundle.putString("IMAGE", image_url);
                     bundle.putString("IMAGECATEGORY", image_category_url);
-                    bundle.putString("DATE", date_string);
+                    bundle.putString("DATE", item.get_DATE());
                     bundle.putString("AUDIO", audio_url);
                     bundle.putBoolean("ISAUDIO", true);
                     intent.putExtras(bundle);
