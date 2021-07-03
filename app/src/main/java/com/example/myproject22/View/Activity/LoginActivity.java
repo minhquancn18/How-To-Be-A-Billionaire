@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements LoginInterface {
         if (settings.isFirstTime()) {
             settings.setFirstTime(false);
 
-            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+            Intent intent = new Intent(LoginActivity.this, GuideActivity.class);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
         }

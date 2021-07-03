@@ -27,9 +27,12 @@
     <string name="channel_description">Thông báo thời gian notify</string>
 
 
-
-
     <string name="MoneyGoalStr">\??????? VND</string>
     <string name="MoneySavingStr">\?????????</string>
+    <string name="guide_title"><b><i>How To Be A Billionaire</i></b></string>
+    <string name="guide_greet"><i>Hi vọng bạn sẽ thích ứng dụng này</i></string>
+    <string name="skip_guide"><u><i>Skip</i></u></string>
+    <string name="guide_text_1">Lời nói đầu tiên cho phép chúng tôi gửi lời cảm ơn tới các bạn sử dụng ứng dụng của chúng tôi.</string>
+    <string name="guide_text_2">Ứng dụng của chúng tôi là một ứng dụng về quản lí tiết kiếm để giúp bạn có thể trở thành một trong những tỷ phú của thế giới thông qua việc quản lí tiết kiệm của chính mình.</string>
 
 </resources>
