@@ -459,12 +459,12 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
     @Override
     public void GetDataBundle() {
-        /*Intent intent = getIntent();
+        Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
         id_user = bundle.getInt("ID_USER",0);
         id_income = bundle.getInt("ID_INCOME", 0);
-        id_outcome = bundle.getInt("ID_OUTCOME", 0);*/
+        id_outcome = bundle.getInt("ID_OUTCOME", 0);
     }
 
     @Override

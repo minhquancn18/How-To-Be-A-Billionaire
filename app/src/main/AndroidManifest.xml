@@ -33,6 +33,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyProject22"
         tools:replace="android:allowBackup">
+
+
         <!-- region User -->
         <activity
             android:name=".View.Activity.UpdatePasswordActivity"
@@ -40,7 +42,10 @@
         <activity
             android:name=".View.Activity.UpdateUserActivity"
             android:parentActivityName=".View.Activity.UserAcitvity" />
-        <activity android:name=".View.Activity.UserAcitvity" /> <!-- endregion -->
+        <activity android:name=".View.Activity.UserAcitvity" />
+        <!-- endregion -->
+
+
         <!-- region ACCOUNT -->
         <activity android:name=".View.Activity.GuideActivity"/>
         <activity
@@ -53,7 +58,11 @@
         <activity
             android:name=".View.Activity.LoginActivity"
             android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <!-- endregion -->
 
@@ -70,13 +79,7 @@
         <activity
             android:name=".View.Activity.AddingCategoryActivity"
             android:parentActivityName=".View.Activity.AddingActivity" />
-        <activity android:name=".View.Activity.AddingActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".View.Activity.AddingActivity"/>
         <!-- endregion -->
 
 

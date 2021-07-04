@@ -546,7 +546,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
             public void onResponse(String response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.equals("Add new outcome category success")) {
-                    Toast.makeText(AddingCategoryActivity.this, "Thêm danh mục mới thành công", Toast.LENGTH_SHORT).show();
+                    settings.setIsUpdateCategory(true);
                     DeleteImage();
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_in_left);
