@@ -125,7 +125,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     //region Component về record và audio
     private ImageButton btnPlay;
     private ImageButton btnRecord;
-    private WaveVisualizer mVisualizer;
+    private ImageView mVisualizer;
     private BlurLayout blurLayout;
     private MediaPlayer mediaPlayer;
     private Boolean isRecord = false;
@@ -422,6 +422,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 .into(progressBar2);
 
 
+        Glide.with(this).load(R.drawable.audio_play_2_gif).into(mVisualizer);
 
 
         YoYo.with(Techniques.Shake)
@@ -462,7 +463,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        id_user = bundle.getInt("ID_USER",0);
+        id_user = bundle.getInt("ID_USER", 0);
         id_income = bundle.getInt("ID_INCOME", 0);
         id_outcome = bundle.getInt("ID_OUTCOME", 0);
     }
@@ -885,11 +886,11 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                         InputStream inputStream = getContentResolver().openInputStream(selectedImage);
                         bmImage = BitmapFactory.decodeStream(inputStream);
 
-                            Glide.with(this)
-                                    .asBitmap()
-                                    .load(bmImage)
-                                    .transform(new CenterCrop(), new RoundedCorners(20))
-                                    .into(btnImage);
+                        Glide.with(this)
+                                .asBitmap()
+                                .load(bmImage)
+                                .transform(new CenterCrop(), new RoundedCorners(20))
+                                .into(btnImage);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -966,7 +967,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         mediaRecorder = null;
         mVisualizer.setVisibility(View.INVISIBLE);
         btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_surround_sound_24, null));
-        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "DỪng ghi âm. Đã ghi âm trong " + String.valueOf((stoptime - starttime) / 1000000000) + "s", Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Dừng ghi âm. Đã ghi âm trong " + String.valueOf((stoptime - starttime) / 1000000000) + "s", Snackbar.LENGTH_SHORT);
         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
         snackbar.show();
         /*Toast.makeText(this, "Stop record in  " + String.valueOf((stoptime - starttime) / 1000000000) + "s", Toast.LENGTH_SHORT).show();*/
@@ -1006,7 +1007,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 addingMoneyPresentent.stopRecord();
             }
         });
-        snackbar.setActionTextColor(Color.RED);
+        snackbar.setActionTextColor(Color.WHITE);
         snackbar.show();
         /*Toast.makeText(this, "Start record", Toast.LENGTH_SHORT).show();*/
         isRecord = true;
@@ -1019,8 +1020,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     public void CaptureAudio() {
         if (!recordFile.equals("NO")) {
             if (isPlaying) {
+                mVisualizer.setVisibility(View.INVISIBLE);
                 addingMoneyPresentent.stopAudio();
             } else {
+                mVisualizer.setVisibility(View.VISIBLE);
                 addingMoneyPresentent.startAudio();
             }
         } else {
@@ -1058,11 +1061,11 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                     addingMoneyPresentent.stopAudio();
                 }
             });
-            snackbar.setActionTextColor(Color.RED);
+            snackbar.setActionTextColor(Color.WHITE);
             snackbar.show();
 
             int audioSessionId = mediaPlayer.getAudioSessionId();
-            mVisualizer.setAudioSessionId(audioSessionId);
+            //mVisualizer.setAudioSessionId(audioSessionId);
 
             mediaPlayer.start();
 

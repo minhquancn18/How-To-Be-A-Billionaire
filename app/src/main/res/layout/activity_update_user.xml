@@ -22,6 +22,8 @@
         android:id="@+id/cl_total"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ivBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -72,21 +74,21 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:hint="Họ và tên"
             android:layout_marginTop="20dp"
+            android:hint="Họ và tên"
+            android:textColorHint="@color/white"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:hintTextColor="@color/white"
-            android:textColorHint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:startIconTint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_fullname"
-                android:background="#82000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#82000000"
                 android:textColor="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -98,10 +100,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="EMAIL"
-            app:endIconMode="clear_text"
-            app:hintTextColor="@color/white"
             android:textColorHint="@color/white"
+            app:endIconMode="clear_text"
             app:errorEnabled="true"
+            app:hintTextColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/til_fullname"
             app:layout_constraintStart_toStartOf="@+id/til_fullname"
             app:layout_constraintTop_toBottomOf="@+id/til_fullname">
@@ -109,8 +111,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
-                android:background="#82000000"
                 android:layout_height="wrap_content"
+                android:background="#82000000"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>

@@ -201,15 +201,15 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView7"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.gauravk.audiovisualizer.visualizer.WaveVisualizer
+            <ImageView
                 android:id="@+id/blast"
-                android:layout_width="200dp"
-                android:layout_height="50dp"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
                 android:layout_marginRight="5dp"
-                app:avColor="#22cebc"
-                app:avDensity="0.9"
-                app:avSpeed="normal"
-                app:avType="outline"
+                android:src="@drawable/audio_play_2_gif"
+                app:tint="@color/white"
+                android:visibility="invisible"
+                android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btnPlay"
@@ -377,9 +377,9 @@
         android:id="@+id/cl_snackbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/blurLayout4" />
+        app:layout_constraintBottom_toBottomOf="@+id/blurLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cl_category"
