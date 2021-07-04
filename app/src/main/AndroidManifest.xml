@@ -47,14 +47,18 @@
 
 
         <!-- region ACCOUNT -->
-        <activity android:name=".View.Activity.GuideActivity"/>
+        <activity android:name=".View.Activity.GuideActivity" />
+
         <activity
             android:name=".View.Activity.ForgotPasswordActivity"
-            android:parentActivityName=".View.Activity.LoginActivity" />
+            android:parentActivityName=".View.Activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+
         <activity
             android:name=".View.Activity.SignUpActivity"
             android:parentActivityName=".View.Activity.LoginActivity"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".View.Activity.LoginActivity"
             android:windowSoftInputMode="adjustPan">
@@ -79,7 +83,7 @@
         <activity
             android:name=".View.Activity.AddingCategoryActivity"
             android:parentActivityName=".View.Activity.AddingActivity" />
-        <activity android:name=".View.Activity.AddingActivity"/>
+        <activity android:name=".View.Activity.AddingActivity" />
         <!-- endregion -->
 
 
@@ -90,7 +94,7 @@
         <activity
             android:name=".View.Activity.NewGoalActivity"
             android:parentActivityName=".View.Activity.GoalActivity" />
-        <activity android:name=".View.Activity.GoalActivity"/>
+        <activity android:name=".View.Activity.GoalActivity" />
         <!-- endregion GOAL -->
 
 

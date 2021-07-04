@@ -7,7 +7,7 @@
     android:background="@color/black">
 
     <ImageView
-        android:id="@+id/pb1"
+        android:id="@+id/pb3"
         android:layout_width="60dp"
         android:scaleType="centerCrop"
         android:scaleX="4.5"
@@ -21,7 +21,7 @@
 
 
     <ImageView
-        android:id="@+id/pb2"
+        android:id="@+id/pb4"
         android:layout_width="60dp"
         android:scaleType="centerCrop"
         android:scaleX="4.5"

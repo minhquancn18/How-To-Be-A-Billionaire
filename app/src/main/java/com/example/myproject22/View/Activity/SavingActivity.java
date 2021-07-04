@@ -383,7 +383,7 @@ public class SavingActivity extends AppCompatActivity implements SavingInterface
         if (!userClass.getIMAGE().equals("null")) {
             FormatImage.LoadImageIntoView(ivProfile, SavingActivity.this, userClass.getIMAGE());
         } else {
-            FormatImage.LoadImageIntoView(ivProfile, SavingActivity.this, R.drawable.avatar);
+            FormatImage.LoadImageIntoView(ivProfile, SavingActivity.this, R.drawable.background9);
         }
 
         Double total = userClass.getINCOME() - userClass.getOUTCOME();

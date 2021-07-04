@@ -15,8 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -25,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.myproject22.Model.OutcomeClass;
 import com.example.myproject22.Model.WeekItem;
 import com.example.myproject22.R;
@@ -45,7 +45,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -125,8 +124,8 @@ public class OutcomeCategoryGraphFragment extends Fragment implements WeekOutcom
     //region Khởi tạo component
 
     //region Component
-    private ProgressBar pb3;
-    private ProgressBar pb4;
+    private ImageView pb3;
+    private ImageView pb4;
     private ArrayList<WeekItem> weeks = new ArrayList<>();
     private RecyclerView weekRecycler;
     private WeekOutcomeAdapter adapter;
@@ -175,6 +174,16 @@ public class OutcomeCategoryGraphFragment extends Fragment implements WeekOutcom
         pb4 = view.findViewById(R.id.pb4);
         pb3.bringToFront();
         pb4.bringToFront();
+
+
+        ///load gif
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(pb3);
+
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(pb4);
 
         pieChart = view.findViewById(R.id.pie_chart);
         pieChart.setVisibility(View.INVISIBLE);

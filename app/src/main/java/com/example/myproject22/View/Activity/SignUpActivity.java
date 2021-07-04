@@ -42,6 +42,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.myproject22.Model.ConnectionClass;
 import com.example.myproject22.Presenter.Interface.SignUpInterface;
 import com.example.myproject22.Presenter.Presenter.SignUpPresenter;
@@ -105,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
     private MaterialButton btn_signup;
     private Button ibtn_user;
     private TextView tv_login;
-    private ProgressBar pb_signup;
+    private ImageView pb_signup;
     private CoordinatorLayout mSnackbarLayout;
 
     //
@@ -340,10 +341,14 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         pb_signup = findViewById(R.id.pb_signup);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
         et_salary.setDecimals(false);
-
-
-        //
         ivUserImage = findViewById(R.id.ivUserImage);
+
+
+        /// load gif
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(pb_signup);
+
 
     }
 

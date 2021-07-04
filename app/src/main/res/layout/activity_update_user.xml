@@ -55,7 +55,7 @@
                 android:id="@+id/profile_image"
                 android:layout_width="240dp"
                 android:layout_height="240dp"
-                android:src="@drawable/avatar"
+                android:src="@drawable/background9"
                 app:civ_border_color="@color/white"
                 app:civ_border_width="3dp" />
 

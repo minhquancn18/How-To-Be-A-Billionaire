@@ -511,7 +511,7 @@ public class UserAcitvity extends AppCompatActivity implements UserInterface {
             FormatImage.LoadImageIntoView(iv_profile, UserAcitvity.this, userClass.getIMAGE());
         }
         else{
-            FormatImage.LoadImageIntoView(iv_profile, UserAcitvity.this, R.drawable.avatar);
+            FormatImage.LoadImageIntoView(iv_profile, UserAcitvity.this, R.drawable.background9);
         }
 
         Double total = userClass.getINCOME() - userClass.getOUTCOME();

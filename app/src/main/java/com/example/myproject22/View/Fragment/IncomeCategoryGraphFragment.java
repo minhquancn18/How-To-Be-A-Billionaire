@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -170,8 +169,8 @@ public class IncomeCategoryGraphFragment extends Fragment implements WeekIncomeA
 
     //region Set init
     public void SetInit(View view) {
-        pb1 = view.findViewById(R.id.pb1);
-        pb2 = view.findViewById(R.id.pb2);
+        pb1 = view.findViewById(R.id.pb3);
+        pb2 = view.findViewById(R.id.pb4);
 
 
         ///load gif

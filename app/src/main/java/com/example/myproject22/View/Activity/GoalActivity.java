@@ -387,7 +387,7 @@ public class GoalActivity extends AppCompatActivity implements GoalInterface {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar a = Snackbar.make(tvGoalDayCount, error.getMessage() + "ERROR", BaseTransientBottomBar.LENGTH_LONG);
+                Snackbar a = Snackbar.make(tvGoalDayCount, "Lỗi kết nối internet", BaseTransientBottomBar.LENGTH_LONG);
                 a.show();
             }
         }) {

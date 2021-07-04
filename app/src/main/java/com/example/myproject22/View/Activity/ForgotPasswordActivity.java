@@ -6,6 +6,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,8 +19,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -28,6 +31,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.ConnectionClass;
@@ -41,6 +45,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +79,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
     private TextInputEditText et_password_confirm_forgot;
     private MaterialButton btn_forgot;
     private TextView tv_signup_forgot;
-    private ProgressBar pb_forgot;
+    private ImageView pb_forgot;
     private CoordinatorLayout mSnackbarLayout;
 
     MaterialCardView cardForgetPass;
@@ -96,8 +101,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
             Window w = getWindow(); // in Activity's onCreate() for instance
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        } else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         setContentView(R.layout.activity_forgot_password);
 
@@ -247,8 +250,12 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
 
 
-        cardForgetPass  =findViewById(R.id.cardForgetPass);
-        /*tv_signup_forgot = findViewById(R.id.tvRegister_forgot);*/
+        cardForgetPass = findViewById(R.id.cardForgetPass);
+
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(pb_forgot);
+
     }
 
     @Override
@@ -365,7 +372,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ForgotP
 
         YoYo.with(Techniques.Tada)
                 .duration(2000)
-                .repeat(Animation.INFINITE)
                 .playOn(cardForgetPass);
 
         presenter.uploadNewPassword(username, email, password);

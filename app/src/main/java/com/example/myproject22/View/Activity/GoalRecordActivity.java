@@ -28,6 +28,8 @@ import com.example.myproject22.Presenter.Presenter.GoalRecordPresenter;
 import com.example.myproject22.R;
 import com.example.myproject22.Util.GoalItemAdapter;
 import com.example.myproject22.View.Service.Network_receiver;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -161,8 +163,9 @@ public class GoalRecordActivity extends AppCompatActivity implements GoalRecordI
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
-
+                Snackbar snackbar = Snackbar.make(tvNoGoal, "Lỗi kết nối internet ", Snackbar.LENGTH_SHORT);
+                snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                snackbar.show();
             }
         }) {
             @Override

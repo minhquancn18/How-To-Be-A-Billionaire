@@ -318,7 +318,7 @@ public class NewGoalActivity extends AppCompatActivity implements NewGoalInterfa
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(ivGoal, "ERROR " + error.getMessage(), Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(ivGoal, "Lỗi kết nối internet ", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
             }
