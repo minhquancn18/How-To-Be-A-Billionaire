@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@drawable/background"
+        android:src="@drawable/bg_saving"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -29,8 +29,9 @@
         android:layout_width="370dp"
         android:layout_height="200dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/border"
+        app:blk_blurRadius="10"
         app:blk_cornerRadius="10dp"
+        app:blk_fps="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView3">
@@ -117,6 +118,7 @@
                     android:id="@+id/editTextNumber2"
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="#52FFFFFF"
                     android:ems="10"
                     android:fontFamily="@font/athiti"
                     android:inputType="number"
@@ -129,13 +131,14 @@
 
             <ImageView
                 android:id="@+id/imageView5"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView8"
-                app:srcCompat="@drawable/icon_edit" />
+                app:srcCompat="@drawable/icon_edit"
+                app:tint="@color/white" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -146,9 +149,10 @@
         android:id="@+id/blurLayout"
         android:layout_width="370dp"
         android:layout_height="100dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/border"
+        android:layout_marginTop="30dp"
+        app:blk_blurRadius="25"
         app:blk_cornerRadius="10dp"
+        app:blk_fps="10"
         app:layout_constraintEnd_toEndOf="@+id/blurLayout2"
         app:layout_constraintStart_toStartOf="@+id/blurLayout2"
         app:layout_constraintTop_toBottomOf="@+id/blurLayout2">
@@ -159,12 +163,13 @@
 
             <ImageButton
                 android:id="@+id/imageView2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
+                android:tint="@color/white_icon_click"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView12"
@@ -172,11 +177,12 @@
 
             <ImageButton
                 android:id="@+id/btnPlay"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="30dp"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
+                android:tint="@color/white_icon_click"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="@+id/imageView2"
@@ -212,13 +218,14 @@
 
             <ImageView
                 android:id="@+id/imageView7"
-                android:layout_width="35dp"
-                android:layout_height="40dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView12"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView12"
-                app:srcCompat="@drawable/icon_music" />
+                app:srcCompat="@drawable/icon_music"
+                app:tint="@color/white" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -230,9 +237,11 @@
         android:id="@+id/blurLayout12"
         android:layout_width="370dp"
         android:layout_height="120dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/border"
+        app:blk_blurRadius="25"
         app:blk_cornerRadius="10dp"
+        app:blk_fps="10"
         app:layout_constraintEnd_toEndOf="@+id/blurLayout"
         app:layout_constraintStart_toStartOf="@+id/blurLayout"
         app:layout_constraintTop_toBottomOf="@+id/blurLayout">
@@ -248,12 +257,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
+                android:backgroundTint="@color/white"
                 android:ems="10"
+                android:fontFamily="@font/roboto_mono"
                 android:gravity="start|top"
-                android:hint="  Ghi chú"
+                android:hint="Ghi chú"
                 android:inputType="textMultiLine"
                 android:textColor="@color/white"
-                android:textColorHint="@color/hintColor"
+                android:textColorHint="@color/white"
+                android:theme="@style/EditTextTheme"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -262,8 +274,8 @@
                 android:id="@+id/progress3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
                 android:indeterminateDrawable="@drawable/progress_draw"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -274,11 +286,15 @@
 
     <io.alterac.blurkit.BlurLayout
         android:id="@+id/blurLayout3"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/border"
-        app:blk_cornerRadius="20dp"
+        app:blk_blurRadius="10"
+        app:blk_cornerRadius="10dp"
+        app:blk_fps="0"
+        app:layout_constraintEnd_toStartOf="@+id/blurLayout4"
         app:layout_constraintStart_toStartOf="@+id/blurLayout12"
         app:layout_constraintTop_toBottomOf="@+id/blurLayout12">
 
@@ -292,10 +308,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
+                android:padding="50dp"
                 android:scaleType="fitCenter"
-                android:scaleX="0.3"
-                android:scaleY="0.3"
                 android:src="@drawable/icon_video"
+                android:tint="@color/white_icon_click"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -306,7 +322,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:fontFamily="@font/athiti"
+                android:fontFamily="@font/roboto_mono"
                 android:text="Thêm hình ảnh"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -321,20 +337,40 @@
         android:layout_width="200dp"
         android:layout_height="150dp"
         android:background="@drawable/border"
+        app:blk_blurRadius="10"
         app:blk_cornerRadius="10dp"
+        app:blk_fps="0"
         app:layout_constraintBottom_toBottomOf="@+id/blurLayout3"
         app:layout_constraintEnd_toEndOf="@+id/blurLayout12"
         app:layout_constraintTop_toTopOf="@+id/blurLayout3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <ImageButton
             android:id="@+id/imageButton2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
+            android:padding="50dp"
             android:scaleType="fitCenter"
-            android:scaleX="0.3"
-            android:scaleY="0.3"
-            android:src="@drawable/icon_send" />
+            android:src="@drawable/icon_send"
+            android:tint="@color/white_icon_click" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/roboto_mono"
+            android:text="Hoàn thành"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </io.alterac.blurkit.BlurLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

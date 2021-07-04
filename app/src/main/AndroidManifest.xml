@@ -53,11 +53,7 @@
         <activity
             android:name=".View.Activity.LoginActivity"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!-- endregion -->
 
@@ -74,7 +70,13 @@
         <activity
             android:name=".View.Activity.AddingCategoryActivity"
             android:parentActivityName=".View.Activity.AddingActivity" />
-        <activity android:name=".View.Activity.AddingActivity" />
+        <activity android:name=".View.Activity.AddingActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!-- endregion -->
 
 

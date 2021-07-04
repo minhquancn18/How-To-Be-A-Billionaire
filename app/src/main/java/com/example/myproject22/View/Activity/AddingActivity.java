@@ -1,9 +1,11 @@
 package com.example.myproject22.View.Activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -22,10 +24,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -48,6 +53,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.CategoryClass;
 import com.example.myproject22.Model.SharePreferenceClass;
 import com.example.myproject22.Presenter.Interface.AddingMoneyInterface;
@@ -130,8 +141,8 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     private RecyclerView categoryRecycler1;
     private BottomSheetBehavior bottomSheetBehavior;
     private ConstraintLayout playerSheet;
-    private ProgressBar progressBar1;
-    private ProgressBar progressBar2;
+    private ImageView progressBar1;
+    private ImageView progressBar2;
     TextView tvChooseImage;
     MaterialButton btnAddCategory;
     //endregion
@@ -183,6 +194,11 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
         setContentView(R.layout.activity_adding);
 
         //region SharePreference
@@ -287,13 +303,12 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 if (!hasFocus) {
                     Double double_money = etMoney.getCleanDoubleValue();
                     Long money = double_money.longValue();
-                    if(money >= 1000 && money <= 1000000000){
+                    if (money >= 1000 && money <= 1000000000) {
                         money = money / 1000 * 1000;
                         etMoney.setText(String.valueOf(money));
                     }
                     addingMoneyPresentent.hideKeyBoard(v);
-                }
-                else{
+                } else {
                     til_money.setError(null);
                 }
             }
@@ -334,7 +349,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     protected void onResume() {
         super.onResume();
 
-        if(settings.getIsUpdateCategory()){
+        if (settings.getIsUpdateCategory()) {
             settings.setIsUpdateCategory(false);
             Snackbar.make(mSnackbarLayout, "Thêm danh mục mới thành công", Snackbar.LENGTH_SHORT)
                     .setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE)
@@ -396,6 +411,25 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
         etMoney.setDecimals(false);
 
+
+        // load gif
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(progressBar1);
+
+        Glide.with(this)
+                .load(R.drawable.audio_play_git)
+                .into(progressBar2);
+
+
+
+
+        YoYo.with(Techniques.Shake)
+                .repeat(Animation.INFINITE)
+                .delay(1000)
+                .duration(3000)
+                .playOn(btnSaving);
+
         bottomSheetBehavior = BottomSheetBehavior.from(playerSheet);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             ImageButton btnList = findViewById(R.id.btnList);
@@ -425,12 +459,12 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
     @Override
     public void GetDataBundle() {
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        id_user = bundle.getInt("ID_USER");
-        id_income = bundle.getInt("ID_INCOME");
-        id_outcome = bundle.getInt("ID_OUTCOME");
+        id_user = bundle.getInt("ID_USER",0);
+        id_income = bundle.getInt("ID_INCOME", 0);
+        id_outcome = bundle.getInt("ID_OUTCOME", 0);*/
     }
 
     @Override
@@ -442,7 +476,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
     //region Xử lí loading Category
     @Override
-    public void LoadDataToServer(){
+    public void LoadDataToServer() {
         categoryRecycler.setVisibility(View.INVISIBLE);
         categoryRecycler1.setVisibility(View.INVISIBLE);
         arrayList = new ArrayList<>();
@@ -509,7 +543,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -523,9 +557,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
+        if (getApplicationContext() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-            requestQueue.add(request);}
+            requestQueue.add(request);
+        }
     }
 
     @Override
@@ -574,7 +609,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -588,9 +623,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
+        if (getApplicationContext() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-            requestQueue.add(request);}
+            requestQueue.add(request);
+        }
     }
 
     @Override
@@ -640,8 +676,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             } else {
                 til_money.setError("Vui lòng nhập chính xác tiền");
             }
-        }
-        else if(s.length() > 11){
+        } else if (s.length() > 11) {
             til_money.setError(null);
             etMoney.setSelection(s.length());
         }
@@ -649,22 +684,19 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
     @Override
     public Boolean GetNoMoneyData(String money) {
-        if(money.isEmpty() || money.equals("0")){
+        if (money.isEmpty() || money.equals("0")) {
             til_money.setError("Nhập số tiền");
             progressBar3.setVisibility(View.GONE);
             return false;
-        }
-        else if(!money.matches("[0-9]+")){
+        } else if (!money.matches("[0-9]+")) {
             til_money.setError("Nhập chính xác tiền");
             progressBar3.setVisibility(View.GONE);
             return false;
-        }
-        else if(money.length() > 15){
+        } else if (money.length() > 15) {
             til_money.setError("Số tiền nhập quá lớn");
             progressBar3.setVisibility(View.GONE);
             return false;
-        }
-        else{
+        } else {
             til_money.setError(null);
             return true;
         }
@@ -672,7 +704,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
     @Override
     public void GetNoCategoryData() {
-        Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Chọn loại thu chi.",Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Chọn loại thu chi.", Snackbar.LENGTH_SHORT);
         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
         snackbar.show();
         /*Toast.makeText(getApplicationContext(), "Chọn loại thu chi.", Toast.LENGTH_SHORT).show();*/
@@ -694,6 +726,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         ImageButton ivGallery = dialogView.findViewById(R.id.ivGallery);
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().getAttributes().windowAnimations = android.R.anim.fade_in;
+
         dialog.show();
 
         ivCamera.setOnClickListener(new View.OnClickListener() {
@@ -702,11 +737,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 Dexter.withContext(AddingActivity.this).withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                        if(multiplePermissionsReport.areAllPermissionsGranted())
-                        {
+                        if (multiplePermissionsReport.areAllPermissionsGranted()) {
                             addingMoneyPresentent.takeImageFromCamera();
-                        }
-                        else{
+                        } else {
                             /*Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Bạn chưa cấp đủ quyền truy cập.",Snackbar.LENGTH_SHORT);
                             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                             snackbar.show();*/
@@ -800,7 +833,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         try {
             photoFile = createImageFile();
         } catch (IOException e) {
-            Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi chỉnh sửa hình ảnh",Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi chỉnh sửa hình ảnh", Snackbar.LENGTH_SHORT);
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
             snackbar.show();
             /*Toast.makeText(AddingActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -834,6 +867,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         return image;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -842,13 +876,20 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             case PERMISSION_EXTERNAL_STORAGE: {
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
-                    btnImage.setScaleX(1.0f);
-                    btnImage.setScaleY(1.0f);
+                    btnImage.setPadding(0, 0, 0, 0);
+                    btnImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    btnImage.setImageTintList(ColorStateList.valueOf(android.R.color.transparent));
+
                     tvImage.setVisibility(View.GONE);
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(selectedImage);
                         bmImage = BitmapFactory.decodeStream(inputStream);
-                        btnImage.setImageBitmap(bmImage);
+
+                            Glide.with(this)
+                                    .asBitmap()
+                                    .load(bmImage)
+                                    .transform(new CenterCrop(), new RoundedCorners(20))
+                                    .into(btnImage);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -859,11 +900,18 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
 
             case PERMISSION_IMAGE: {
                 if (resultCode == RESULT_OK) {
-                    btnImage.setScaleX(1.0f);
-                    btnImage.setScaleY(1.0f);
+                    btnImage.setPadding(0, 0, 0, 0);
+                    btnImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    btnImage.setImageTintList(ColorStateList.valueOf(android.R.color.transparent));
                     tvImage.setVisibility(View.GONE);
                     bmImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                    btnImage.setImageBitmap(bmImage);
+
+
+                    Glide.with(this)
+                            .asBitmap()
+                            .load(bmImage)
+                            .transform(new CenterCrop(), new RoundedCorners(20))
+                            .into(btnImage);
 
                 }
             }
@@ -884,11 +932,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             Dexter.withContext(AddingActivity.this).withPermissions(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
                 @Override
                 public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-                    if(multiplePermissionsReport.areAllPermissionsGranted()){
+                    if (multiplePermissionsReport.areAllPermissionsGranted()) {
                         DeleteRecord();
                         addingMoneyPresentent.startRecord();
-                    }
-                    else{
+                    } else {
                         /*Snackbar snackbar = Snackbar.make(mSnackbarLayout,"All permissions are not granted",Snackbar.LENGTH_SHORT);
                         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                         snackbar.show();*/
@@ -919,7 +966,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         mediaRecorder = null;
         mVisualizer.setVisibility(View.INVISIBLE);
         btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_surround_sound_24, null));
-        Snackbar snackbar = Snackbar.make(mSnackbarLayout,"DỪng ghi âm. Đã ghi âm trong " + String.valueOf((stoptime - starttime) / 1000000000) + "s",Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "DỪng ghi âm. Đã ghi âm trong " + String.valueOf((stoptime - starttime) / 1000000000) + "s", Snackbar.LENGTH_SHORT);
         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
         snackbar.show();
         /*Toast.makeText(this, "Stop record in  " + String.valueOf((stoptime - starttime) / 1000000000) + "s", Toast.LENGTH_SHORT).show();*/
@@ -950,8 +997,8 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         starttime = System.nanoTime();
 
         mVisualizer.setVisibility(View.VISIBLE);
-        btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause, null));
-        Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Bắt đầu ghi âm",Snackbar.LENGTH_INDEFINITE);
+        btnRecord.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause_red, null));
+        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Bắt đầu ghi âm", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
         snackbar.setAction("Dừng", new View.OnClickListener() {
             @Override
@@ -977,7 +1024,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 addingMoneyPresentent.startAudio();
             }
         } else {
-            Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Không có bản ghi âm nào đã được ghi ở hiện tại",Snackbar.LENGTH_SHORT);
+            Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Không có bản ghi âm nào đã được ghi ở hiện tại", Snackbar.LENGTH_SHORT);
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
             snackbar.show();
             /*Toast.makeText(this, "No Audio is saving now", Toast.LENGTH_SHORT).show();*/
@@ -987,7 +1034,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     //Start audio
     @Override
     public void StartAudio() {
-        if(isRecord == true){
+        if (isRecord == true) {
             StopRecord();
         }
         mediaPlayer = new MediaPlayer();
@@ -1003,7 +1050,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 e.printStackTrace();
             }
 
-            Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Bắt đầu phát đoạn ghi âm " + String.valueOf((stoptime - starttime) / 1000000000) + "s",Snackbar.LENGTH_INDEFINITE);
+            Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Bắt đầu phát đoạn ghi âm " + String.valueOf((stoptime - starttime) / 1000000000) + "s", Snackbar.LENGTH_INDEFINITE);
             snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
             snackbar.setAction("Dừng", new View.OnClickListener() {
                 @Override
@@ -1020,7 +1067,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
             mediaPlayer.start();
 
             mVisualizer.setVisibility(View.VISIBLE);
-            btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause, null));
+            btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.icon_pause_red, null));
 
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
@@ -1041,7 +1088,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         mVisualizer.setVisibility(View.INVISIBLE);
         btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.icon_play, null));
 
-        Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Dừng phát đoạn ghi âm",Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Dừng phát đoạn ghi âm", Snackbar.LENGTH_SHORT);
         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
         snackbar.show();
 
@@ -1053,8 +1100,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
     //Convert 3gp to byte[] (file name from recordFile)
     @Override
     public byte[] Convert3gbToByte() {
-        if(isRecord == true)
-        {
+        if (isRecord == true) {
             Log.i("TEST", recordFile);
             addingMoneyPresentent.stopRecord();
         }
@@ -1188,9 +1234,6 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                                 JSONObject object = jsonArray.getJSONObject(i);
 
 
-
-
-
                                 int count = object.getInt("COUNT");
                                 Log.i("RESPONSEMONEY", String.valueOf(count));
                             }
@@ -1207,15 +1250,14 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                         snackbar.show();
                     }
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -1236,9 +1278,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
-        RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-        requestQueue.add(request);}
+        if (getApplicationContext() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
+            requestQueue.add(request);
+        }
     }
 
     public void UploadIncomeNoAudioToServer(String money, String description, int category_id, String image) {
@@ -1259,9 +1302,6 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                                 JSONObject object = jsonArray.getJSONObject(i);
 
 
-
-
-
                                 int count = object.getInt("COUNT");
                                 Log.i("RESPONSEMONEY", String.valueOf(count));
                             }
@@ -1278,15 +1318,14 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                         snackbar.show();
                     }
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -1306,9 +1345,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
+        if (getApplicationContext() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-            requestQueue.add(request);}
+            requestQueue.add(request);
+        }
     }
 
     public void UploadIncomeNoImageToServer(String money, String description, int category_id, String audio) {
@@ -1329,9 +1369,6 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                                 JSONObject object = jsonArray.getJSONObject(i);
 
 
-
-
-
                                 int count = object.getInt("COUNT");
                                 Log.i("RESPONSEMONEY", String.valueOf(count));
                             }
@@ -1348,15 +1385,14 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                         snackbar.show();
                     }
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -1376,9 +1412,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
+        if (getApplicationContext() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-            requestQueue.add(request);}
+            requestQueue.add(request);
+        }
     }
 
     public void UploadIncomeNoBothToServer(String money, String description, int category_id) {
@@ -1401,9 +1438,6 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                                 JSONObject object = jsonArray.getJSONObject(i);
 
 
-
-
-                                
                                 int count = object.getInt("COUNT");
                                 Log.i("RESPONSEMONEY", String.valueOf(count));
                             }
@@ -1420,15 +1454,14 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                         snackbar.show();
                     }
-                }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -1447,9 +1480,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
+        if (getApplicationContext() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-            requestQueue.add(request);}
+            requestQueue.add(request);
+        }
     }
     //endregion
 
@@ -1467,10 +1501,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                     setResult(SavingActivity.RESULT_ADD_OUTCOME);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-                }
-                else{
+                } else {
                     Log.i("RESPONEMONEY", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Thêm chi tiêu thất bại",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Thêm chi tiêu thất bại", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                 }
@@ -1478,7 +1511,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -1498,9 +1531,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
+        if (getApplicationContext() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-            requestQueue.add(request);}
+            requestQueue.add(request);
+        }
     }
 
     public void UploadOutcomeNoAudioToServer(String money, String description, int category_id, String image) {
@@ -1515,10 +1549,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                     setResult(SavingActivity.RESULT_ADD_OUTCOME);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-                }
-                else{
+                } else {
                     Log.i("RESPONEMONEY", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Thêm chi tiêu thất bại",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Thêm chi tiêu thất bại", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                 }
@@ -1526,7 +1559,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 progressBar3.setVisibility(View.GONE);
@@ -1544,9 +1577,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
+        if (getApplicationContext() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-            requestQueue.add(request);}
+            requestQueue.add(request);
+        }
     }
 
     public void UploadOutcomeNoImageToServer(String money, String description, int category_id, String audio) {
@@ -1561,10 +1595,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                     setResult(SavingActivity.RESULT_ADD_OUTCOME);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-                }
-                else{
+                } else {
                     Log.i("RESPONEMONEY", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Thêm chi tiêu thất bại",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Thêm chi tiêu thất bại", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                 }
@@ -1572,7 +1605,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 progressBar3.setVisibility(View.GONE);
@@ -1590,9 +1623,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
+        if (getApplicationContext() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-            requestQueue.add(request);}
+            requestQueue.add(request);
+        }
     }
 
     public void UploadOutcomeNoBothToServer(String money, String description, int category_id) {
@@ -1607,10 +1641,9 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                     setResult(SavingActivity.RESULT_ADD_OUTCOME);
                     finish();
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
-                }
-                else{
+                } else {
                     Log.i("RESPONEMONEY", response);
-                    Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Thêm chi tiêu thất bại",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Thêm chi tiêu thất bại", Snackbar.LENGTH_SHORT);
                     snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                     snackbar.show();
                 }
@@ -1618,7 +1651,7 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar snackbar = Snackbar.make(mSnackbarLayout,"Lỗi kết nối internet",Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(mSnackbarLayout, "Lỗi kết nối internet", Snackbar.LENGTH_SHORT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
                 snackbar.show();
                 /*Toast.makeText(AddingActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();*/
@@ -1636,9 +1669,10 @@ public class AddingActivity extends AppCompatActivity implements AddingMoneyInte
                 return params;
             }
         };
-        if(getApplicationContext() != null){
+        if (getApplicationContext() != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(AddingActivity.this);
-            requestQueue.add(request);}
+            requestQueue.add(request);
+        }
     }
     //endregion
 

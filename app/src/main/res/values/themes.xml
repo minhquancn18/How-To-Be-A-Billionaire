@@ -35,12 +35,6 @@
         <item name="backgroundColor">@android:color/transparent</item>
     </style>
 
-    <style name="MySeekBar" parent="Theme.AppCompat.Light">
-        <item name="android:colorControlActivated">#1a237e</item>
-        <item name="android:colorControlNormal">#00b0ff</item>
-
-
-    </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:fontFamily">@font/athiti_light</item>
@@ -76,6 +70,14 @@
         <item name="android:progressBackgroundTint">#f4511e</item>
         <item name="android:progressTint">@color/colorAccent</item>
         <item name="android:thumbTint">#c51162</item>
+    </style>
+
+
+
+    <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">#88827F</item>
+        <item name="android:progressTint">@color/white</item>
+        <item name="android:thumbTint">#FFFFFF</item>
     </style>
 
 </resources>

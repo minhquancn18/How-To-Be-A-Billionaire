@@ -1,13 +1,16 @@
 package com.example.myproject22.View.Activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -15,10 +18,13 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -38,6 +44,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.myproject22.Model.SharePreferenceClass;
 import com.example.myproject22.Presenter.Interface.AddingCategoryInterface;
 import com.example.myproject22.Presenter.Presenter.AddingCategoryPresenter;
@@ -113,6 +124,11 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
         setContentView(R.layout.activity_adding_category);
 
         //region SharePreference
@@ -199,6 +215,12 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
         progressBar = findViewById(R.id.pbCategory);
         mSnackbarLayout = findViewById(R.id.cl_snackbar);
         til_category = findViewById(R.id.til_category);
+
+        YoYo.with(Techniques.Shake)
+                .repeat(Animation.INFINITE)
+                .delay(1000)
+                .duration(3000)
+                .playOn(btnSaving);
     }
 
     @Override
@@ -231,6 +253,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
         ImageButton ivGallery = dialogView.findViewById(R.id.ivGallery);
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
 
         ivCamera.setOnClickListener(new View.OnClickListener() {
@@ -346,6 +369,7 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
         return image;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -353,13 +377,21 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
             case PERMISSION_EXTERNAL_STORAGE: {
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
-                    btnImage.setScaleX(1.0f);
-                    btnImage.setScaleY(1.0f);
+                    btnImage.setPadding(0, 0, 0, 0);
+                    btnImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    btnImage.setImageTintList(ColorStateList.valueOf(android.R.color.transparent));
                     tv.setVisibility(View.GONE);
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(selectedImage);
                         bmImage = BitmapFactory.decodeStream(inputStream);
-                        btnImage.setImageBitmap(bmImage);
+
+
+                        Glide.with(this)
+                                .asBitmap()
+                                .load(bmImage)
+                                .transform(new CenterCrop(), new RoundedCorners(20))
+                                .into(btnImage);
+                        //btnImage.setImageBitmap(bmImage);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -370,11 +402,20 @@ public class AddingCategoryActivity extends AppCompatActivity implements AddingC
 
             case PERMISSION_IMAGE: {
                 if (resultCode == RESULT_OK) {
-                    btnImage.setScaleX(1.0f);
-                    btnImage.setScaleY(1.0f);
+                    btnImage.setPadding(0, 0, 0, 0);
+                    btnImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    btnImage.setImageTintList(ColorStateList.valueOf(android.R.color.transparent));
                     tv.setVisibility(View.GONE);
                     bmImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-                    btnImage.setImageBitmap(bmImage);
+
+                    Glide.with(this)
+                            .asBitmap()
+                            .load(bmImage)
+                            .transform(new CenterCrop(), new RoundedCorners(20))
+                            .into(btnImage);
+
+                    //btnImage.setImageBitmap(bmImage);
+
                 }
             }
         }

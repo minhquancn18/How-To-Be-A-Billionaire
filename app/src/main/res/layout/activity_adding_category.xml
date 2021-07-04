@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical"
     android:clickable="true"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context=".View.Activity.AddingCategoryActivity">
 
 
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@drawable/background"
+        android:src="@drawable/background62"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -27,10 +27,11 @@
     <io.alterac.blurkit.BlurLayout
         android:id="@+id/blurLayout12"
         android:layout_width="370dp"
-        android:layout_height="160dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:background="@drawable/border"
+        app:blk_blurRadius="10"
         app:blk_cornerRadius="10dp"
+        app:blk_fps="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView10">
@@ -41,13 +42,14 @@
 
             <ImageView
                 android:id="@+id/imageView11"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView8"
-                app:srcCompat="@drawable/icon_edit" />
+                app:srcCompat="@drawable/icon_edit"
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/textView8"
@@ -55,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/athiti"
+                android:fontFamily="@font/roboto_mono"
                 android:text="Hãy nhập tên loại thu chi"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -64,73 +66,56 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_category"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_marginTop="15dp"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/white">
-            <EditText
-                android:id="@+id/etCategory"
-                style="@style/Widget.AppCompat.EditText"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/athiti"
-                android:inputType="textCapSentences|textAutoCorrect"
-                android:textAllCaps="true"
-                android:singleLine="false"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:theme="@style/EditTextTheme"
-                android:textSize="24sp" />
+                app:errorTextColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+                <EditText
+                    android:id="@+id/etCategory"
+                    style="@style/Widget.AppCompat.EditText"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/athiti"
+                    android:inputType="textCapSentences|textAutoCorrect"
+                    android:singleLine="false"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:theme="@style/EditTextTheme" />
+
+
             </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </io.alterac.blurkit.BlurLayout>
-
-    <io.alterac.blurkit.BlurLayout
-        android:id="@+id/blurLayout13"
-        android:layout_width="370dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/border"
-        app:blk_cornerRadius="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/blurLayout12"
-        app:layout_constraintStart_toStartOf="@+id/blurLayout12"
-        app:layout_constraintTop_toBottomOf="@+id/blurLayout12">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <RadioGroup
                 android:id="@+id/rgCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="16dp"
+                android:orientation="horizontal"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:theme="@style/Theme.MaterialComponents.DayNight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@+id/til_category">
 
                 <RadioButton
                     android:id="@+id/rbtnIncome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_margin="10dp"
                     android:layout_marginTop="16dp"
+                    android:buttonTint="@color/white"
                     android:checked="true"
-                    android:fontFamily="@font/athiti"
+                    android:fontFamily="@font/roboto_mono"
                     android:text="Khoản thu"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -139,24 +124,28 @@
                     android:id="@+id/rbtnOutcome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:fontFamily="@font/athiti"
+                    android:buttonTint="@color/white"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/roboto_mono"
                     android:text="Khoản chi"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </RadioGroup>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </io.alterac.blurkit.BlurLayout>
 
+
     <io.alterac.blurkit.BlurLayout
         android:id="@+id/blurLayout14"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="160dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/border"
-        app:blk_cornerRadius="20dp"
-        app:layout_constraintStart_toStartOf="@+id/blurLayout13"
-        app:layout_constraintTop_toBottomOf="@+id/blurLayout13">
+        app:blk_blurRadius="25"
+        app:blk_cornerRadius="6dp"
+        app:layout_constraintStart_toStartOf="@+id/blurLayout12"
+        app:layout_constraintTop_toBottomOf="@+id/blurLayout12">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -168,21 +157,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
+                android:padding="50dp"
                 android:scaleType="fitCenter"
-                android:scaleX="0.3"
-                android:scaleY="0.3"
                 android:src="@drawable/icon_video"
+                android:tint="@color/white_icon_click"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/tvCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:fontFamily="@font/athiti"
+                android:fontFamily="@font/roboto_mono"
                 android:text="Thêm hình ảnh"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -194,32 +184,53 @@
 
     <io.alterac.blurkit.BlurLayout
         android:id="@+id/blurLayout15"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="30dp"
         android:background="@drawable/border"
+        app:blk_blurRadius="25"
         app:blk_cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/blurLayout14"
-        app:layout_constraintEnd_toEndOf="@+id/blurLayout13"
+        app:layout_constraintEnd_toEndOf="@+id/blurLayout12"
+        app:layout_constraintStart_toEndOf="@+id/blurLayout14"
         app:layout_constraintTop_toTopOf="@+id/blurLayout14">
 
-        <ImageButton
-            android:id="@+id/ibtnSavingCategory"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:scaleX="0.4"
-            android:scaleY="0.4"
-            android:src="@drawable/icon_send" />
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/ibtnSavingCategory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:padding="50dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_send"
+                android:tint="@color/white_icon_click" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/roboto_mono"
+                android:text="Hoàn thành"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </io.alterac.blurkit.BlurLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/cl_snackbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <ProgressBar
@@ -228,8 +239,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="180dp"
         android:layout_marginTop="310dp"
-        android:visibility="invisible"
         android:indeterminateDrawable="@drawable/progress_draw"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@id/imageView10"
         app:layout_constraintTop_toTopOf="@id/imageView10" />
 

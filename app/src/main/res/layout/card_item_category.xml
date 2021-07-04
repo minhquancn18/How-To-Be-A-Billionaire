@@ -10,9 +10,7 @@
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     android:background="@android:color/transparent"
-    app:cardCornerRadius="9dp"
-    app:strokeColor="@color/gray"
-    app:strokeWidth="0.8dp">
+   >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,11 +19,9 @@
 
         <ImageButton
             android:id="@+id/categoryImage"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
+            android:layout_width="120dp"
+            android:layout_height="110dp"
             android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:scaleType="centerCrop"
             android:src="@drawable/avatar"

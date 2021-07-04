@@ -341,15 +341,13 @@
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
                 android:onClick="GoalClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.4"
-                android:scaleY="0.4"
+                android:scaleX="0.35"
+                android:scaleY="0.35"
                 android:src="@drawable/icon_goal"
                 android:tint="@color/icon_click_selector" />
 
@@ -357,7 +355,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Mục tiêu"
                 android:textColor="@color/white" />
@@ -372,15 +369,13 @@
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
                 android:onClick="OldRecordClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.4"
-                android:scaleY="0.4"
+                android:scaleX="0.35"
+                android:scaleY="0.35"
                 android:src="@drawable/icon_record"
                 android:tint="@color/icon_click_selector" />
 
@@ -389,7 +384,6 @@
 
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Nhật ký"
                 android:textColor="@color/white" />
@@ -405,15 +399,13 @@
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
                 android:onClick="AddRecordClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.4"
-                android:scaleY="0.4"
+                android:scaleX="0.35"
+                android:scaleY="0.35"
                 android:src="@drawable/icon_add"
                 android:tint="@color/icon_click_selector" />
 
@@ -422,7 +414,6 @@
 
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Thêm mới"
                 android:textColor="@color/white" />
@@ -437,15 +428,13 @@
 
             <ImageButton
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
                 android:onClick="GraphClicked"
                 android:scaleType="fitCenter"
-                android:scaleX="0.4"
-                android:scaleY="0.4"
+                android:scaleX="0.35"
+                android:scaleY="0.35"
                 android:src="@drawable/icon_piechart"
                 android:tint="@color/icon_click_selector" />
 
@@ -454,7 +443,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_mono"
                 android:text="Thống kê"
                 android:textColor="@color/white" />
