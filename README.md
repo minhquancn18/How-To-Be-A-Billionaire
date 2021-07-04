@@ -6,7 +6,7 @@
 - Cài đặt mục tiêu
 - Tìm kiếm ngân hàng gần nhất
 
-## Công nghệ đã sử dụng:
+## Công nghệ sử dụng:
 - **Client**: Android Studio With Java
 - **Server**: phpMyAdmin on 000webhost
 - **Database**: MySQL
