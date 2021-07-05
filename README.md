@@ -1,4 +1,4 @@
-# *How To Be A billionaire*
+# How To Be A billionaire
 Đây là một ứng dụng quản lí tiết kiệm của bản thân.
 
 ## Các chức năng chính:
