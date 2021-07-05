@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="40dp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/hintColor"
+    app:strokeWidth="1dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    app:cardCornerRadius="5dp"
+    app:cardBackgroundColor="@android:color/transparent">
+
+
+    <TextView
+        android:id="@+id/tvWeek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="10dp"
+        android:textSize="18dp"
+        android:textColor="@color/white" />
+
+</com.google.android.material.card.MaterialCardView>
