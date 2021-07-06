@@ -12,6 +12,6 @@
 - **Database**: MySQL
 
 ## Thành viên trong nhóm:
-- Trần Đức Tâm: 19522131
-- Đăng Hải Hoàng Sơn: 19522166
+- Trần Đức Tâm: 19522166
+- Đăng Hải Hoàng Sơn: 19522131
 - Cao Nguyễn Minh Quân: 19522074
